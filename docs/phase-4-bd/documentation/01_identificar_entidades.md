@@ -109,4 +109,4 @@ Para el diseño de base de datos relacional:
 
 ## 5. Próximo Paso
 
-Una vez identificadas las 5 entidades, el siguiente paso formal en el diseño es la especificación detallada de cada uno de sus campos en [**`2_definir_atributos.md`**](file:///c:/Users/USUARIO/Desktop/Sistema_Clinica_Medica/docs/phase-4-bd/2_definir_atributos.md).
+Una vez identificadas las 5 entidades, el siguiente paso formal en el diseño es la especificación detallada de cada uno de sus campos en [**`02_definir_atributos.md`**](02_definir_atributos.md).

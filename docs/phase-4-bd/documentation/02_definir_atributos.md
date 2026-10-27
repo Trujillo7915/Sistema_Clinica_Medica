@@ -103,4 +103,4 @@ Acto de valoración clínica, diagnóstico y prescripción emitido por el médic
 
 ## 4. Próximo Paso
 
-Con los atributos definidos, corresponde formalizar la selección de claves primarias e índices en [**`3_definir_claves_primarias.md`**](file:///c:/Users/USUARIO/Desktop/Sistema_Clinica_Medica/docs/phase-4-bd/3_definir_claves_primarias.md).
+Con los atributos definidos, corresponde formalizar la selección de claves primarias e índices en [**`03_definir_claves_primarias.md`**](03_definir_claves_primarias.md).

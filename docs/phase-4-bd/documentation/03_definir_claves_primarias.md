@@ -84,4 +84,4 @@ Además del índice B-Tree creado automáticamente por la restricción `PRIMARY 
 
 ## 5. Próximo Paso
 
-Una vez asegurada la identidad única de cada entidad, el siguiente paso formal es modelar los vínculos e integridad referencial en [**`4_definir_relaciones.md`**](file:///c:/Users/USUARIO/Desktop/Sistema_Clinica_Medica/docs/phase-4-bd/4_definir_relaciones.md).
+Una vez asegurada la identidad única de cada entidad, el siguiente paso formal es modelar los vínculos e integridad referencial en [**`04_definir_relaciones.md`**](04_definir_relaciones.md).

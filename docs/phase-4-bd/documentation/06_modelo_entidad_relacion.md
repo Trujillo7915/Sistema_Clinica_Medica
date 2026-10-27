@@ -14,7 +14,7 @@ El **Modelo Entidad-Relación (MER)** es la representación conceptual formal de
 Este modelo traduce los requerimientos funcionales documentados en la ERS V6 y los casos de uso modelados en UML a un esquema gráfico riguroso que define las fronteras de los datos, las dependencias existenciales y las cardinalidades operativas.
 
 El diagrama conceptual vectorial oficial se encuentra en:
-* [**`Modelo_Entidad_Relacion_SGCM.svg`**](diagrams/Modelo_Entidad_Relacion_SGCM.svg)
+* [**`Modelo_Entidad_Relacion_SGCM.svg`**](../diagrams/Modelo_Entidad_Relacion_SGCM.svg)
 
 ---
 

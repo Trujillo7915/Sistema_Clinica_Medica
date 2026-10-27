@@ -12,7 +12,7 @@
 El **Modelo Lógico Relacional (MLR)** es el puente entre el modelo conceptual abstracto (MER) y la implementación física en un Sistema Gestor de Bases de Datos Relacionales (RDBMS). Transforma las entidades y relaciones identificadas en un conjunto de **relaciones (tablas)**, **atributos (columnas)**, **claves primarias (PK)** y **claves foráneas (FK)** que garantizan integridad referencial y ausencia de redundancias (cumpliendo 3FN).
 
 El diagrama lógico oficial con notación Crow's Foot se encuentra en:
-* [**`Modelo_Logico_Relacional_SGCM.svg`**](diagrams/Modelo_Logico_Relacional_SGCM.svg)
+* [**`Modelo_Logico_Relacional_SGCM.svg`**](../diagrams/Modelo_Logico_Relacional_SGCM.svg)
 
 ---
 

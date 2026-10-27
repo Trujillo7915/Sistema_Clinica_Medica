@@ -105,4 +105,4 @@ erDiagram
 
 ## 5. Próximo Paso
 
-Una vez formalizadas las relaciones, el siguiente paso es demostrar rigurosamente que el esquema cumple con las Formas Normales de la teoría relacional en [**`5_normalizacion.md`**](file:///c:/Users/USUARIO/Desktop/Sistema_Clinica_Medica/docs/phase-4-bd/5_normalizacion.md).
+Una vez formalizadas las relaciones, el siguiente paso es demostrar rigurosamente que el esquema cumple con las Formas Normales de la teoría relacional en [**`05_normalizacion.md`**](05_normalizacion.md).

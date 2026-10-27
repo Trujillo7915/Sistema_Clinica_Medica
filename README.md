@@ -118,15 +118,10 @@ A continuación se resume detalladamente el avance técnico acumulado por cada f
 │   ├── phase-2-requirements/ # ERS IEEE 830 y Matriz de Trazabilidad (Fase 2)
 │   ├── phase-3-uml/          # Modelado UML: Casos de uso, clases, secuencia, actividades (Fase 3)
 │   ├── phase-4-bd/           # Diseño de base de datos relacional 3FN (Fase 4)
-│   │   ├── 1_identificar_entidades.md
-│   │   ├── 2_definir_atributos.md
-│   │   ├── 3_definir_claves_primarias.md
-│   │   ├── 4_definir_relaciones.md
-│   │   ├── 5_normalizacion.md
-│   │   ├── diagrams/         # Modelos vectoriales SVG (ERD y Relacional)
-│   │   ├── schema.sql        # Script DDL de base de datos
-│   │   ├── data.sql          # Script DML con datos de prueba
-│   │   └── README.md         # Índice maestro de la fase
+│   │   ├── README.md         # Índice maestro de la fase
+│   │   ├── documentation/    # Especificación modular detallada (01 al 11 + Diccionario)
+│   │   ├── scripts/          # Scripts SQL (schema, data, views, triggers, queries)
+│   │   └── diagrams/         # Modelos vectoriales SVG (ERD y Relacional)
 │   ├── phase-5-mockups/      # Wireframes y prototipos UI (Fase 5)
 │   └── standards/            # Gobernanza técnica, reglas y manuales de desarrollo
 ├── src/                      # Código fuente de la solución (Fase 6)
@@ -147,10 +142,10 @@ Para levantar la base de datos localmente en PostgreSQL:
 createdb -U postgres clinica_medica_db
 
 # 2. Ejecutar el script DDL de creación de tablas e índices
-psql -U postgres -d clinica_medica_db -f docs/phase-4-bd/schema.sql
+psql -U postgres -d clinica_medica_db -f docs/phase-4-bd/scripts/schema.sql
 
 # 3. Insertar los datos de prueba iniciales (Seeds)
-psql -U postgres -d clinica_medica_db -f docs/phase-4-bd/data.sql
+psql -U postgres -d clinica_medica_db -f docs/phase-4-bd/scripts/data.sql
 ```
 
 ---
