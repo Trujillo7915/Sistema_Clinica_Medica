@@ -123,10 +123,14 @@ A continuación se resume detalladamente el avance técnico acumulado por cada f
 │   │   ├── scripts/          # Scripts SQL (schema, data, views, triggers, queries)
 │   │   └── diagrams/         # Modelos vectoriales SVG (ERD y Relacional)
 │   ├── phase-5-mockups/      # Wireframes y prototipos UI (Fase 5)
+│   ├── reports/              # Informes formales de desarrollo y calidad de software
 │   └── standards/            # Gobernanza técnica, reglas y manuales de desarrollo
 ├── src/                      # Código fuente de la solución (Fase 6)
 │   ├── backend/              # Lógica de servidor y APIs REST
 │   └── frontend/             # Interfaz web de usuario
+├── .gitignore                # Archivos y dependencias ignoradas por Git
+├── CHANGELOG.md              # Bitácora formal de versiones bajo SemVer
+├── LICENSE                   # Licencia de software MIT
 ├── board-workflow.md         # Flujo de trabajo y mapa de carpetas
 └── README.md                 # Presentación ejecutiva del proyecto
 ```
