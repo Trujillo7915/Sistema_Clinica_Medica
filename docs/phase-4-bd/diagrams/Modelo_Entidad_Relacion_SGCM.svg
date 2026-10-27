@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 940" width="100%" height="100%" style="background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Sombra suave para cajas -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.10" flood-color="#0f172a" />
+    </filter>
+  </defs>
+
+  <!-- ================= ENCABEZADO ================= -->
+  <rect x="30" y="20" width="1260" height="72" rx="8" fill="#1e293b" filter="url(#shadow)" />
+  <text x="55" y="48" fill="#ffffff" font-size="19" font-weight="700" letter-spacing="0.5">SISTEMA DE GESTION DE CLINICA MEDICA (SGCM) — MODELO ENTIDAD-RELACION (ERD)</text>
+  <text x="55" y="73" fill="#94a3b8" font-size="13">Fase 4: Modelo Conceptual de Base de Datos | Trazabilidad con ERS V6, Clases de Dominio y Reglas RN-01 a RN-08</text>
+
+  <!-- ================= LINEAS Y CONEXIONES ERD ================= -->
+
+  <!-- Paciente a Relacion TIENE_HISTORIA -->
+  <line x1="330" y1="250" x2="220" y2="250" stroke="#334155" stroke-width="2" />
+  <text x="280" y="242" font-size="12" font-weight="700" fill="#1e40af">(1,1)</text>
+
+  <!-- Relacion TIENE_HISTORIA a HISTORIA_CLINICA -->
+  <line x1="160" y1="250" x2="90" y2="250" stroke="#334155" stroke-width="2" />
+  <line x1="90" y1="250" x2="90" y2="400" stroke="#334155" stroke-width="2" />
+  <text x="100" y="380" font-size="12" font-weight="700" fill="#6d28d9">(1,1)</text>
+
+  <!-- HISTORIA_CLINICA a Relacion CONTIENE -->
+  <line x1="160" y1="475" x2="160" y2="580" stroke="#334155" stroke-width="2" />
+  <text x="170" y="525" font-size="12" font-weight="700" fill="#6d28d9">(1,1)</text>
+
+  <!-- Relacion CONTIENE a REGISTRO_CONSULTA -->
+  <line x1="160" y1="640" x2="160" y2="720" stroke="#334155" stroke-width="2" />
+  <text x="170" y="705" font-size="12" font-weight="700" fill="#b45309">(0,N)</text>
+
+  <!-- Paciente a Relacion SOLICITA_CITA -->
+  <line x1="470" y1="310" x2="520" y2="310" stroke="#334155" stroke-width="2" />
+  <line x1="520" y1="310" x2="520" y2="400" stroke="#334155" stroke-width="2" />
+  <text x="475" y="302" font-size="12" font-weight="700" fill="#1e40af">(1,1)</text>
+
+  <!-- Relacion SOLICITA_CITA a CITA -->
+  <line x1="520" y1="460" x2="520" y2="520" stroke="#334155" stroke-width="2" />
+  <line x1="520" y1="520" x2="590" y2="520" stroke="#334155" stroke-width="2" />
+  <text x="535" y="510" font-size="12" font-weight="700" fill="#c2410c">(0,N)</text>
+
+  <!-- Medico a Relacion PROGRAMA_CITA -->
+  <line x1="850" y1="310" x2="800" y2="310" stroke="#334155" stroke-width="2" />
+  <line x1="800" y1="310" x2="800" y2="400" stroke="#334155" stroke-width="2" />
+  <text x="810" y="302" font-size="12" font-weight="700" fill="#0f766e">(1,1)</text>
+
+  <!-- Relacion PROGRAMA_CITA a CITA -->
+  <line x1="800" y1="460" x2="800" y2="520" stroke="#334155" stroke-width="2" />
+  <line x1="800" y1="520" x2="730" y2="520" stroke="#334155" stroke-width="2" />
+  <text x="745" y="510" font-size="12" font-weight="700" fill="#c2410c">(0,N)</text>
+
+  <!-- Medico a Relacion REGISTRA_ATENCION -->
+  <line x1="990" y1="310" x2="1050" y2="310" stroke="#334155" stroke-width="2" />
+  <line x1="1050" y1="310" x2="1050" y2="780" stroke="#334155" stroke-width="2" />
+  <line x1="1050" y1="780" x2="720" y2="780" stroke="#334155" stroke-width="2" />
+  <text x="1000" y="302" font-size="12" font-weight="700" fill="#0f766e">(1,1)</text>
+
+  <!-- Relacion REGISTRA_ATENCION a REGISTRO_CONSULTA -->
+  <line x1="660" y1="780" x2="310" y2="780" stroke="#334155" stroke-width="2" />
+  <text x="325" y="770" font-size="12" font-weight="700" fill="#b45309">(0,N)</text>
+
+  <!-- CITA a Relacion ORIGINA_REGISTRO -->
+  <line x1="660" y1="595" x2="660" y2="650" stroke="#334155" stroke-width="1.8" stroke-dasharray="4,3" />
+  <text x="670" y="615" font-size="12" font-weight="700" fill="#c2410c">(0,1)</text>
+
+  <!-- Relacion ORIGINA_REGISTRO a REGISTRO_CONSULTA -->
+  <line x1="660" y1="710" x2="660" y2="745" stroke="#334155" stroke-width="1.8" stroke-dasharray="4,3" />
+  <line x1="660" y1="745" x2="310" y2="745" stroke="#334155" stroke-width="1.8" stroke-dasharray="4,3" />
+  <text x="325" y="738" font-size="12" font-weight="700" fill="#b45309">(0,1)</text>
+
+  <!-- ================= ENTIDADES ================= -->
+
+  <!-- 1. ENTIDAD: PACIENTE -->
+  <g transform="translate(330, 180)" filter="url(#shadow)">
+    <rect width="140" height="150" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2.5" />
+    <rect width="140" height="38" rx="6" fill="#eff6ff" />
+    <text x="70" y="24" text-anchor="middle" font-size="14" font-weight="800" fill="#1e40af">PACIENTE</text>
+    <line x1="0" y1="38" x2="140" y2="38" stroke="#bfdbfe" stroke-width="1.5" />
+    <text x="12" y="58" font-size="11" font-weight="700" fill="#0f172a" text-decoration="underline">id_paciente (PK)</text>
+    <text x="12" y="76" font-size="11" fill="#334155">&#8226; nombre</text>
+    <text x="12" y="94" font-size="11" fill="#334155">&#8226; edad</text>
+    <text x="12" y="112" font-size="11" fill="#334155">&#8226; telefono</text>
+    <text x="12" y="130" font-size="11" fill="#334155">&#8226; direccion</text>
+  </g>
+
+  <!-- 2. ENTIDAD: MEDICO -->
+  <g transform="translate(850, 180)" filter="url(#shadow)">
+    <rect width="140" height="165" rx="6" fill="#ffffff" stroke="#0d9488" stroke-width="2.5" />
+    <rect width="140" height="38" rx="6" fill="#f0fdfa" />
+    <text x="70" y="24" text-anchor="middle" font-size="14" font-weight="800" fill="#0f766e">MEDICO</text>
+    <line x1="0" y1="38" x2="140" y2="38" stroke="#99f6e4" stroke-width="1.5" />
+    <text x="12" y="58" font-size="11" font-weight="700" fill="#0f172a" text-decoration="underline">id_medico (PK)</text>
+    <text x="12" y="76" font-size="11" fill="#334155">&#8226; nombre</text>
+    <text x="12" y="94" font-size="11" fill="#334155">&#8226; edad [18-99]</text>
+    <text x="12" y="112" font-size="11" fill="#334155">&#8226; telefono</text>
+    <text x="12" y="130" font-size="11" fill="#334155">&#8226; especialidad</text>
+    <text x="12" y="148" font-size="11" fill="#334155">&#8226; activo [T/F]</text>
+  </g>
+
+  <!-- 3. ENTIDAD: HISTORIA_CLINICA -->
+  <g transform="translate(40, 400)" filter="url(#shadow)">
+    <rect width="170" height="95" rx="6" fill="#ffffff" stroke="#7c3aed" stroke-width="2.5" />
+    <rect width="170" height="36" rx="6" fill="#f5f3ff" />
+    <text x="85" y="23" text-anchor="middle" font-size="13" font-weight="800" fill="#6d28d9">HISTORIA_CLINICA</text>
+    <line x1="0" y1="36" x2="170" y2="36" stroke="#ddd6fe" stroke-width="1.5" />
+    <text x="12" y="54" font-size="11" font-weight="700" fill="#0f172a" text-decoration="underline">id_historia (PK)</text>
+    <text x="12" y="72" font-size="11" fill="#334155">&#8226; paciente_id (FK, UQ)</text>
+    <text x="12" y="88" font-size="11" fill="#334155">&#8226; fecha_creacion</text>
+  </g>
+
+  <!-- 4. ENTIDAD: CITA -->
+  <g transform="translate(590, 460)" filter="url(#shadow)">
+    <rect width="140" height="135" rx="6" fill="#ffffff" stroke="#ea580c" stroke-width="2.5" />
+    <rect width="140" height="36" rx="6" fill="#fff7ed" />
+    <text x="70" y="23" text-anchor="middle" font-size="14" font-weight="800" fill="#c2410c">CITA</text>
+    <line x1="0" y1="36" x2="140" y2="36" stroke="#fed7aa" stroke-width="1.5" />
+    <text x="12" y="54" font-size="11" font-weight="700" fill="#0f172a" text-decoration="underline">id_cita (PK)</text>
+    <text x="12" y="72" font-size="11" fill="#334155">&#8226; paciente_id (FK)</text>
+    <text x="12" y="90" font-size="11" fill="#334155">&#8226; medico_id (FK)</text>
+    <text x="12" y="108" font-size="11" fill="#334155">&#8226; fecha_hora</text>
+    <text x="12" y="124" font-size="11" fill="#334155">&#8226; estado [Enum]</text>
+  </g>
+
+  <!-- 5. ENTIDAD: REGISTRO_CONSULTA -->
+  <g transform="translate(80, 720)" filter="url(#shadow)">
+    <rect width="230" height="150" rx="6" fill="#ffffff" stroke="#b45309" stroke-width="2.5" />
+    <rect width="230" height="36" rx="6" fill="#fef3c7" />
+    <text x="115" y="23" text-anchor="middle" font-size="13" font-weight="800" fill="#92400e">REGISTRO_CONSULTA</text>
+    <line x1="0" y1="36" x2="230" y2="36" stroke="#fde68a" stroke-width="1.5" />
+    <text x="12" y="54" font-size="11" font-weight="700" fill="#0f172a" text-decoration="underline">id_registro (PK)</text>
+    <text x="12" y="72" font-size="11" fill="#334155">&#8226; historia_id (FK)</text>
+    <text x="12" y="90" font-size="11" fill="#334155">&#8226; cita_id (FK, Opcional)</text>
+    <text x="12" y="108" font-size="11" fill="#334155">&#8226; medico_id (FK Tratante)</text>
+    <text x="12" y="124" font-size="11" fill="#334155">&#8226; fecha_hora</text>
+    <text x="12" y="140" font-size="11" fill="#334155">&#8226; diagnostico | tratamiento</text>
+  </g>
+
+  <!-- ================= RELACIONES (ROMBOS) ================= -->
+  <g transform="translate(190, 250)">
+    <polygon points="0,-22 30,0 0,22 -30,0" fill="#f1f5f9" stroke="#475569" stroke-width="1.8" />
+    <text x="0" y="4" text-anchor="middle" font-size="10" font-weight="700" fill="#1e293b">Tiene</text>
+  </g>
+
+  <g transform="translate(160, 610)">
+    <polygon points="0,-22 36,0 0,22 -36,0" fill="#f1f5f9" stroke="#475569" stroke-width="1.8" />
+    <text x="0" y="4" text-anchor="middle" font-size="10" font-weight="700" fill="#1e293b">Contiene</text>
+  </g>
+
+  <g transform="translate(520, 430)">
+    <polygon points="0,-22 32,0 0,22 -32,0" fill="#f1f5f9" stroke="#475569" stroke-width="1.8" />
+    <text x="0" y="4" text-anchor="middle" font-size="10" font-weight="700" fill="#1e293b">Solicita</text>
+  </g>
+
+  <g transform="translate(800, 430)">
+    <polygon points="0,-22 32,0 0,22 -32,0" fill="#f1f5f9" stroke="#475569" stroke-width="1.8" />
+    <text x="0" y="4" text-anchor="middle" font-size="10" font-weight="700" fill="#1e293b">Atiende</text>
+  </g>
+
+  <g transform="translate(690, 780)">
+    <polygon points="0,-22 34,0 0,22 -34,0" fill="#f1f5f9" stroke="#475569" stroke-width="1.8" />
+    <text x="0" y="4" text-anchor="middle" font-size="10" font-weight="700" fill="#1e293b">Registra</text>
+  </g>
+
+  <g transform="translate(660, 680)">
+    <polygon points="0,-20 30,0 0,20 -30,0" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3,2" />
+    <text x="0" y="3" text-anchor="middle" font-size="9" font-weight="700" fill="#64748b">Origina</text>
+  </g>
+
+  <!-- ================= LEYENDA Y REGLAS DE NEGOCIO ================= -->
+  <g transform="translate(760, 620)" filter="url(#shadow)">
+    <rect width="520" height="260" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+    <rect width="520" height="34" rx="8" fill="#f8fafc" />
+    <text x="15" y="22" font-size="13" font-weight="800" fill="#0f172a">REGLAS DE NEGOCIO Y NOTACIONES DEL ERD</text>
+    <line x1="0" y1="34" x2="520" y2="34" stroke="#e2e8f0" stroke-width="1.2" />
+
+    <text x="15" y="55" font-size="11" font-weight="700" fill="#1e40af">&#8226; Notacion de Cardinalidad Min, Max:</text>
+    <text x="25" y="72" font-size="11" fill="#475569">- (1,1): Participacion obligatoria y unica (Cada Paciente posee una Historia).</text>
+    <text x="25" y="88" font-size="11" fill="#475569">- (0,N): Participacion opcional multiple (Un Medico o Paciente tiene 0 o muchas Citas).</text>
+    <text x="25" y="104" font-size="11" fill="#475569">- (0,1): Vinculo opcional unico (Cita atendida origina 0 o 1 RegistroConsulta).</text>
+
+    <line x1="15" y1="116" x2="505" y2="116" stroke="#f1f5f9" stroke-width="1" />
+    <text x="15" y="134" font-size="11" font-weight="700" fill="#0f766e">&#8226; Restricciones y Reglas Criticas:</text>
+    <text x="25" y="152" font-size="11" fill="#475569"><tspan font-weight="700">RN-02 (Anti-colision):</tspan> Restriccion UNIQUE compuesta (medico_id, fecha_hora).</text>
+    <text x="25" y="170" font-size="11" fill="#475569"><tspan font-weight="700">RN-05 (Edad Medico):</tspan> CHECK (edad BETWEEN 18 AND 99) para medicos.</text>
+    <text x="25" y="188" font-size="11" fill="#475569"><tspan font-weight="700">RN-04 (Telefono Valido):</tspan> CHECK (LENGTH(telefono) >= 7 AND telefono ~ '^[0-9+\-\s]+$').</text>
+    <text x="25" y="206" font-size="11" fill="#475569"><tspan font-weight="700">RN-06 (Transicion):</tspan> Registro de consulta transiciona la cita a 'ATENDIDA'.</text>
+    <text x="25" y="224" font-size="11" fill="#475569"><tspan font-weight="700">RN-08 (Baja Medica Segura):</tspan> Borrado logico (activo = FALSE) condicionado a citas futuras.</text>
+    <text x="25" y="242" font-size="10.5" font-style="italic" fill="#64748b">&#10003; Modelo en 3FN: Cero redundancias, llaves primarias independientes y atomicas.</text>
+  </g>
+</svg>

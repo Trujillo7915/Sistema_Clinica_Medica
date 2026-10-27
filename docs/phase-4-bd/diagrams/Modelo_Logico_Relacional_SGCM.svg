@@ -1,0 +1,285 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1360 980" width="100%" height="100%" style="background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Sombra suave para cajas -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.10" flood-color="#0f172a" />
+    </filter>
+
+    <!-- Marcadores Pata de Gallo (Crow's Foot) -->
+    <marker id="one-mandatory" markerWidth="14" markerHeight="14" refX="1" refY="7" orient="auto">
+      <line x1="4" y1="2" x2="4" y2="12" stroke="#1e293b" stroke-width="2" />
+      <line x1="9" y1="2" x2="9" y2="12" stroke="#1e293b" stroke-width="2" />
+    </marker>
+
+    <marker id="many-optional" markerWidth="18" markerHeight="18" refX="17" refY="9" orient="auto">
+      <circle cx="5" cy="9" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="1.6" />
+      <line x1="9" y1="9" x2="17" y2="2" stroke="#1e293b" stroke-width="2" />
+      <line x1="9" y1="9" x2="17" y2="9" stroke="#1e293b" stroke-width="2" />
+      <line x1="9" y1="9" x2="17" y2="16" stroke="#1e293b" stroke-width="2" />
+    </marker>
+
+    <marker id="one-optional" markerWidth="16" markerHeight="14" refX="15" refY="7" orient="auto">
+      <circle cx="5" cy="7" r="4" fill="#ffffff" stroke="#1e293b" stroke-width="1.6" />
+      <line x1="12" y1="2" x2="12" y2="12" stroke="#1e293b" stroke-width="2" />
+    </marker>
+  </defs>
+
+  <!-- ================= ENCABEZADO ================= -->
+  <rect x="30" y="20" width="1300" height="74" rx="8" fill="#1e293b" filter="url(#shadow)" />
+  <text x="55" y="48" fill="#ffffff" font-size="19" font-weight="700" letter-spacing="0.5">SISTEMA DE GESTION DE CLINICA MEDICA (SGCM) — MODELO LOGICO RELACIONAL</text>
+  <text x="55" y="73" fill="#94a3b8" font-size="13">Fase 4: Esquema Fisico/Logico de Tablas (DDL) | Notacion Crow's Foot (Pata de Gallo) | Normalizado 3FN</text>
+
+  <!-- ================= RELACIONES / LINEAS CROW'S FOOT ================= -->
+  <path d="M 270 240 L 190 240 L 190 440" fill="none" stroke="#1e293b" stroke-width="2" marker-start="url(#one-mandatory)" marker-end="url(#one-mandatory)" />
+  <text x="140" y="340" font-size="11" font-weight="700" fill="#1e40af">1 : 1 (paciente_id)</text>
+
+  <path d="M 190 620 L 190 700" fill="none" stroke="#1e293b" stroke-width="2" marker-start="url(#one-mandatory)" marker-end="url(#many-optional)" />
+  <text x="200" y="660" font-size="11" font-weight="700" fill="#6d28d9">1 : N (historia_id)</text>
+
+  <path d="M 570 240 L 640 240 L 640 440" fill="none" stroke="#1e293b" stroke-width="2" marker-start="url(#one-mandatory)" marker-end="url(#many-optional)" />
+  <text x="650" y="340" font-size="11" font-weight="700" fill="#1e40af">1 : N (paciente_id)</text>
+
+  <path d="M 790 240 L 730 240 L 730 440" fill="none" stroke="#1e293b" stroke-width="2" marker-start="url(#one-mandatory)" marker-end="url(#many-optional)" />
+  <text x="740" y="340" font-size="11" font-weight="700" fill="#0f766e">1 : N (medico_id)</text>
+
+  <path d="M 1090 240 L 1150 240 L 1150 820 L 450 820" fill="none" stroke="#1e293b" stroke-width="2" marker-start="url(#one-mandatory)" marker-end="url(#many-optional)" />
+  <text x="1040" y="810" font-size="11" font-weight="700" fill="#0f766e">1 : N (medico_id)</text>
+
+  <path d="M 685 690 L 685 760 L 450 760" fill="none" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5,4" marker-start="url(#one-mandatory)" marker-end="url(#one-optional)" />
+  <text x="540" y="752" font-size="11" font-weight="700" fill="#c2410c">0..1 : 1 (cita_id)</text>
+
+  <!-- ================= TABLA 1: PACIENTES ================= -->
+  <g transform="translate(270, 140)" filter="url(#shadow)">
+    <rect width="300" height="230" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="2" />
+    <path d="M 0 0 L 300 0 L 300 36 L 0 36 Z" fill="#eff6ff" />
+    <text x="15" y="23" font-size="13" font-weight="800" fill="#1e40af">&#128196; pacientes</text>
+    <line x1="0" y1="36" x2="300" y2="36" stroke="#bfdbfe" stroke-width="1.5" />
+
+    <rect x="8" y="44" width="28" height="18" rx="3" fill="#fef08a" />
+    <text x="13" y="57" font-size="10" font-weight="800" fill="#854d0e">PK</text>
+    <text x="44" y="58" font-size="11.5" font-weight="700" fill="#0f172a">id</text>
+    <text x="150" y="58" font-size="11" fill="#475569">VARCHAR(20)</text>
+    <text x="235" y="58" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="84" font-size="11.5" font-weight="600" fill="#0f172a">nombre</text>
+    <text x="150" y="84" font-size="11" fill="#475569">VARCHAR(100)</text>
+    <text x="235" y="84" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="110" font-size="11.5" font-weight="600" fill="#0f172a">edad</text>
+    <text x="150" y="110" font-size="11" fill="#475569">INT</text>
+    <text x="235" y="110" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="136" font-size="11.5" font-weight="600" fill="#0f172a">telefono</text>
+    <text x="150" y="136" font-size="11" fill="#475569">VARCHAR(20)</text>
+    <text x="235" y="136" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="162" font-size="11.5" font-weight="600" fill="#0f172a">direccion</text>
+    <text x="150" y="162" font-size="11" fill="#475569">VARCHAR(255)</text>
+    <text x="235" y="162" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="188" font-size="11" fill="#64748b">created_at</text>
+    <text x="150" y="188" font-size="11" fill="#64748b">TIMESTAMP</text>
+    <text x="235" y="188" font-size="10" fill="#64748b">DEFAULT</text>
+
+    <line x1="8" y1="202" x2="292" y2="202" stroke="#e2e8f0" stroke-width="1" />
+    <text x="12" y="218" font-size="10" font-style="italic" fill="#2563eb">&#9881; CHECK: LENGTH(telefono) >= 7</text>
+  </g>
+
+  <!-- ================= TABLA 2: MEDICOS ================= -->
+  <g transform="translate(790, 140)" filter="url(#shadow)">
+    <rect width="300" height="255" rx="6" fill="#ffffff" stroke="#0d9488" stroke-width="2" />
+    <path d="M 0 0 L 300 0 L 300 36 L 0 36 Z" fill="#f0fdfa" />
+    <text x="15" y="23" font-size="13" font-weight="800" fill="#0f766e">&#128196; medicos</text>
+    <line x1="0" y1="36" x2="300" y2="36" stroke="#99f6e4" stroke-width="1.5" />
+
+    <rect x="8" y="44" width="28" height="18" rx="3" fill="#fef08a" />
+    <text x="13" y="57" font-size="10" font-weight="800" fill="#854d0e">PK</text>
+    <text x="44" y="58" font-size="11.5" font-weight="700" fill="#0f172a">id</text>
+    <text x="150" y="58" font-size="11" fill="#475569">VARCHAR(20)</text>
+    <text x="235" y="58" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="84" font-size="11.5" font-weight="600" fill="#0f172a">nombre</text>
+    <text x="150" y="84" font-size="11" fill="#475569">VARCHAR(100)</text>
+    <text x="235" y="84" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="110" font-size="11.5" font-weight="600" fill="#0f172a">edad</text>
+    <text x="150" y="110" font-size="11" fill="#475569">INT</text>
+    <text x="235" y="110" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="136" font-size="11.5" font-weight="600" fill="#0f172a">telefono</text>
+    <text x="150" y="136" font-size="11" fill="#475569">VARCHAR(20)</text>
+    <text x="235" y="136" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="162" font-size="11.5" font-weight="600" fill="#0f172a">especialidad</text>
+    <text x="150" y="162" font-size="11" fill="#475569">VARCHAR(100)</text>
+    <text x="235" y="162" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="188" font-size="11.5" font-weight="600" fill="#0f172a">activo</text>
+    <text x="150" y="188" font-size="11" fill="#475569">BOOLEAN</text>
+    <text x="235" y="188" font-size="10" fill="#16a34a">DEF TRUE</text>
+
+    <text x="44" y="212" font-size="11" fill="#64748b">created_at</text>
+    <text x="150" y="212" font-size="11" fill="#64748b">TIMESTAMP</text>
+    <text x="235" y="212" font-size="10" fill="#64748b">DEFAULT</text>
+
+    <line x1="8" y1="224" x2="292" y2="224" stroke="#e2e8f0" stroke-width="1" />
+    <text x="12" y="240" font-size="10" font-style="italic" fill="#0d9488">&#9881; CHECK: edad BETWEEN 18 AND 99</text>
+  </g>
+
+  <!-- ================= TABLA 3: HISTORIAS_CLINICAS ================= -->
+  <g transform="translate(40, 440)" filter="url(#shadow)">
+    <rect width="300" height="180" rx="6" fill="#ffffff" stroke="#7c3aed" stroke-width="2" />
+    <path d="M 0 0 L 300 0 L 300 36 L 0 36 Z" fill="#f5f3ff" />
+    <text x="15" y="23" font-size="13" font-weight="800" fill="#6d28d9">&#128196; historias_clinicas</text>
+    <line x1="0" y1="36" x2="300" y2="36" stroke="#ddd6fe" stroke-width="1.5" />
+
+    <rect x="8" y="44" width="28" height="18" rx="3" fill="#fef08a" />
+    <text x="13" y="57" font-size="10" font-weight="800" fill="#854d0e">PK</text>
+    <text x="44" y="58" font-size="11.5" font-weight="700" fill="#0f172a">id</text>
+    <text x="150" y="58" font-size="11" fill="#475569">BIGINT IDENTITY</text>
+    <text x="235" y="58" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <rect x="8" y="72" width="28" height="18" rx="3" fill="#bfdbfe" />
+    <text x="13" y="85" font-size="10" font-weight="800" fill="#1e40af">FK</text>
+    <text x="44" y="86" font-size="11.5" font-weight="700" fill="#1e40af">paciente_id</text>
+    <text x="150" y="86" font-size="11" fill="#475569">VARCHAR(20)</text>
+    <text x="235" y="86" font-size="10" font-weight="700" fill="#7c3aed">UQ / NN</text>
+
+    <text x="44" y="114" font-size="11.5" font-weight="600" fill="#0f172a">fecha_creacion</text>
+    <text x="150" y="114" font-size="11" fill="#475569">DATE</text>
+    <text x="235" y="114" font-size="10" fill="#64748b">DEF CURDATE</text>
+
+    <text x="44" y="140" font-size="11" fill="#64748b">created_at</text>
+    <text x="150" y="140" font-size="11" fill="#64748b">TIMESTAMP</text>
+    <text x="235" y="140" font-size="10" fill="#64748b">DEFAULT</text>
+
+    <line x1="8" y1="154" x2="292" y2="154" stroke="#e2e8f0" stroke-width="1" />
+    <text x="12" y="168" font-size="10" font-style="italic" fill="#6d28d9">&#9881; FK paciente_id ➔ pacientes(id) ON DELETE CASCADE</text>
+  </g>
+
+  <!-- ================= TABLA 4: CITAS ================= -->
+  <g transform="translate(535, 440)" filter="url(#shadow)">
+    <rect width="300" height="250" rx="6" fill="#ffffff" stroke="#ea580c" stroke-width="2" />
+    <path d="M 0 0 L 300 0 L 300 36 L 0 36 Z" fill="#fff7ed" />
+    <text x="15" y="23" font-size="13" font-weight="800" fill="#c2410c">&#128196; citas</text>
+    <line x1="0" y1="36" x2="300" y2="36" stroke="#fed7aa" stroke-width="1.5" />
+
+    <rect x="8" y="44" width="28" height="18" rx="3" fill="#fef08a" />
+    <text x="13" y="57" font-size="10" font-weight="800" fill="#854d0e">PK</text>
+    <text x="44" y="58" font-size="11.5" font-weight="700" fill="#0f172a">id</text>
+    <text x="150" y="58" font-size="11" fill="#475569">BIGINT IDENTITY</text>
+    <text x="235" y="58" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <rect x="8" y="70" width="28" height="18" rx="3" fill="#bfdbfe" />
+    <text x="13" y="83" font-size="10" font-weight="800" fill="#1e40af">FK</text>
+    <text x="44" y="84" font-size="11.5" font-weight="700" fill="#1e40af">paciente_id</text>
+    <text x="150" y="84" font-size="11" fill="#475569">VARCHAR(20)</text>
+    <text x="235" y="84" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <rect x="8" y="96" width="28" height="18" rx="3" fill="#bfdbfe" />
+    <text x="13" y="109" font-size="10" font-weight="800" fill="#1e40af">FK</text>
+    <text x="44" y="110" font-size="11.5" font-weight="700" fill="#0f766e">medico_id</text>
+    <text x="150" y="110" font-size="11" fill="#475569">VARCHAR(20)</text>
+    <text x="235" y="110" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="136" font-size="11.5" font-weight="600" fill="#0f172a">fecha_hora</text>
+    <text x="150" y="136" font-size="11" fill="#475569">TIMESTAMP</text>
+    <text x="235" y="136" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="162" font-size="11.5" font-weight="600" fill="#0f172a">estado</text>
+    <text x="150" y="162" font-size="11" fill="#475569">VARCHAR(15)</text>
+    <text x="235" y="162" font-size="10" fill="#0284c7">AGENDADA</text>
+
+    <text x="44" y="188" font-size="11.5" font-weight="600" fill="#0f172a">motivo</text>
+    <text x="150" y="188" font-size="11" fill="#475569">VARCHAR(255)</text>
+    <text x="235" y="188" font-size="10" fill="#94a3b8">NULLABLE</text>
+
+    <text x="44" y="210" font-size="11" fill="#64748b">created_at</text>
+    <text x="150" y="210" font-size="11" fill="#64748b">TIMESTAMP</text>
+    <text x="235" y="210" font-size="10" fill="#64748b">DEFAULT</text>
+
+    <line x1="8" y1="222" x2="292" y2="222" stroke="#e2e8f0" stroke-width="1" />
+    <text x="12" y="238" font-size="9.5" font-style="italic" fill="#c2410c">&#9881; UNIQUE(medico_id, fecha_hora) | CHECK(estado IN ('AGENDADA','ATENDIDA','CANCELADA'))</text>
+  </g>
+
+  <!-- ================= TABLA 5: REGISTROS_CONSULTA ================= -->
+  <g transform="translate(130, 700)" filter="url(#shadow)">
+    <rect width="320" height="245" rx="6" fill="#ffffff" stroke="#b45309" stroke-width="2" />
+    <path d="M 0 0 L 320 0 L 320 36 L 0 36 Z" fill="#fef3c7" />
+    <text x="15" y="23" font-size="13" font-weight="800" fill="#92400e">&#128196; registros_consulta</text>
+    <line x1="0" y1="36" x2="320" y2="36" stroke="#fde68a" stroke-width="1.5" />
+
+    <rect x="8" y="44" width="28" height="18" rx="3" fill="#fef08a" />
+    <text x="13" y="57" font-size="10" font-weight="800" fill="#854d0e">PK</text>
+    <text x="44" y="58" font-size="11.5" font-weight="700" fill="#0f172a">id</text>
+    <text x="160" y="58" font-size="11" fill="#475569">BIGINT IDENTITY</text>
+    <text x="255" y="58" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <rect x="8" y="70" width="28" height="18" rx="3" fill="#bfdbfe" />
+    <text x="13" y="83" font-size="10" font-weight="800" fill="#1e40af">FK</text>
+    <text x="44" y="84" font-size="11.5" font-weight="700" fill="#6d28d9">historia_clinica_id</text>
+    <text x="160" y="84" font-size="11" fill="#475569">BIGINT</text>
+    <text x="255" y="84" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <rect x="8" y="96" width="28" height="18" rx="3" fill="#bfdbfe" />
+    <text x="13" y="109" font-size="10" font-weight="800" fill="#1e40af">FK</text>
+    <text x="44" y="110" font-size="11.5" font-weight="700" fill="#c2410c">cita_id</text>
+    <text x="160" y="110" font-size="11" fill="#475569">BIGINT</text>
+    <text x="255" y="110" font-size="10" font-weight="600" fill="#94a3b8">NULLABLE</text>
+
+    <rect x="8" y="122" width="28" height="18" rx="3" fill="#bfdbfe" />
+    <text x="13" y="135" font-size="10" font-weight="800" fill="#1e40af">FK</text>
+    <text x="44" y="136" font-size="11.5" font-weight="700" fill="#0f766e">medico_id</text>
+    <text x="160" y="136" font-size="11" fill="#475569">VARCHAR(20)</text>
+    <text x="255" y="136" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="160" font-size="11.5" font-weight="600" fill="#0f172a">fecha_hora</text>
+    <text x="160" y="160" font-size="11" fill="#475569">TIMESTAMP</text>
+    <text x="255" y="160" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="184" font-size="11.5" font-weight="600" fill="#0f172a">diagnostico</text>
+    <text x="160" y="184" font-size="11" fill="#475569">TEXT</text>
+    <text x="255" y="184" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <text x="44" y="206" font-size="11.5" font-weight="600" fill="#0f172a">tratamiento</text>
+    <text x="160" y="206" font-size="11" fill="#475569">TEXT</text>
+    <text x="255" y="206" font-size="10" font-weight="600" fill="#dc2626">NOT NULL</text>
+
+    <line x1="8" y1="218" x2="312" y2="218" stroke="#e2e8f0" stroke-width="1" />
+    <text x="12" y="234" font-size="9.5" font-style="italic" fill="#b45309">&#9881; FKs a historias_clinicas, citas y medicos (ON DELETE RESTRICT)</text>
+  </g>
+
+  <!-- ================= PANEL DE DICCIONARIO E INDICES ================= -->
+  <g transform="translate(860, 440)" filter="url(#shadow)">
+    <rect width="460" height="505" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+    <rect width="460" height="34" rx="8" fill="#f8fafc" />
+    <text x="15" y="22" font-size="13" font-weight="800" fill="#0f172a">INDICES, INTEGRIDAD REFERENCIAL Y REGLAS SQL</text>
+    <line x1="0" y1="34" x2="460" y2="34" stroke="#e2e8f0" stroke-width="1.2" />
+
+    <text x="15" y="58" font-size="11.5" font-weight="700" fill="#0284c7">&#128269; Indices Optimizados de Rendimiento:</text>
+    <text x="25" y="76" font-size="11" fill="#334155">&#8226; <tspan font-weight="600">idx_citas_medico_fecha:</tspan> En (medico_id, fecha_hora).</text>
+    <text x="25" y="94" font-size="11" fill="#334155">&#8226; <tspan font-weight="600">idx_citas_paciente:</tspan> En (paciente_id, estado).</text>
+    <text x="25" y="112" font-size="11" fill="#334155">&#8226; <tspan font-weight="600">idx_registros_historia_fecha:</tspan> En (historia_clinica_id, fecha_hora DESC).</text>
+
+    <line x1="15" y1="126" x2="445" y2="126" stroke="#f1f5f9" stroke-width="1" />
+    <text x="15" y="146" font-size="11.5" font-weight="700" fill="#0f766e">&#128274; Politicas de Integridad Referencial:</text>
+    <text x="25" y="166" font-size="11" fill="#334155">&#8226; <tspan font-weight="600">pacientes ➔ historias_clinicas:</tspan> ON DELETE CASCADE.</text>
+    <text x="25" y="184" font-size="11" fill="#334155">&#8226; <tspan font-weight="600">medicos ➔ citas / registros:</tspan> ON DELETE RESTRICT (RN-08).</text>
+    <text x="25" y="202" font-size="11" fill="#334155">&#8226; <tspan font-weight="600">citas ➔ registros_consulta:</tspan> ON DELETE SET NULL.</text>
+
+    <line x1="15" y1="218" x2="445" y2="218" stroke="#f1f5f9" stroke-width="1" />
+    <text x="15" y="238" font-size="11.5" font-weight="700" fill="#7c3aed">&#9745; Cumplimiento de Normalizacion (3FN):</text>
+    <text x="25" y="258" font-size="11" fill="#334155">&#8226; <tspan font-weight="600">1FN Cumplida:</tspan> Atributos atomicos, sin grupos repetitivos.</text>
+    <text x="25" y="278" font-size="11" fill="#334155">&#8226; <tspan font-weight="600">2FN Cumplida:</tspan> PKs unicas simples; dependencias completas.</text>
+    <text x="25" y="298" font-size="11" fill="#334155">&#8226; <tspan font-weight="600">3FN Cumplida:</tspan> Cero dependencias transitivas entre no-claves.</text>
+
+    <line x1="15" y1="316" x2="445" y2="316" stroke="#f1f5f9" stroke-width="1" />
+    <text x="15" y="336" font-size="11.5" font-weight="700" fill="#b45309">&#128640; Estandares Tecnologicos:</text>
+    <text x="25" y="356" font-size="11" fill="#334155">&#8226; Sintaxis 100% ANSI SQL compatible con PostgreSQL 14+, MySQL 8+, SQLite 3.</text>
+    <text x="25" y="374" font-size="11" fill="#334155">&#8226; Nombres snake_case estandar en minusculas.</text>
+
+    <rect x="20" y="420" width="420" height="65" rx="6" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="32" y="440" font-size="10.5" font-weight="700" fill="#0f172a">&#128221; Auditoria &amp; Seguridad de Datos:</text>
+    <text x="32" y="458" font-size="10" fill="#475569">Columna 'created_at' en todas las tablas para trazabilidad legal y temporal.</text>
+  </g>
+</svg>
