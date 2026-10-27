@@ -55,6 +55,11 @@ El sistema visual implementa tokens de diseño estrictos basados en la identidad
 ```text
 docs/phase-5-ui-ux/
 ├── README.md                                                  # Índice maestro y especificación técnica UI/UX
+├── login/                                                     # Acceso institucional seguro y autenticación
+│   ├── desktop/
+│   │   └── login.png                                          # Pantalla de acceso en estación clínica de escritorio
+│   └── mobile/
+│       └── login.png                                          # Pantalla de acceso responsiva para dispositivos móviles
 └── formularios/                                               # Mockups en alta fidelidad de formularios de negocio
     ├── desktop/                                               # Vistas de escritorio (1440px+)
     │   ├── hu_01_registrar_paciente_desktop.png               # Formulario de admisión y datos de paciente
@@ -70,7 +75,20 @@ docs/phase-5-ui-ux/
 
 ---
 
-## 🖼️ 5. Catálogo Visual de Formularios de Negocio
+## 🖼️ 5. Catálogo Visual de Pantallas e Interfaces
+
+### 5.0. Módulo de Autenticación y Acceso Profesional (Login)
+
+- **Trazabilidad:** Precondición transversal de seguridad para la ejecución de Casos de Uso (`CU-01` a `CU-10`) | Control de Acceso Basado en Roles (RBAC: Recepcionista, Médico, Administrador) | RNF-01 (Seguridad y Privacidad de Datos Clínicos).
+- **Componentes y Elementos de Interfaz:** Formulario de inicio de sesión seguro, campo de credencial institucional (usuario/correo profesional), campo de contraseña con opción de visualización segura, selector de rol asistencial, validación en tiempo real y enlaces de soporte y recuperación de contraseña.
+
+#### Vista Desktop
+![Login CliniGest Desktop](./login/desktop/login.png)
+
+#### Vista Mobile
+![Login CliniGest Mobile](./login/mobile/login.png)
+
+---
 
 ### 5.1. HU-01: Registrar Paciente (Admisión e Identificación)
 
