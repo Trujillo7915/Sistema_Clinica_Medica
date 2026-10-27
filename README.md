@@ -1,9 +1,9 @@
 # 🏥 SISTEMA DE GESTIÓN DE CLÍNICA MÉDICA (SGCM - MVP)
 
-> **Estado Actual del Proyecto:** Fase 4 (Base de Datos y Persistencia) Culminada con Éxito  
+> **Estado Actual del Proyecto:** Fase 5 (Diseño de UI/UX y Prototipado) en Ejecución  
 > **Rama Activa de Desarrollo:** `dev`  
 > **Autores:** Fabián Trujillo & Alexandra Garzón  
-> **Estándares de Referencia:** IEEE Std 830-1998, UML 2.5, ANSI SQL / PostgreSQL 14+, Normalización 3FN, Clean Architecture & Conventional Commits.
+> **Estándares de Referencia:** IEEE Std 830-1998, UML 2.5, ANSI SQL / PostgreSQL 14+, Normalización 3FN, Design System Clinical Clarity, WCAG 2.1 AA & Conventional Commits.
 
 ---
 
@@ -17,23 +17,23 @@ El proyecto se desarrolla bajo un riguroso ciclo de vida de ingeniería de softw
 
 ## 📍 2. ¿En qué Fase nos Encontramos?
 
-Actualmente nos encontramos al **cierre exitoso de la FASE 4** y en transición hacia la **FASE 5 (Mockups y Prototipado)** y **FASE 6 (Implementación en Código)**:
+Actualmente nos encontramos en la **FASE 5 (UI/UX y Prototipado)** preparando las especificaciones visuales y ergonómicas para la **FASE 6 (Implementación en Código)**:
 
 ```mermaid
 flowchart LR
     F1[" Fase 1\nHistorias MoSCoW"] --> F2[" Fase 2\nERS IEEE 830"]
     F2 --> F3[" Fase 3\nModelado UML"]
     F3 --> F4[" Fase 4\nBase de Datos 3FN"]
-    F4 --> F5["⏳ Fase 5\nMockups & UI"]
+    F4 --> F5[" Fase 5\nUI/UX & Mockups"]
     F5 --> F6["⏳ Fase 6\nCódigo Funcional"]
 
     classDef done fill:#f0fdf4,stroke:#16a34a,stroke-width:2px,color:#166534,font-weight:bold;
     classDef current fill:#eff6ff,stroke:#2563eb,stroke-width:3px,color:#1e40af,font-weight:bold;
     classDef pending fill:#f8fafc,stroke:#94a3b8,stroke-width:2px,stroke-dasharray: 4 4,color:#64748b;
 
-    class F1,F2,F3 done;
-    class F4 current;
-    class F5,F6 pending;
+    class F1,F2,F3,F4 done;
+    class F5 current;
+    class F6 pending;
 ```
 
 ---
@@ -100,6 +100,24 @@ A continuación se resume detalladamente el avance técnico acumulado por cada f
 
 ---
 
+### 🔹 Fase 5: Diseño de Interfaz y Experiencia de Usuario (UI/UX)
+* **Ubicación:** [`docs/phase-5-ui-ux/`](file:///c:/Users/USUARIO/Desktop/Sistema_Clinica_Medica/docs/phase-5-ui-ux/)
+* **Qué se aplicó:**
+  * **Design System Clinical Clarity:** Paleta cromática médica (`#002C3A`, `#016398`, `#F8FAFC`), tipografía estructurada (Plus Jakarta Sans / Inter) y cumplimiento de estándares de accesibilidad **WCAG 2.1 Nivel AA**.
+  * **Estructura Modular en 9 Etapas Secuenciales:**
+    1. `estructura-navegacion/`: Arquitectura de información, control RBAC, sidebar colapsable en desktop y bottom navigation en mobile.
+    2. `pantalla-inicio/`: Portal de bienvenida dinámico, indicadores del turno y accesos rápidos asistenciales.
+    3. `login/`: Acceso institucional seguro con control de roles (RBAC) y mockups en alta fidelidad.
+    4. `dashboard/`: Centros de mando para Recepción (sala de espera activa), Médico (box de atención) y Administración.
+    5. `formularios/`: Mockups transaccionales para admisión (HU-01), alta médica (HU-04), agendamiento (HU-07) y atención médica (HU-09).
+    6. `listados/`: Directorios y tablas de alta densidad para Pacientes (HU-02), Médicos (HU-05) y Citas (HU-08).
+    7. `consultas/`: Búsqueda global (`Ctrl + K`), filtros multicriterio y matriz de disponibilidad horaria sin solapamiento (RN-02).
+    8. `detalle-registros/`: Ficha integral de paciente con alertas de alergias críticas, evolución médica (HU-10) y formato de receta.
+    9. `mensajes-error-confirmacion/`: Modales de confirmación crítica (cancelación de cita RN-03), toasts semánticos y páginas de estado (404/403/500).
+  * **Diseño Adaptativo Multidispositivo:** Resoluciones objetivo para estaciones fijas Desktop ($1440 \times 900$) y dispositivos móviles ($390 \times 844$).
+
+---
+
 ### 🔹 Gobernanza y Normas de Ingeniería de Software
 * **Ubicación:** [`docs/standards/`](file:///c:/Users/USUARIO/Desktop/Sistema_Clinica_Medica/docs/standards/)
 * **Manuales creados:**
@@ -122,7 +140,17 @@ A continuación se resume detalladamente el avance técnico acumulado por cada f
 │   │   ├── documentation/    # Especificación modular detallada (01 al 11 + Diccionario)
 │   │   ├── scripts/          # Scripts SQL (schema, data, views, triggers, queries)
 │   │   └── diagrams/         # Modelos vectoriales SVG (ERD y Relacional)
-│   ├── phase-5-mockups/      # Wireframes y prototipos UI (Fase 5)
+│   ├── phase-5-ui-ux/        # UI/UX, arquitectura de información y mockups en 9 etapas (Fase 5)
+│   │   ├── README.md         # Índice maestro y catálogo visual
+│   │   ├── estructura-navegacion/ # 01. Arquitectura de información y RBAC
+│   │   ├── pantalla-inicio/       # 02. Portal de bienvenida y KPIs
+│   │   ├── login/                 # 03. Acceso institucional seguro
+│   │   ├── dashboard/             # 04. Cuadros de mando por rol
+│   │   ├── formularios/           # 05. Formularios transaccionales (HU-01, 04, 07, 09)
+│   │   ├── listados/              # 06. Tablas y directorios (HU-02, 05, 08)
+│   │   ├── consultas/             # 07. Búsquedas predictivas y disponibilidad
+│   │   ├── detalle-registros/     # 08. Expediente clínico y evolución (HU-10)
+│   │   └── mensajes-error-confirmacion/ # 09. Modales, alertas y estados del sistema
 │   ├── reports/              # Informes formales de desarrollo y calidad de software
 │   └── standards/            # Gobernanza técnica, reglas y manuales de desarrollo
 ├── src/                      # Código fuente de la solución (Fase 6)
