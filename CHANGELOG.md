@@ -7,6 +7,23 @@ y este proyecto se adhiere a [Semantic Versioning](https://semver.org/lang/es/).
 
 ---
 
+## [0.5.0] - 2026-10-27 - Fase 5: Diseño de Interfaz y Experiencia de Usuario (UI/UX)
+### Added
+- **Estructura completa de 9 módulos UI/UX en `docs/phase-5-ui-ux/`:**
+  - `01. estructura-navegacion/`: Arquitectura de información, RBAC, Sidebar de alta densidad (Desktop) y Bottom Navigation Bar con Drawer (Mobile).
+  - `02. pantalla-inicio/`: Portal de bienvenida, saludo dinámico por turno, KPI cards operativas y acciones rápidas.
+  - `03. login/`: Acceso institucional seguro con control de roles (RBAC) y mockups en alta fidelidad desktop y mobile.
+  - `04. dashboard/`: Cuadros de mando por rol (Recepción con sala de espera activa, Médico con box de consulta, Administración con ocupación).
+  - `05. formularios/`: Formularios transaccionales de alta fidelidad para HU-01 (Pacientes), HU-04 (Médicos), HU-07 (Agendar Cita) y HU-09 (Atención Médica) en Desktop y Mobile.
+  - `06. listados/`: Tablas de datos de alta densidad con paginación y ordenamiento para Pacientes (HU-02), Médicos (HU-05) y Citas (HU-08).
+  - `07. consultas/`: Búsqueda global predictiva (`Ctrl + K`), filtros avanzados multicriterio y matriz de disponibilidad horaria sin solapamiento (RN-02).
+  - `08. detalle-registros/`: Expediente clínico longitudinal, ficha del paciente con alertas de alergias críticas, evolución médica (HU-10) y formato de receta.
+  - `09. mensajes-error-confirmacion/`: Modales de confirmación crítica (cancelación de cita RN-03), toasts flotantes semánticos, inline validation y pantallas 404/403/500.
+- **Design System *Clinical Clarity*:** Paleta semántica (#002C3A, #016398, #F8FAFC), tipografías Plus Jakarta Sans / Inter y accesibilidad WCAG 2.1 AA.
+- Documentación técnica y especificaciones completas en cada uno de los 9 módulos.
+
+---
+
 ## [0.4.0] - 2026-10-26 - Fase 4: Diseño de Base de Datos y Persistencia
 ### Added
 - **Estructura modular reorganizada:**
