@@ -112,14 +112,26 @@ docs/phase-5-ui-ux/
 ### 5.1. Definir Estructura de Navegación
 - **Especificación Completa:** [estructura-navegacion/README.md](./estructura-navegacion/README.md)
 - **Alcance:** Arquitectura de información, jerarquía por roles RBAC, Sidebar colapsable con accesos rápidos (Desktop) y Bottom Navigation Bar con Drawer deslizable (Mobile).
-- **Assets:** `estructura-navegacion/desktop/` y `estructura-navegacion/mobile/`.
+- **Assets:** `estructura-navegacion/desktop/estructura_navegacion_desktop.png` y `estructura-navegacion/mobile/estructura_navegacion_mobile.png`.
+
+*Vista Desktop Shell:*  
+![Estructura Navegación Desktop](./estructura-navegacion/desktop/estructura_navegacion_desktop.png)
+
+*Vista Mobile Shell:*  
+![Estructura Navegación Mobile](./estructura-navegacion/mobile/estructura_navegacion_mobile.png)
 
 ---
 
 ### 5.2. Diseñar Pantalla de Inicio (Portal de Bienvenida)
 - **Especificación Completa:** [pantalla-inicio/README.md](./pantalla-inicio/README.md)
 - **Alcance:** Pantalla de aterrizaje post-login con saludo contextual, resumen de métricas del turno (citas del día, sala de espera activa), acciones rápidas (*Quick Actions*) y tablón de anuncios clínicos.
-- **Assets:** `pantalla-inicio/desktop/` y `pantalla-inicio/mobile/`.
+- **Assets:** `pantalla-inicio/desktop/pantalla_inicio_desktop.png` y `pantalla-inicio/mobile/pantalla_inicio_mobile.png`.
+
+*Vista Desktop:*  
+![Pantalla Inicio Desktop](./pantalla-inicio/desktop/pantalla_inicio_desktop.png)
+
+*Vista Mobile:*  
+![Pantalla Inicio Mobile](./pantalla-inicio/mobile/pantalla_inicio_mobile.png)
 
 ---
 
@@ -141,6 +153,18 @@ docs/phase-5-ui-ux/
 - **Alcance:** Centros de mando especializados: Recepción (control de sala de espera activa y check-in), Médico (cola de espera por box y llamado de paciente), Administración (ocupación y métricas operativas).
 - **Assets:** `dashboard/desktop/` y `dashboard/mobile/`.
 
+*Dashboard Recepción Desktop:*  
+![Dashboard Recepción Desktop](./dashboard/desktop/dashboard_recepcion_desktop.png)
+
+*Dashboard Recepción Mobile:*  
+![Dashboard Recepción Mobile](./dashboard/mobile/dashboard_recepcion_mobile.png)
+
+*Dashboard Clínico Médico Desktop:*  
+![Dashboard Médico Desktop](./dashboard/desktop/dashboard_medico_desktop.png)
+
+*Dashboard Clínico Médico Mobile:*  
+![Dashboard Médico Mobile](./dashboard/mobile/dashboard_medico_mobile.png)
+
 ---
 
 ### 5.5. Formularios de Negocio
@@ -155,6 +179,15 @@ docs/phase-5-ui-ux/
 
 *Vista Mobile:*  
 ![HU-01 Registrar Paciente Mobile](./formularios/mobile/hu_01_registrar_paciente_mobile.png)
+
+#### HU-03: Actualizar Datos de Paciente
+- **Trazabilidad:** HU-03 | RF-03 | Entidad BD: `pacientes` | Precarga de datos y auditoría de cambios.
+
+*Vista Desktop:*  
+![HU-03 Actualizar Paciente Desktop](./formularios/desktop/hu_03_actualizar_paciente_desktop.png)
+
+*Vista Mobile:*  
+![HU-03 Actualizar Paciente Mobile](./formularios/mobile/hu_03_actualizar_paciente_mobile.png)
 
 #### HU-04: Registrar Médico (Alta de Profesionales de la Salud)
 - **Trazabilidad:** HU-04 | RF-04 | Entidad BD: `medicos` | Regla: Cédula profesional única, especialidad médica válida y asignación de box.
@@ -193,12 +226,42 @@ docs/phase-5-ui-ux/
 - **Alcance:** Directorios maestros de Pacientes (HU-02), Directorio Médico (HU-05) y Agenda Diaria de Citas (HU-08). Implementa tablas de alta densidad con ordenamiento y paginación en Desktop, y tarjetas condensadas táctiles en Mobile.
 - **Assets:** `listados/desktop/` y `listados/mobile/`.
 
+*Directorio de Pacientes (HU-02) Desktop:*  
+![HU-02 Directorio Pacientes Desktop](./listados/desktop/hu_02_directorio_pacientes_desktop.png)
+
+*Directorio de Pacientes (HU-02) Mobile:*  
+![HU-02 Directorio Pacientes Mobile](./listados/mobile/hu_02_directorio_pacientes_mobile.png)
+
+*Directorio Médico (HU-05) Desktop:*  
+![HU-05 Directorio Médicos Desktop](./listados/desktop/hu_05_directorio_medicos_desktop.png)
+
+*Directorio Médico (HU-05) Mobile:*  
+![HU-05 Directorio Médicos Mobile](./listados/mobile/hu_05_directorio_medicos_mobile.png)
+
+*Agenda General de Citas (HU-08) Desktop:*  
+![HU-08 Agenda Citas Desktop](./listados/desktop/hu_08_agenda_citas_desktop.png)
+
+*Agenda General de Citas (HU-08) Mobile:*  
+![HU-08 Agenda Citas Mobile](./listados/mobile/hu_08_agenda_citas_mobile.png)
+
 ---
 
 ### 5.7. Consultas y Búsquedas Avanzadas
 - **Especificación Completa:** [consultas/README.md](./consultas/README.md)
 - **Alcance:** Búsqueda global predictiva con atajo `Ctrl + K`, panel de filtros multicriterio (rango de fechas, estado, especialidad, médico) y visualizador interactivo de disponibilidad de franjas horarias médicas sin colisiones (RN-02).
 - **Assets:** `consultas/desktop/` y `consultas/mobile/`.
+
+*Búsqueda Omnibar Predictiva (Ctrl + K) Desktop:*  
+![Búsqueda Predictiva Desktop](./consultas/desktop/consulta_predictiva_ctrl_k_desktop.png)
+
+*Búsqueda Omnibar Predictiva Mobile:*  
+![Búsqueda Predictiva Mobile](./consultas/mobile/consulta_predictiva_ctrl_k_mobile.png)
+
+*Matriz de Disponibilidad (RN-02) Desktop:*  
+![Matriz Disponibilidad Desktop](./consultas/desktop/matriz_disponibilidad_rn02_desktop.png)
+
+*Matriz de Disponibilidad (RN-02) Mobile:*  
+![Matriz Disponibilidad Mobile](./consultas/mobile/matriz_disponibilidad_rn02_mobile.png)
 
 ---
 
@@ -207,12 +270,36 @@ docs/phase-5-ui-ux/
 - **Alcance:** Ficha integral del paciente con banner de alerta de alergias críticas en rojo, detalle de consulta médica (HU-10), visualizador cronológico de evolución (*Timeline*) y formato de receta médica para impresión.
 - **Assets:** `detalle-registros/desktop/` y `detalle-registros/mobile/`.
 
+*Expediente Clínico Integral (HU-10) Desktop:*  
+![HU-10 Expediente Clínico Desktop](./detalle-registros/desktop/hu_10_expediente_clinico_desktop.png)
+
+*Expediente Clínico Integral (HU-10) Mobile:*  
+![HU-10 Expediente Clínico Mobile](./detalle-registros/mobile/hu_10_expediente_clinico_mobile.png)
+
 ---
 
 ### 5.9. Mensajes de Error, Confirmación y Feedback
 - **Especificación Completa:** [mensajes-error-confirmacion/README.md](./mensajes-error-confirmacion/README.md)
 - **Alcance:** Modales de confirmación crítica (cancelación de cita con motivo obligatorio RN-03), notificaciones flotantes Toast (Éxito, Advertencia, Error, Info), validación inline en campos y páginas de estado del sistema (404, 403, 500).
 - **Assets:** `mensajes-error-confirmacion/desktop/` y `mensajes-error-confirmacion/mobile/`.
+
+*Modal de Cancelación de Cita (RN-03) Desktop:*  
+![Modal Cancelación Desktop](./mensajes-error-confirmacion/desktop/modal_cancelacion_cita_desktop.png)
+
+*Modal de Cancelación de Cita (RN-03) Mobile:*  
+![Modal Cancelación Mobile](./mensajes-error-confirmacion/mobile/modal_cancelacion_cita_mobile.png)
+
+*Toasts Semánticos y Validación Inline Desktop:*  
+![Toasts y Validación Desktop](./mensajes-error-confirmacion/desktop/toasts_y_feedback_visual_desktop.png)
+
+*Toasts Semánticos y Validación Mobile:*  
+![Toasts y Validación Mobile](./mensajes-error-confirmacion/mobile/toasts_y_feedback_visual_mobile.png)
+
+*Pantalla de Error 404 Institucional Desktop:*  
+![Error 404 Desktop](./mensajes-error-confirmacion/desktop/error_404_desktop.png)
+
+*Pantalla de Error 404 Institucional Mobile:*  
+![Error 404 Mobile](./mensajes-error-confirmacion/mobile/error_404_mobile.png)
 
 ---
 
