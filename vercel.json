@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/mockup/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/mockup/$1"
+    }
+  ]
+}

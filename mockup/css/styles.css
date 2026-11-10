@@ -1,0 +1,86 @@
+/* ============================================================================
+   CLINIGEST SGCM - CLINICAL CLARITY DESIGN SYSTEM STYLES
+   ============================================================================ */
+
+:root {
+  --color-primary: #002C3A;
+  --color-primary-dark: #001C25;
+  --color-primary-light: #016398;
+  --color-primary-container: #0D5C75;
+  --color-bg-canvas: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-text-main: #0F172A;
+  --color-text-muted: #64748B;
+  --color-success: #059669;
+  --color-warning: #D97706;
+  --color-danger: #DC2626;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Device Simulator Wrapper */
+.device-desktop-frame {
+  width: 1440px !important;
+  height: 900px !important;
+  max-width: 1440px !important;
+  max-height: 900px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 44, 58, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #CBD5E1;
+}
+
+.device-mobile-frame {
+  width: 390px !important;
+  height: 844px !important;
+  max-width: 390px !important;
+  max-height: 844px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 44, 58, 0.35);
+  border-radius: 36px;
+  overflow: hidden;
+  border: 8px solid #001C25;
+}
+
+/* Toast animations */
+.toast-enter {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+.toast-leave {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.25s ease-in;
+}

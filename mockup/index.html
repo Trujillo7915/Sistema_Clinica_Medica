@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CliniGest SGCM - Mockup Interactivo de Alta Fidelidad</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3, h4, .font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-800 antialiased min-h-screen flex flex-col justify-between">
+
+  <!-- ========================================================================
+       TOP TESTING TOOLBAR (Simulador de Dispositivos y Roles para Vercel/Netlify)
+       ======================================================================== -->
+  <div class="h-14 bg-[#001C25] text-white px-6 flex items-center justify-between border-b border-teal-900/80 shrink-0 z-50">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#016398] to-teal-400 flex items-center justify-center font-bold text-white shadow-md">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        </div>
+        <div>
+          <span class="font-heading font-extrabold text-sm tracking-tight text-white">CliniGest SGCM</span>
+          <span class="hidden md:inline-block ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-teal-900/80 text-teal-300 border border-teal-500/30">Mockup Interactivo Fase 5</span>
+        </div>
+      </div>
+
+      <!-- Role Selector -->
+      <div class="hidden sm:flex items-center gap-2 border-l border-teal-900/60 pl-4">
+        <label class="text-[11px] font-semibold text-teal-200">Rol Activo:</label>
+        <select id="role-selector" class="bg-white/10 border border-teal-700/60 rounded-lg text-xs font-semibold text-white px-2.5 py-1 outline-none hover:bg-white/15 cursor-pointer">
+          <option value="medico" selected class="bg-[#002C3A] text-white">👨‍⚕️ Médico (Dr. Gómez - Box 03)</option>
+          <option value="recepcionista" class="bg-[#002C3A] text-white">👤 Recepción y Admisión</option>
+          <option value="admin" class="bg-[#002C3A] text-white">🛡️ Administrador del Sistema</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Device Viewport Switcher Buttons -->
+    <div class="flex items-center gap-3">
+      <div class="bg-slate-800 p-1 rounded-xl flex items-center gap-1 border border-slate-700">
+        <button id="btn-view-desktop" class="px-3 py-1 rounded-lg text-xs font-bold transition bg-[#016398] text-white shadow-xs">
+          🖥️ Desktop (1440px)
+        </button>
+        <button id="btn-view-mobile" class="px-3 py-1 rounded-lg text-xs font-bold transition bg-white text-slate-700 hover:bg-slate-100 shadow-xs">
+          📱 Móvil (390px)
+        </button>
+        <button id="btn-view-fluid" class="px-3 py-1 rounded-lg text-xs font-bold transition bg-white text-slate-700 hover:bg-slate-100 shadow-xs">
+          🌐 100% Fluido
+        </button>
+      </div>
+
+      <!-- Quick Reset Button -->
+      <button onclick="window.clinicStore.resetToDefault(); showToast('info', 'Datos Reiniciados', 'La base de datos de prueba ha sido restaurada.'); renderAllViews();" class="hidden lg:flex items-center gap-1 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-teal-200 text-xs font-semibold rounded-lg border border-teal-800 transition">
+        <span>↺ Reiniciar Datos</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       APPLICATION VIEWPORT FRAME
+       ======================================================================== -->
+  <div class="flex-1 overflow-auto bg-slate-950 p-4 md:p-8 flex items-center justify-center">
+    
+    <div id="app-viewport-container" class="device-desktop-frame mx-auto transition-all duration-300 flex overflow-hidden bg-slate-50 relative">
+
+      <!-- ====================================================================
+           SIDEBAR INSTITUCIONAL (Clinical Clarity 256px)
+           ==================================================================== -->
+      <aside class="w-64 bg-[#002C3A] text-white flex flex-col justify-between shrink-0 shadow-2xl border-r border-teal-900/60 z-20">
+        <div>
+          <!-- Brand -->
+          <div class="h-20 flex items-center px-6 gap-3 border-b border-teal-900/60 bg-[#00222D]">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#016398] to-teal-400 flex items-center justify-center shadow-lg shadow-teal-900/50">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+            </div>
+            <div>
+              <span class="font-heading font-extrabold text-xl tracking-tight text-white">CliniGest</span>
+              <span class="block text-[10px] font-bold text-teal-300 tracking-wider uppercase">Portal Médico SGCM</span>
+            </div>
+          </div>
+
+          <!-- Navigation Links -->
+          <div class="px-4 py-5 space-y-1 overflow-y-auto max-h-[calc(900px-180px)]">
+            <div class="text-[10px] font-bold text-teal-400/80 uppercase tracking-wider px-3 mb-2">Flujos Clínicos & HU</div>
+
+            <a href="#" data-nav-target="vista-inicio" class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg bg-[#016398] text-white font-medium text-xs shadow-md transition">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>
+              01. Inicio / Portal
+            </a>
+
+            <a href="#" data-nav-target="vista-dashboard-recepcion" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+              02. Dashboard Recepción
+            </a>
+
+            <a href="#" data-nav-target="vista-dashboard-medico" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+              03. Dashboard Médico Box
+            </a>
+
+            <a href="#" data-nav-target="vista-hu01-registro-paciente" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"/></svg>
+              04. Registrar Paciente (HU-01)
+            </a>
+
+            <a href="#" data-nav-target="vista-hu02-directorio-pacientes" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+              05. Directorio Pacientes (HU-02)
+            </a>
+
+            <a href="#" data-nav-target="vista-hu04-registro-medico" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+              06. Alta de Médico (HU-04)
+            </a>
+
+            <a href="#" data-nav-target="vista-hu05-directorio-medicos" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
+              07. Cuerpo Médico (HU-05)
+            </a>
+
+            <a href="#" data-nav-target="vista-hu07-agendar-cita" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+              08. Agendar Cita (HU-07)
+            </a>
+
+            <a href="#" data-nav-target="vista-hu08-agenda-citas" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
+              09. Agenda de Citas (HU-08)
+            </a>
+
+            <a href="#" data-nav-target="vista-hu09-atencion-clinica" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+              10. Atención Consulta (HU-09)
+            </a>
+
+            <a href="#" data-nav-target="vista-hu10-expediente-clinico" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/></svg>
+              11. Expediente Clínico (HU-10)
+            </a>
+
+            <a href="#" data-nav-target="vista-consultas-disponibilidad" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              12. Disponibilidad (RN-02)
+            </a>
+
+            <a href="#" data-nav-target="vista-mensajes-feedback" class="flex items-center gap-3 px-3.5 py-2 rounded-lg text-slate-300 hover:bg-white/5 font-medium text-xs transition">
+              <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg>
+              13. Feedback & Toasts
+            </a>
+          </div>
+        </div>
+
+        <!-- User Profile Footer -->
+        <div class="p-4 border-t border-teal-900/60 bg-[#00222D]">
+          <div class="flex items-center gap-3">
+            <div id="user-avatar-text" class="w-10 h-10 rounded-full bg-teal-600 border-2 border-teal-400 flex items-center justify-center font-bold text-sm text-white">
+              RG
+            </div>
+            <div class="flex-1 min-w-0">
+              <p id="user-name-text" class="text-xs font-semibold text-white truncate">Dr. Roberto Gómez</p>
+              <span id="user-role-badge" class="block text-[10px] text-teal-300/80 truncate">Cardiología - Box 03</span>
+            </div>
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shrink-0"></span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ====================================================================
+           MAIN CONTENT CANVAS
+           ==================================================================== -->
+      <main class="flex-1 flex flex-col overflow-hidden">
+        
+        <!-- Topbar Header -->
+        <header class="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between shrink-0 shadow-sm z-10">
+          <div class="flex items-center gap-4">
+            <div id="breadcrumb-container" class="flex items-center gap-2 text-xs font-medium text-slate-500">
+              <span class="text-slate-400">Portal SGCM</span>
+              <span class="text-slate-300">/</span>
+              <span class="text-slate-900 font-bold">Panel de Bienvenida</span>
+            </div>
+            <span class="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Sistema en Línea &bull; PostgreSQL 16
+            </span>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <!-- Omnibar Trigger -->
+            <div onclick="openOmnibar()" class="relative w-72 cursor-pointer group">
+              <input type="text" placeholder="Buscar paciente, médico o cita (Ctrl + K)..." readonly class="w-full pl-9 pr-12 py-2 bg-slate-100 group-hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-600 cursor-pointer shadow-inner transition">
+              <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+              <kbd class="absolute right-2.5 top-2 px-1.5 py-0.5 text-[10px] font-bold text-slate-400 bg-white border border-slate-200 rounded shadow-xs">Ctrl K</kbd>
+            </div>
+
+            <!-- Clock -->
+            <div class="text-right border-l border-slate-200 pl-4 hidden sm:block">
+              <div id="header-clock-date" class="text-xs font-bold text-slate-700">Lunes, 10 Noviembre 2026</div>
+              <div id="header-clock-time" class="text-[11px] font-semibold text-[#016398]">08:30:00 AM &bull; Turno Activo</div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Dynamic Views Container (Scrollable) -->
+        <div class="flex-1 p-6 md:p-8 overflow-y-auto bg-slate-50">
+
+          <!-- ================================================================
+               01. VISTA INICIO / PORTAL DE BIENVENIDA
+               ================================================================ -->
+          <section id="vista-inicio" class="view-section space-y-6">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#002C3A] via-[#016398] to-[#0D5C75] p-7 text-white shadow-lg">
+              <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="max-w-2xl">
+                  <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-white/15 text-teal-200 backdrop-blur-sm mb-3">
+                    Jornada Asistencial Activa
+                  </span>
+                  <h1 class="text-2xl font-extrabold tracking-tight text-white mb-2 font-heading">
+                    ¡Bienvenido al Portal Clínico CliniGest!
+                  </h1>
+                  <p class="text-xs md:text-sm text-teal-100 font-normal leading-relaxed">
+                    Acceso unificado para <strong>Admisión, Gestión de Citas y Expedientes Médicos</strong>. Selecciona un acceso rápido o gestiona la agenda del día.
+                  </p>
+                </div>
+                
+                <div class="flex items-center gap-3 shrink-0">
+                  <button onclick="navigateTo('vista-hu07-agendar-cita')" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-teal-400 hover:bg-teal-300 text-[#002C3A] font-bold text-xs shadow-md transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                    + Agendar Cita (HU-07)
+                  </button>
+                  <button onclick="navigateTo('vista-hu01-registro-paciente')" class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs backdrop-blur-sm border border-white/20 transition">
+                    + Registrar Paciente (HU-01)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- KPI Metric Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xs">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Citas de Hoy</span>
+                <div class="text-2xl md:text-3xl font-extrabold text-slate-900 font-heading mt-1">18</div>
+                <p class="text-[11px] text-emerald-600 mt-1 font-semibold">&bull; 100% cupos asignados</p>
+              </div>
+
+              <div class="bg-white rounded-xl p-5 border border-amber-200 bg-amber-50/30 shadow-xs">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-700">En Sala de Espera</span>
+                <div class="text-2xl md:text-3xl font-extrabold text-amber-600 font-heading mt-1">4</div>
+                <p class="text-[11px] text-amber-700 mt-1 font-semibold">Check-in completado</p>
+              </div>
+
+              <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xs">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Consultas Atendidas</span>
+                <div class="text-2xl md:text-3xl font-extrabold text-emerald-600 font-heading mt-1">6</div>
+                <p class="text-[11px] text-slate-500 mt-1">Diagnóstico cerrado (HU-09)</p>
+              </div>
+
+              <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-xs">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Puntualidad</span>
+                <div class="text-2xl md:text-3xl font-extrabold text-[#016398] font-heading mt-1">96%</div>
+                <p class="text-[11px] text-teal-700 mt-1 font-semibold">Cumplimiento SLA RNF-01</p>
+              </div>
+            </div>
+
+            <!-- Split Section -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+              <!-- Left: Agenda del Turno -->
+              <div class="md:col-span-8 bg-white rounded-xl border border-slate-200 shadow-xs p-6">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                  <div>
+                    <h2 class="font-heading font-bold text-sm text-slate-900">Agenda Prioritaria de Atención</h2>
+                    <p class="text-xs text-slate-500">Pacientes citados para atención médica inmediata en Box 03</p>
+                  </div>
+                  <button onclick="navigateTo('vista-hu08-agenda-citas')" class="text-xs font-bold text-[#016398] hover:underline">
+                    Ver Agenda Completa (HU-08) &rarr;
+                  </button>
+                </div>
+
+                <div class="space-y-2">
+                  <div class="p-3 rounded-xl bg-amber-50/70 border border-amber-200 flex items-center justify-between">
+                    <div>
+                      <span class="text-xs font-bold text-slate-900">08:30 AM &bull; Carlos Mendoza Pérez</span>
+                      <p class="text-[11px] text-slate-500">CC 1020029712 &bull; Control Hipertensión &bull; <strong class="text-amber-800">En Sala (Box 03)</strong></p>
+                    </div>
+                    <button onclick="llamarPacienteBox('CT-4091', 'PAC-1020029712')" class="px-3 py-1.5 bg-[#016398] text-white text-xs font-bold rounded-lg shadow-xs hover:bg-[#002C3A]">
+                      Atender (HU-09)
+                    </button>
+                  </div>
+
+                  <div class="p-3 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
+                    <div>
+                      <span class="text-xs font-bold text-slate-900">09:00 AM &bull; Laura Valentina Rivas</span>
+                      <p class="text-[11px] text-slate-500">CC 52891044 &bull; Evaluación Arritmia &bull; <span class="text-amber-700 font-semibold">En Sala</span></p>
+                    </div>
+                    <button onclick="navigateTo('vista-hu10-expediente-clinico', { patientId: 'PAC-52891044' })" class="px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-200">
+                      Ver Ficha
+                    </button>
+                  </div>
+
+                  <div class="p-3 rounded-xl bg-white border border-slate-200 flex items-center justify-between">
+                    <div>
+                      <span class="text-xs font-bold text-slate-900">10:00 AM &bull; Andrés Felipe Torres</span>
+                      <p class="text-[11px] text-slate-500">CC 79841203 &bull; Lectura ECG &bull; <span class="text-sky-700 font-semibold">Agendada</span></p>
+                    </div>
+                    <button onclick="navigateTo('vista-hu10-expediente-clinico', { patientId: 'PAC-79841203' })" class="px-3 py-1.5 bg-slate-100 text-slate-700 text-xs font-semibold rounded-lg hover:bg-slate-200">
+                      Ver Ficha
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Quick actions -->
+              <div class="md:col-span-4 space-y-4">
+                <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-5">
+                  <h3 class="font-heading font-bold text-xs uppercase tracking-wider text-slate-500 mb-3">Accesos Directos</h3>
+                  <div class="grid grid-cols-2 gap-2">
+                    <button onclick="navigateTo('vista-hu01-registro-paciente')" class="p-3 rounded-xl border border-slate-200 hover:border-[#016398] hover:bg-sky-50 transition text-center">
+                      <div class="text-sm font-bold text-slate-800">+ Paciente</div>
+                      <span class="text-[10px] text-slate-400">HU-01</span>
+                    </button>
+                    <button onclick="navigateTo('vista-hu07-agendar-cita')" class="p-3 rounded-xl border border-slate-200 hover:border-[#016398] hover:bg-sky-50 transition text-center">
+                      <div class="text-sm font-bold text-slate-800">+ Cita</div>
+                      <span class="text-[10px] text-slate-400">HU-07</span>
+                    </button>
+                    <button onclick="navigateTo('vista-consultas-disponibilidad')" class="p-3 rounded-xl border border-slate-200 hover:border-[#016398] hover:bg-sky-50 transition text-center">
+                      <div class="text-sm font-bold text-slate-800">Franjas</div>
+                      <span class="text-[10px] text-slate-400">RN-02</span>
+                    </button>
+                    <button onclick="navigateTo('vista-hu10-expediente-clinico')" class="p-3 rounded-xl border border-slate-200 hover:border-[#016398] hover:bg-sky-50 transition text-center">
+                      <div class="text-sm font-bold text-slate-800">Expediente</div>
+                      <span class="text-[10px] text-slate-400">HU-10</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-slate-900 to-[#002C3A] text-white p-5 rounded-xl shadow-xs">
+                  <h3 class="font-heading font-bold text-xs uppercase tracking-wider text-teal-300 mb-2">Avisos Institucionales</h3>
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    Recordar registrar signos vitales completos antes de finalizar el acto médico en el formulario HU-09.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               02. VISTA DASHBOARD RECEPCIÓN
+               ================================================================ -->
+          <section id="vista-dashboard-recepcion" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">Dashboard de Recepción y Sala de Espera</h1>
+                <p class="text-xs text-slate-500">Control de check-in, admisiones y flujo de pacientes en tiempo real.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu01-registro-paciente')" class="px-4 py-2 bg-[#016398] text-white font-bold text-xs rounded-xl shadow-sm hover:bg-[#002C3A]">
+                + Admisión Rápida (HU-01)
+              </button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+              <div class="bg-white p-4 rounded-xl border border-amber-200 bg-amber-50/30">
+                <span class="text-xs text-amber-800 font-bold uppercase">Pacientes en Sala</span>
+                <div id="kpi-recepcion-espera" class="text-3xl font-extrabold text-amber-600 mt-1 font-heading">0</div>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-slate-200">
+                <span class="text-xs text-slate-500 font-bold uppercase">Citas Programadas Hoy</span>
+                <div id="kpi-recepcion-total" class="text-3xl font-extrabold text-slate-900 mt-1 font-heading">0</div>
+              </div>
+              <div class="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/30">
+                <span class="text-xs text-emerald-800 font-bold uppercase">Promedio Espera</span>
+                <div class="text-3xl font-extrabold text-emerald-600 mt-1 font-heading">14 min</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+              <!-- Sala de Espera Activa -->
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+                <h2 class="text-sm font-bold text-slate-900 font-heading mb-3">Pacientes en Sala (Check-in Listo)</h2>
+                <div id="recepcion-espera-list" class="space-y-2"></div>
+              </div>
+
+              <!-- Citas Próximas por Llegar -->
+              <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
+                <h2 class="text-sm font-bold text-slate-900 font-heading mb-3">Próximas Citas por Llegar (Hacer Check-In)</h2>
+                <div id="recepcion-proximas-list" class="space-y-2"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               03. VISTA DASHBOARD MÉDICO BOX
+               ================================================================ -->
+          <section id="vista-dashboard-medico" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">Estación de Trabajo Médica &bull; Consultorio 03</h1>
+                <p class="text-xs text-slate-500">Dr. Roberto Gómez (Cardiología) &bull; Pacientes listos para llamado.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu08-agenda-citas')" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl">
+                Ver Agenda del Box
+              </button>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-6 shadow-xs">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-200 text-amber-900 uppercase">Cola de Llamado</span>
+                  <h2 class="text-base font-bold text-slate-900 font-heading mt-1">Pacientes en Espera para Box 03 (<span id="kpi-medico-espera">0</span>)</h2>
+                </div>
+              </div>
+              <div id="medico-espera-list" class="space-y-2"></div>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               04. VISTA HU-01: REGISTRAR PACIENTE
+               ================================================================ -->
+          <section id="vista-hu01-registro-paciente" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">HU-01: Registrar Nuevo Paciente</h1>
+                <p class="text-xs text-slate-500">Formulario de admisión con validación obligatoria y generación de ID PAC-&lt;cédula&gt;.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu02-directorio-pacientes')" class="text-xs font-bold text-[#016398] hover:underline">
+                &larr; Volver al Directorio
+              </button>
+            </div>
+
+            <form id="form-hu01-registro-paciente" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Tipo de Documento *</label>
+                  <select name="tipoDoc" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <option value="CC" selected>Cédula de Ciudadanía (CC)</option>
+                    <option value="TI">Tarjeta de Identidad (TI)</option>
+                    <option value="CE">Cédula de Extranjería (CE)</option>
+                    <option value="PAS">Pasaporte (PAS)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Número de Documento *</label>
+                  <input type="text" name="numeroDoc" required placeholder="Ej. 1020029712" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium focus:bg-white focus:ring-2 focus:ring-teal-200 outline-none">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Fecha de Nacimiento *</label>
+                  <input type="date" name="fechaNacimiento" required value="1995-06-15" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Nombres *</label>
+                  <input type="text" name="nombres" required placeholder="Ej. Juan Carlos" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Apellidos *</label>
+                  <input type="text" name="apellidos" required placeholder="Ej. Rodríguez Mora" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Sexo Biológico *</label>
+                  <select name="sexo" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Teléfono Móvil *</label>
+                  <input type="tel" name="telefono" required placeholder="Ej. 3101234567" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Correo Electrónico *</label>
+                  <input type="email" name="email" required placeholder="usuario@correo.com" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">EPS / Cobertura *</label>
+                  <select name="eps" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <option value="Sura Salud">Sura Salud</option>
+                    <option value="Sanitas EPS">Sanitas EPS</option>
+                    <option value="Compensar EPS">Compensar EPS</option>
+                    <option value="Nueva EPS">Nueva EPS</option>
+                    <option value="Particular">Particular / Prepago</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Dirección de Residencia</label>
+                  <input type="text" name="direccion" placeholder="Calle 123 # 45-67, Bogotá" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Alergias Conocidas</label>
+                  <input type="text" name="alergias" placeholder="Ej. Penicilina, Yodo (o Ninguna)" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+              </div>
+
+              <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                <button type="button" onclick="navigateTo('vista-hu02-directorio-pacientes')" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl">
+                  Cancelar
+                </button>
+                <button type="submit" class="px-6 py-2.5 bg-[#016398] hover:bg-[#002C3A] text-white font-bold text-xs rounded-xl shadow-md transition">
+                  Guardar y Registrar Paciente (HU-01)
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- ================================================================
+               05. VISTA HU-02: DIRECTORIO DE PACIENTES
+               ================================================================ -->
+          <section id="vista-hu02-directorio-pacientes" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">HU-02: Directorio de Pacientes</h1>
+                <p class="text-xs text-slate-500">Listado maestro con búsqueda instantánea y acceso a expedientes clínicos.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu01-registro-paciente')" class="px-4 py-2 bg-[#016398] hover:bg-[#002C3A] text-white font-bold text-xs rounded-xl shadow-sm">
+                + Nuevo Paciente (HU-01)
+              </button>
+            </div>
+
+            <!-- Search bar -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+              <div class="w-80 relative">
+                <input id="pacientes-search-input" oninput="renderPacientesTable()" type="text" placeholder="Filtrar por cédula, nombre o EPS..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+              </div>
+              <span class="text-xs text-slate-500 font-medium">Búsqueda reactiva con persistencia local</span>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] tracking-wider border-b border-slate-100">
+                  <tr>
+                    <th class="p-3">ID Paciente</th>
+                    <th class="p-3">Nombre Completo</th>
+                    <th class="p-3">Documento</th>
+                    <th class="p-3">EPS</th>
+                    <th class="p-3">Estado</th>
+                    <th class="p-3 text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="pacientes-table-body" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               06. VISTA HU-03: ACTUALIZAR PACIENTE
+               ================================================================ -->
+          <section id="vista-hu03-actualizar-paciente" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">HU-03: Actualizar Datos de Paciente</h1>
+                <p class="text-xs text-slate-500">Modificación de información de contacto, cobertura médica y antecedentes.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu02-directorio-pacientes')" class="text-xs font-bold text-[#016398] hover:underline">
+                &larr; Volver al Directorio
+              </button>
+            </div>
+
+            <form id="form-hu03-actualizar-paciente" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+              <input type="hidden" id="edit-paciente-id">
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-500 mb-1">Documento (No editable)</label>
+                  <input type="text" id="edit-paciente-doc" readonly class="w-full px-3 py-2 bg-slate-100 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-500 mb-1">Nombres</label>
+                  <input type="text" id="edit-paciente-nombres" readonly class="w-full px-3 py-2 bg-slate-100 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Teléfono Móvil *</label>
+                  <input type="tel" id="edit-paciente-telefono" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Correo Electrónico *</label>
+                  <input type="email" id="edit-paciente-email" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Dirección de Residencia</label>
+                  <input type="text" id="edit-paciente-direccion" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">EPS / Aseguradora</label>
+                  <select id="edit-paciente-eps" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <option value="Sura Salud">Sura Salud</option>
+                    <option value="Sanitas EPS">Sanitas EPS</option>
+                    <option value="Compensar EPS">Compensar EPS</option>
+                    <option value="Nueva EPS">Nueva EPS</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Alergias Clínicas (Alerta Roja)</label>
+                <input type="text" id="edit-paciente-alergias" class="w-full px-3 py-2 bg-red-50 border border-red-300 rounded-lg text-xs font-semibold text-red-900">
+              </div>
+
+              <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                <button type="button" onclick="navigateTo('vista-hu02-directorio-pacientes')" class="px-5 py-2.5 bg-slate-100 text-slate-700 font-semibold text-xs rounded-xl">Cancelar</button>
+                <button type="submit" class="px-6 py-2.5 bg-[#016398] hover:bg-[#002C3A] text-white font-bold text-xs rounded-xl shadow-md">
+                  Guardar Cambios (HU-03)
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- ================================================================
+               07. VISTA HU-04: REGISTRAR MÉDICO
+               ================================================================ -->
+          <section id="vista-hu04-registro-medico" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">HU-04: Registrar Facultativo / Médico</h1>
+                <p class="text-xs text-slate-500">Alta de personal de la salud con registro médico único y asignación de consultorio.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu05-directorio-medicos')" class="text-xs font-bold text-[#016398] hover:underline">
+                &larr; Ver Directorio Médico
+              </button>
+            </div>
+
+            <form id="form-hu04-registrar-medico" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Nombres *</label>
+                  <input type="text" name="nombres" required placeholder="Ej. Roberto" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Apellidos *</label>
+                  <input type="text" name="apellidos" required placeholder="Ej. Gómez Valenzuela" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Registro Médico (Colegiado) *</label>
+                  <input type="text" name="registroMedico" required placeholder="RM-XXXXXX-BOG" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Especialidad Médica *</label>
+                  <select name="especialidad" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <option value="Cardiología">Cardiología</option>
+                    <option value="Medicina General">Medicina General</option>
+                    <option value="Neurología">Neurología</option>
+                    <option value="Pediatría">Pediatría</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Consultorio Asignado *</label>
+                  <select name="consultorio" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <option value="Box 01">Box 01</option>
+                    <option value="Box 02">Box 02</option>
+                    <option value="Box 03">Box 03</option>
+                    <option value="Box 04">Box 04</option>
+                    <option value="Box 05">Box 05</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Turno de Atención *</label>
+                  <select name="turno" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <option value="Mañana (07:00 - 13:00)">Mañana (07:00 - 13:00)</option>
+                    <option value="Tarde (13:00 - 19:00)">Tarde (13:00 - 19:00)</option>
+                    <option value="Jornada Completa">Jornada Completa</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Correo Institucional *</label>
+                  <input type="email" name="email" required placeholder="medico@clinigest.com" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Teléfono Móvil *</label>
+                  <input type="tel" name="telefono" required placeholder="3100000000" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                </div>
+              </div>
+
+              <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                <button type="submit" class="px-6 py-2.5 bg-[#016398] hover:bg-[#002C3A] text-white font-bold text-xs rounded-xl shadow-md">
+                  Dar de Alta Facultativo (HU-04)
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- ================================================================
+               08. VISTA HU-05: DIRECTORIO MÉDICO
+               ================================================================ -->
+          <section id="vista-hu05-directorio-medicos" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">HU-05: Directorio y Cuerpo Médico</h1>
+                <p class="text-xs text-slate-500">Listado de profesionales habilitados, especialidades y asignación de boxes.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu04-registro-medico')" class="px-4 py-2 bg-[#016398] text-white font-bold text-xs rounded-xl shadow-sm">
+                + Nuevo Facultativo (HU-04)
+              </button>
+            </div>
+
+            <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] tracking-wider border-b border-slate-100">
+                  <tr>
+                    <th class="p-3">ID</th>
+                    <th class="p-3">Médico</th>
+                    <th class="p-3">Especialidad</th>
+                    <th class="p-3">Registro RM</th>
+                    <th class="p-3">Consultorio</th>
+                    <th class="p-3">Turno</th>
+                    <th class="p-3 text-right">Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="medicos-table-body" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               09. VISTA HU-07: AGENDAR CITA MÉDICA (RN-02)
+               ================================================================ -->
+          <section id="vista-hu07-agendar-cita" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">HU-07: Agendamiento de Citas Médicas</h1>
+                <p class="text-xs text-slate-500">Control de cupos de 30 minutos y prevención automática de traslapes (RN-02).</p>
+              </div>
+              <button onclick="navigateTo('vista-hu08-agenda-citas')" class="text-xs font-bold text-[#016398] hover:underline">
+                &larr; Ver Agenda General
+              </button>
+            </div>
+
+            <form id="form-hu07-agendar-cita" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Paciente Citado *</label>
+                  <select name="pacienteId" id="agendar-paciente-select" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold"></select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Médico Tratante & Especialidad *</label>
+                  <select name="medicoId" id="agendar-medico-select" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold"></select>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Fecha de la Cita *</label>
+                  <input type="date" name="fecha" required value="2026-11-10" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Franja Horaria de 30 min (RN-02) *</label>
+                  <select name="horaInicio" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
+                    <option value="08:00">08:00 - 08:30 AM (Ocupado Dr. Gómez)</option>
+                    <option value="08:30">08:30 - 09:00 AM (Ocupado Dr. Gómez)</option>
+                    <option value="09:00" selected>09:00 - 09:30 AM (Disponible)</option>
+                    <option value="09:30">09:30 - 10:00 AM (Disponible)</option>
+                    <option value="10:00">10:00 - 10:30 AM (Ocupado)</option>
+                    <option value="11:00">11:00 - 11:30 AM (Disponible)</option>
+                    <option value="11:30">11:30 - 12:00 PM (Disponible)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Tipo de Consulta *</label>
+                  <select name="tipoCita" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <option value="Presencial">Presencial (Consultorio)</option>
+                    <option value="Teleconsulta">Teleconsulta Virtual</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Motivo de Consulta Clínico *</label>
+                <textarea name="motivo" required rows="3" placeholder="Describa el motivo médico de la cita..." class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium"></textarea>
+              </div>
+
+              <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                <span class="text-xs text-amber-700 font-semibold bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+                  Regla RN-02: Se bloqueará automáticamente si existe colisión de horario.
+                </span>
+                <button type="submit" class="px-6 py-2.5 bg-[#016398] hover:bg-[#002C3A] text-white font-bold text-xs rounded-xl shadow-md transition">
+                  Confirmar y Reservar Cita (HU-07)
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- ================================================================
+               10. VISTA HU-08: AGENDA GENERAL DE CITAS (RN-03)
+               ================================================================ -->
+          <section id="vista-hu08-agenda-citas" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">HU-08: Agenda General de Citas</h1>
+                <p class="text-xs text-slate-500">Monitoreo de turnos, llamado de pacientes y cancelación con motivo obligatorio (RN-03).</p>
+              </div>
+              <button onclick="navigateTo('vista-hu07-agendar-cita')" class="px-4 py-2 bg-[#016398] text-white font-bold text-xs rounded-xl shadow-sm">
+                + Agendar Cita (HU-07)
+              </button>
+            </div>
+
+            <!-- Filter tabs -->
+            <div class="flex items-center gap-2 border-b border-slate-200 pb-2 text-xs">
+              <button onclick="renderAgendaTable('TODAS')" class="px-3 py-1.5 rounded-lg bg-[#016398] text-white font-bold">Todas</button>
+              <button onclick="renderAgendaTable('En Espera')" class="px-3 py-1.5 rounded-lg bg-amber-100 text-amber-900 font-bold">En Sala de Espera</button>
+              <button onclick="renderAgendaTable('Agendada')" class="px-3 py-1.5 rounded-lg bg-sky-100 text-sky-800 font-semibold">Agendadas</button>
+              <button onclick="renderAgendaTable('Atendida')" class="px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800 font-semibold">Atendidas</button>
+              <button onclick="renderAgendaTable('Cancelada')" class="px-3 py-1.5 rounded-lg bg-red-100 text-red-800 font-semibold">Canceladas</button>
+            </div>
+
+            <!-- Table -->
+            <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-slate-50 text-slate-500 font-bold uppercase text-[10px] tracking-wider border-b border-slate-100">
+                  <tr>
+                    <th class="p-3">Cita ID</th>
+                    <th class="p-3">Horario</th>
+                    <th class="p-3">Paciente</th>
+                    <th class="p-3">Facultativo</th>
+                    <th class="p-3">Estado</th>
+                    <th class="p-3 text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="agenda-table-body" class="divide-y divide-slate-100"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               11. VISTA HU-09: ATENCIÓN CLÍNICA Y DIAGNÓSTICO
+               ================================================================ -->
+          <section id="vista-hu09-atencion-clinica" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">HU-09: Registro de Consulta y Diagnóstico</h1>
+                <p class="text-xs text-slate-500">Acto médico asistencial, signos vitales y prescripción farmacológica.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu08-agenda-citas')" class="text-xs font-bold text-[#016398] hover:underline">
+                &larr; Volver a la Agenda
+              </button>
+            </div>
+
+            <!-- Patient header banner -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-[#002C3A] text-white flex items-center justify-center font-bold text-base">
+                  PAC
+                </div>
+                <div>
+                  <h2 id="consulta-paciente-nombre" class="font-heading font-extrabold text-base text-slate-900">Carlos Alberto Mendoza Pérez</h2>
+                  <p id="consulta-paciente-info" class="text-xs text-slate-500">CC 1020029712 &bull; 42 años &bull; EPS: Sura Salud</p>
+                </div>
+              </div>
+
+              <!-- Critical Allergy Banner -->
+              <div class="px-3.5 py-2 rounded-xl bg-red-100 border border-red-300 text-red-900 flex items-center gap-2">
+                <span class="font-bold text-xs uppercase tracking-wide">⚠️ Alergia Crítica:</span>
+                <span id="consulta-alergias-banner" class="text-xs font-extrabold">Penicilina</span>
+              </div>
+            </div>
+
+            <!-- Medical Form -->
+            <form id="form-hu09-atencion-clinica" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+              
+              <!-- Signos Vitales -->
+              <div>
+                <h3 class="font-heading font-bold text-xs uppercase tracking-wider text-slate-500 mb-2">1. Signos Vitales del Paciente</h3>
+                <div class="grid grid-cols-6 gap-3">
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-700 mb-1">PA (mmHg) *</label>
+                    <input type="text" name="pa" value="130/85" required class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-700 mb-1">FC (lpm) *</label>
+                    <input type="number" name="fc" value="78" required class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Temp (°C) *</label>
+                    <input type="text" name="temp" value="36.7" required class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-700 mb-1">SatO2 (%) *</label>
+                    <input type="number" name="sato2" value="98" required class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Peso (kg) *</label>
+                    <input type="text" name="peso" value="81.5" required class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
+                  </div>
+                  <div>
+                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Talla (cm) *</label>
+                    <input type="number" name="talla" value="175" required class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Anamnesis y Examen Físico -->
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Anamnesis / Evolución Clínica *</label>
+                  <textarea name="anamnesis" required rows="3" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">Paciente asiste a control médico programado. Refiere buena tolerancia al tratamiento farmacológico antihipertensivo sin efectos adversos.</textarea>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Exploración Física *</label>
+                  <textarea name="exploracion" required rows="3" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">Paciente alerta, orientado. Ruidos cardiacos rítmicos sin soplos audibles. Murmullo vesicular conservado en ambos campos pulmonares.</textarea>
+                </div>
+              </div>
+
+              <!-- Diagnóstico CIE-10 -->
+              <div class="grid grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Código CIE-10 *</label>
+                  <input type="text" name="cie10Codigo" value="I10" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
+                </div>
+                <div class="col-span-2">
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Descripción del Diagnóstico *</label>
+                  <input type="text" name="cie10Desc" value="Hipertensión esencial (primaria)" required class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800">
+                </div>
+              </div>
+
+              <!-- Plan y Prescripción -->
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">Plan de Tratamiento y Recomendaciones *</label>
+                  <textarea name="tratamiento" required rows="3" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">Continuar Losartán 50mg cada 12 horas. Reducir ingesta de sodio. Control de presión domiciliaria y cita en 90 días.</textarea>
+                </div>
+                <div class="space-y-2">
+                  <label class="block text-xs font-bold text-slate-700">Prescripción Farmacológica (Receta)</label>
+                  <div class="grid grid-cols-2 gap-2">
+                    <input type="text" name="med1" value="Losartán Potásico" placeholder="Medicamento" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <input type="text" name="dosis1" value="50 mg" placeholder="Dosis" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <input type="text" name="freq1" value="Cada 12 horas" placeholder="Frecuencia" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                    <input type="text" name="dur1" value="90 días" placeholder="Duración" class="px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium">
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                <button type="submit" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-md transition">
+                  ✓ Finalizar Consulta y Archivar en Expediente (HU-09)
+                </button>
+              </div>
+            </form>
+          </section>
+
+          <!-- ================================================================
+               12. VISTA HU-10: EXPEDIENTE CLÍNICO INTEGRAL
+               ================================================================ -->
+          <section id="vista-hu10-expediente-clinico" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">HU-10: Expediente Clínico de Paciente</h1>
+                <p class="text-xs text-slate-500">Historial médico cronológico, evolución, alertas y prescripciones.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu02-directorio-pacientes')" class="text-xs font-bold text-[#016398] hover:underline">
+                &larr; Volver al Directorio
+              </button>
+            </div>
+
+            <!-- Patient Summary Card -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+              <div class="flex items-start justify-between pb-4 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-4">
+                  <div class="w-14 h-14 rounded-2xl bg-[#002C3A] text-white flex items-center justify-center font-extrabold text-xl">
+                    EXP
+                  </div>
+                  <div>
+                    <h2 id="expediente-paciente-nombre" class="font-heading font-extrabold text-lg text-slate-900">Carlos Alberto Mendoza Pérez</h2>
+                    <p class="text-xs text-slate-500">
+                      ID: <span id="expediente-paciente-id" class="font-mono font-bold text-slate-800">PAC-1020029712</span> &bull; 
+                      Doc: <span id="expediente-paciente-doc">CC 1020029712</span> &bull; 
+                      Edad: <span id="expediente-paciente-edad">42 años</span> &bull; 
+                      EPS: <span id="expediente-paciente-eps" class="font-semibold text-[#016398]">Sura Salud</span>
+                    </p>
+                  </div>
+                </div>
+                <button onclick="navigateTo('vista-hu07-agendar-cita')" class="px-4 py-2 bg-[#016398] text-white font-bold text-xs rounded-xl shadow-xs">
+                  + Nueva Cita
+                </button>
+              </div>
+
+              <!-- Red Allergy Alert -->
+              <div class="p-3.5 rounded-xl bg-red-100 border border-red-300 text-red-900 flex items-center gap-3">
+                <span class="text-base font-bold">⚠️</span>
+                <div>
+                  <span class="font-bold text-xs uppercase tracking-wide">Alerta Clínica Severa:</span>
+                  <span id="expediente-alergias-texto" class="text-xs font-semibold ml-1">Penicilina (Reacción Anafiláctica Severa)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chronological Timeline -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+              <h3 class="font-heading font-bold text-sm text-slate-900 mb-4">Evolución Médica Cronológica (Timeline)</h3>
+              <div id="expediente-timeline" class="space-y-4"></div>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               13. VISTA MATRIZ DE DISPONIBILIDAD (RN-02)
+               ================================================================ -->
+          <section id="vista-consultas-disponibilidad" class="view-section hidden space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h1 class="text-xl font-bold text-slate-900 font-heading">Consultas: Matriz de Disponibilidad (RN-02)</h1>
+                <p class="text-xs text-slate-500">Grilla interactiva de franjas de 30 minutos sin traslapes ni colisiones.</p>
+              </div>
+              <button onclick="navigateTo('vista-hu07-agendar-cita')" class="px-4 py-2 bg-[#016398] text-white font-bold text-xs rounded-xl shadow-sm">
+                + Ir a Agendar Cita
+              </button>
+            </div>
+
+            <!-- Doctor Selector -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex items-center justify-between">
+              <div class="flex items-center gap-4">
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-400 uppercase">Especialista</label>
+                  <span class="text-xs font-bold text-slate-900">Dr. Roberto Gómez (Box 03 - Cardiología)</span>
+                </div>
+                <div>
+                  <label class="block text-[10px] font-bold text-slate-400 uppercase">Fecha Seleccionada</label>
+                  <span class="text-xs font-bold text-[#016398]">Lunes, 10 de Noviembre 2026</span>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                4 Franjas Disponibles Hoy
+              </span>
+            </div>
+
+            <!-- Slots Grid -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4 text-xs">
+                <span class="font-bold text-slate-800">Horarios del Turno Mañana (08:00 a 12:00)</span>
+                <div class="flex items-center gap-3">
+                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Libre</span>
+                  <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span> Ocupado</span>
+                </div>
+              </div>
+              <div id="disponibilidad-slots-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               14. VISTA FEEDBACK, NOTIFICACIONES Y MENSAJES
+               ================================================================ -->
+          <section id="vista-mensajes-feedback" class="view-section hidden space-y-6">
+            <div>
+              <h1 class="text-xl font-bold text-slate-900 font-heading">Catálogo de Feedback, Toasts y Alertas</h1>
+              <p class="text-xs text-slate-500">Patrones visuales estandarizados para la comunicación con el usuario asistencial.</p>
+            </div>
+
+            <!-- Interactive Toast Trigger Buttons -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+              <h2 class="font-heading font-bold text-sm text-slate-900">Probar Notificaciones Flotantes (Toasts)</h2>
+              <div class="flex flex-wrap items-center gap-3">
+                <button onclick="showToast('success', 'Operación Exitosa', 'Paciente PAC-1020029712 registrado en el sistema.')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-sm">
+                  Lanzar Toast Éxito (Success)
+                </button>
+                <button onclick="showToast('warning', 'Alerta Operativa', 'Tiempo de espera en sala superior a 20 minutos.')" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl shadow-sm">
+                  Lanzar Toast Alerta (Warning)
+                </button>
+                <button onclick="showToast('danger', 'Conflicto RN-02', 'El médico ya tiene una cita en ese bloque de 30 minutos.')" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-sm">
+                  Lanzar Toast Error (Danger)
+                </button>
+                <button onclick="showToast('info', 'Sincronización', 'Expediente clínico sincronizado con PostgreSQL 16.')" class="px-4 py-2 bg-[#016398] hover:bg-[#002C3A] text-white font-bold text-xs rounded-xl shadow-sm">
+                  Lanzar Toast Info
+                </button>
+              </div>
+            </div>
+
+            <!-- Empty State Preview -->
+            <div class="bg-white p-8 rounded-2xl border border-slate-200 text-center shadow-xs">
+              <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center mb-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <h3 class="font-heading font-bold text-sm text-slate-800">Estado Vacío (Empty State)</h3>
+              <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                No hay citas médicas canceladas en este periodo. La agenda se encuentra con flujo normal.
+              </p>
+            </div>
+          </section>
+
+          <!-- ================================================================
+               15. VISTA ERROR 404 NO ENCONTRADO
+               ================================================================ -->
+          <section id="vista-error-404" class="view-section hidden py-12 text-center space-y-4">
+            <div class="w-20 h-20 rounded-3xl bg-teal-50 border border-teal-200 text-[#016398] mx-auto flex items-center justify-center shadow-inner">
+              <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/></svg>
+            </div>
+            <div>
+              <span class="text-xs font-bold text-[#016398] uppercase tracking-wider">Error 404</span>
+              <h2 class="text-2xl font-bold text-slate-900 font-heading mt-1">Ficha Clínica o Módulo No Encontrado</h2>
+              <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                El recurso solicitado no existe en la base de datos o ha sido reubicado por el administrador.
+              </p>
+            </div>
+            <button onclick="navigateTo('vista-inicio')" class="px-5 py-2.5 bg-[#016398] text-white font-bold text-xs rounded-xl shadow-md">
+              Volver al Inicio
+            </button>
+          </section>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL CANCELACIÓN DE CITA (RN-03 MOTIVO OBLIGATORIO)
+       ======================================================================== -->
+  <div id="modal-cancelacion-cita" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full p-6 space-y-4 animate-fade-in">
+      <div class="flex items-center gap-3 text-red-600 pb-3 border-b border-slate-100">
+        <div class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center font-bold text-lg">
+          ⚠️
+        </div>
+        <div>
+          <h3 class="font-heading font-extrabold text-base text-slate-900">¿Confirmar Cancelación de Cita?</h3>
+          <span class="text-xs text-red-600 font-semibold">Regla de Negocio RN-03: Liberación de cupo</span>
+        </div>
+      </div>
+
+      <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1">
+        <p><strong>Cita ID:</strong> <span id="cancelar-cita-id" class="font-mono"></span></p>
+        <p><strong>Paciente:</strong> <span id="cancelar-paciente-nombre"></span></p>
+        <p><strong>Médico:</strong> <span id="cancelar-medico-nombre"></span></p>
+        <p><strong>Horario:</strong> <span id="cancelar-fecha-hora"></span></p>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">Motivo Obligatorio de Cancelación * (RN-03)</label>
+        <textarea id="cancelar-motivo-input" rows="3" placeholder="Ej. Inasistencia del paciente reportada con antelación..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:bg-white focus:ring-2 focus:ring-red-300 outline-none"></textarea>
+        <span class="text-[10px] text-slate-400">Mínimo 5 caracteres para auditoría clínica.</span>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button onclick="closeModalCancelacion()" class="px-4 py-2 bg-slate-100 text-slate-700 font-semibold text-xs rounded-xl hover:bg-slate-200">
+          Conservar Cita
+        </button>
+        <button onclick="confirmarCancelacionCita()" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl shadow-md transition">
+          Confirmar y Liberar Cupo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       MODAL OMNIBAR BÚSQUEDA GLOBAL (Ctrl + K)
+       ======================================================================== -->
+  <div id="modal-omnibar" class="fixed inset-0 bg-[#001C25]/80 backdrop-blur-sm hidden z-50 flex items-start justify-center pt-20 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-2xl w-full overflow-hidden flex flex-col animate-fade-in">
+      <div class="p-4 border-b border-slate-100 flex items-center gap-3 bg-slate-50">
+        <svg class="w-5 h-5 text-[#016398] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+        <input id="omnibar-input" type="text" placeholder="Buscar por cédula, nombre, médico o cita..." class="flex-1 bg-transparent font-heading font-semibold text-base text-slate-900 outline-none">
+        <kbd onclick="closeOmnibar()" class="px-2 py-0.5 text-xs font-bold text-slate-400 bg-white border border-slate-200 rounded cursor-pointer">ESC</kbd>
+      </div>
+
+      <div id="omnibar-results" class="max-h-96 overflow-y-auto p-4 space-y-2"></div>
+
+      <div class="p-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 px-4">
+        <span>Usa ↑↓ para navegar • Enter para seleccionar</span>
+        <span class="text-teal-700 font-semibold">PostgreSQL Trigram Search Mock</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       CONTAINER DE TOASTS FLOTANTES
+       ======================================================================== -->
+  <div id="toast-container" class="fixed top-20 right-8 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
