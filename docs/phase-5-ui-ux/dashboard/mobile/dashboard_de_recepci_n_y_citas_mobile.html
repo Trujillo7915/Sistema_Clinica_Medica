@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <meta name="shell-type" content="mobile_tab"/>
+  <title>Dashboard Recepción y Citas - CliniGest Mobile</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#004357",
+            "primary-container": "#0d5c75",
+            "on-primary": "#ffffff",
+            "secondary": "#006398",
+            "secondary-container": "#e0f2fe",
+            "surface": "#f8f9ff",
+            "surface-dim": "#cbdbf5",
+            "surface-bright": "#f8f9ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#eff4ff",
+            "surface-container": "#e5eeff",
+            "on-surface": "#0b1c30",
+            "on-surface-variant": "#40484c",
+            "outline": "#70787d",
+            "outline-variant": "#bfc8cd",
+            "border-subtle": "#E2E8F0",
+            "canvas-bg": "#F8FAFC",
+            "status-scheduled-text": "#0369A1",
+            "status-scheduled-bg": "#E0F2FE",
+            "status-waiting-text": "#D97706",
+            "status-waiting-bg": "#FEF3C7",
+            "status-attended-text": "#047857",
+            "status-attended-bg": "#D1FAE5",
+            "status-canceled-text": "#DC2626",
+            "status-canceled-bg": "#FEE2E2",
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+          },
+          fontSize: {
+            "headline-xl": ["26px", { lineHeight: "34px", fontWeight: "700" }],
+            "headline-lg": ["22px", { lineHeight: "28px", fontWeight: "700" }],
+            "headline-md": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+            "title-md": ["15px", { lineHeight: "20px", fontWeight: "600" }],
+            "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "body-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }],
+            "label-md": ["12px", { lineHeight: "16px", fontWeight: "600" }],
+            "label-sm": ["11px", { lineHeight: "14px", fontWeight: "500" }],
+            "tabular": ["14px", { lineHeight: "18px", fontWeight: "600" }],
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        background-color: #F8FAFC;
+        font-family: 'Inter', sans-serif;
+        color: #0b1c30;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .font-tabular {
+        font-feature-settings: "tnum";
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    }
+  </style>
+</head>
+<body class="bg-canvas-bg min-h-screen pb-28 antialiased text-on-surface">
+
+  <!-- 1. Header Móvil Compacto -->
+  <header class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-b border-border-subtle shadow-[0_1px_6px_rgba(11,28,48,0.03)]">
+    <div class="h-16 px-4 flex items-center justify-between">
+      <!-- Marca & Indicador de Recepción -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-white shadow-sm">
+          <span class="material-symbols-outlined text-[22px]">local_hospital</span>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-1.5">
+            <span class="font-headline text-[17px] font-bold text-primary tracking-tight leading-none">CliniGest</span>
+            <span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-secondary-container text-secondary uppercase tracking-wider">Recepción</span>
+          </div>
+          <span class="text-[11px] text-on-surface-variant font-medium mt-0.5">Sede Central • Turno Mañana</span>
+        </div>
+      </div>
+
+      <!-- Herramientas: Búsqueda rápida, Notificación y Avatar Activo -->
+      <div class="flex items-center gap-1">
+        <button aria-label="Buscar paciente o cita" onclick="toggleSearch()" class="w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-slate-100 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[20px]">search</span>
+        </button>
+        <button aria-label="Notificaciones" class="relative w-9 h-9 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-slate-100 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-[20px]">notifications</span>
+          <span class="absolute 1 top-2 right-2 w-2 h-2 rounded-full bg-status-canceled-text ring-2 ring-white"></span>
+        </button>
+        <!-- Avatar Recepcionista Activa con Badge de Turno -->
+        <div class="relative ml-1 flex items-center" title="Marcela Vidal - Recepción Activa">
+          <div class="w-9 h-9 rounded-full bg-primary/10 border border-primary/20 text-primary font-bold text-xs flex items-center justify-center uppercase font-headline">
+            MV
+          </div>
+          <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white" title="Turno Activo"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Barra de Búsqueda Desplegable Rápida -->
+    <div id="search-bar" class="hidden px-4 py-2 bg-slate-50 border-t border-border-subtle animate-fadeIn">
+      <div class="relative flex items-center">
+        <span class="material-symbols-outlined absolute left-3 text-slate-400 text-[18px]">search</span>
+        <input id="input-busqueda" type="text" placeholder="Buscar por Paciente, RUT o Folio..." oninput="filtrarPorTexto(this.value)" class="w-full h-9 pl-9 pr-8 rounded-lg bg-white border border-border-subtle text-xs text-on-surface placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-secondary"/>
+        <button onclick="toggleSearch()" class="absolute right-2.5 text-slate-400 hover:text-slate-600">
+          <span class="material-symbols-outlined text-[16px]">close</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Espaciador de encabezado -->
+  <div class="h-16"></div>
+
+  <!-- Contenido Principal -->
+  <main class="px-4 py-3 flex flex-col gap-3.5 max-w-[430px] mx-auto">
+
+    <!-- 7. Alerta Compacta de Disponibilidad / RN-02 -->
+    <section class="bg-white rounded-xl p-3 border border-border-subtle shadow-sm flex items-center justify-between gap-2.5">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-8 h-8 rounded-lg bg-emerald-50 text-status-attended-text flex items-center justify-center flex-shrink-0">
+          <span class="material-symbols-outlined text-[19px]">meeting_room</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <div class="flex items-center gap-1.5">
+            <span class="text-xs font-bold text-on-surface truncate">Agenda Médica: Boxes Activos</span>
+            <span class="inline-flex items-center px-1.5 py-0.2 rounded-full text-[10px] font-semibold bg-emerald-100 text-status-attended-text">RN-02</span>
+          </div>
+          <p class="text-[11px] text-slate-500 truncate">2 médicos con box disponible para turno inmediato</p>
+        </div>
+      </div>
+      <button onclick="mostrarDisponibilidad()" class="flex-shrink-0 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-primary text-[11px] font-semibold active:scale-95 transition-all">
+        Ver
+      </button>
+    </section>
+
+    <!-- 4. Tarjetas Métricas del Día (Grid 2x2 Compacto) -->
+    <section>
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="font-headline text-[15px] font-bold text-on-surface">Resumen de Turno</h2>
+        <span class="text-[11px] text-slate-500 font-medium">Hoy, 24 Octubre</span>
+      </div>
+      <div class="grid grid-cols-2 gap-2.5">
+        <!-- Programadas -->
+        <div onclick="filtrarCitas('agendada')" class="bg-white rounded-xl p-3 border border-border-subtle shadow-sm flex flex-col justify-between active:scale-[0.98] transition-transform cursor-pointer">
+          <div class="flex items-center justify-between text-slate-500">
+            <span class="text-[12px] font-semibold">Programadas</span>
+            <span class="material-symbols-outlined text-[18px] text-primary">calendar_month</span>
+          </div>
+          <div class="mt-1 flex items-baseline justify-between">
+            <span class="font-headline font-tabular text-[24px] font-extrabold text-primary">24</span>
+            <span class="text-[10px] font-medium text-slate-400">100% cupo</span>
+          </div>
+        </div>
+
+        <!-- En Espera -->
+        <div onclick="filtrarCitas('espera')" class="bg-white rounded-xl p-3 border border-border-subtle shadow-sm flex flex-col justify-between active:scale-[0.98] transition-transform cursor-pointer border-l-4 border-l-status-waiting-text">
+          <div class="flex items-center justify-between text-status-waiting-text">
+            <span class="text-[12px] font-bold">En Espera</span>
+            <span class="inline-flex w-2 h-2 rounded-full bg-status-waiting-text animate-ping"></span>
+          </div>
+          <div class="mt-1 flex items-baseline justify-between">
+            <span class="font-headline font-tabular text-[24px] font-extrabold text-status-waiting-text">6</span>
+            <span class="text-[10px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded">En sala</span>
+          </div>
+        </div>
+
+        <!-- Atendidas -->
+        <div onclick="filtrarCitas('atendida')" class="bg-white rounded-xl p-3 border border-border-subtle shadow-sm flex flex-col justify-between active:scale-[0.98] transition-transform cursor-pointer">
+          <div class="flex items-center justify-between text-slate-500">
+            <span class="text-[12px] font-semibold">Atendidas</span>
+            <span class="material-symbols-outlined text-[18px] text-status-attended-text">check_circle</span>
+          </div>
+          <div class="mt-1 flex items-baseline justify-between">
+            <span class="font-headline font-tabular text-[24px] font-extrabold text-status-attended-text">14</span>
+            <span class="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">58% flujo</span>
+          </div>
+        </div>
+
+        <!-- Canceladas -->
+        <div onclick="filtrarCitas('cancelada')" class="bg-white rounded-xl p-3 border border-border-subtle shadow-sm flex flex-col justify-between active:scale-[0.98] transition-transform cursor-pointer">
+          <div class="flex items-center justify-between text-slate-500">
+            <span class="text-[12px] font-semibold">Canceladas</span>
+            <span class="material-symbols-outlined text-[18px] text-status-canceled-text">event_busy</span>
+          </div>
+          <div class="mt-1 flex items-baseline justify-between">
+            <span class="font-headline font-tabular text-[24px] font-extrabold text-status-canceled-text">4</span>
+            <span class="text-[10px] font-medium text-rose-700 bg-rose-50 px-1.5 py-0.5 rounded">HU-08</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Filtro Horizontal Deslizable tipo Pill -->
+    <section class="mt-1">
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1" id="tabs-filtro">
+        <button onclick="cambiarTabFiltro('todas', this)" class="filter-pill flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold bg-primary text-white shadow-sm transition-all">
+          Todas (24)
+        </button>
+        <button onclick="cambiarTabFiltro('espera', this)" class="filter-pill flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-border-subtle hover:bg-slate-50 transition-all">
+          En Espera (6)
+        </button>
+        <button onclick="cambiarTabFiltro('agendada', this)" class="filter-pill flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-border-subtle hover:bg-slate-50 transition-all">
+          Agendadas (4)
+        </button>
+        <button onclick="cambiarTabFiltro('atendida', this)" class="filter-pill flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-border-subtle hover:bg-slate-50 transition-all">
+          Atendidas (14)
+        </button>
+        <button onclick="cambiarTabFiltro('cancelada', this)" class="filter-pill flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-border-subtle hover:bg-slate-50 transition-all">
+          Canceladas (2)
+        </button>
+      </div>
+    </section>
+
+    <!-- 6. Lista de Citas del Día (Mobile Cards) -->
+    <section class="flex flex-col gap-2.5 mt-0.5" id="citas-container">
+
+      <!-- Cita 1: Carlos Mendoza (En Espera) -->
+      <article class="cita-card bg-white rounded-xl p-3.5 border border-border-subtle shadow-sm flex flex-col gap-2.5 transition-all" data-status="espera" data-patient="Carlos Mendoza PAC-1082">
+        <!-- Encabezado Tarjeta: Horario y Estado -->
+        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-status-waiting-text animate-pulse"></span>
+            <span class="font-headline font-tabular text-[16px] font-bold text-primary">10:30 AM</span>
+            <span class="text-[11px] text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded font-medium">Hace 12 min</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-status-waiting-bg text-status-waiting-text">
+            En Espera
+          </span>
+        </div>
+
+        <!-- Información del Paciente y Médico -->
+        <div class="flex items-start justify-between gap-2">
+          <div class="flex items-start gap-2.5 min-w-0">
+            <div class="w-10 h-10 rounded-full bg-slate-100 text-primary font-bold text-xs flex items-center justify-center flex-shrink-0 border border-slate-200">
+              CM
+            </div>
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-1.5">
+                <h3 class="font-headline text-[15px] font-bold text-on-surface truncate">Carlos Mendoza</h3>
+                <span class="text-[10px] font-semibold text-slate-500 bg-slate-100 px-1 rounded">PAC-1082</span>
+              </div>
+              <p class="text-xs text-slate-600 truncate mt-0.5">Dra. Sofía Ramírez • <span class="font-medium text-primary">Cardiología (Box 304)</span></p>
+              <div class="flex items-center gap-2 mt-1 text-[11px] text-slate-500">
+                <span class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[13px] text-slate-400">call</span>
+                  +56 9 8812 4301
+                </span>
+                <span>•</span>
+                <span class="text-slate-500">Fonasa B</span>
+              </div>
+            </div>
+          </div>
+          <!-- Botón de Menú Opciones (HU-08) -->
+          <div class="relative">
+            <button onclick="toggleMenu('menu-carlos')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 active:scale-95" aria-label="Opciones de cita">
+              <span class="material-symbols-outlined text-[20px]">more_vert</span>
+            </button>
+            <div id="menu-carlos" class="hidden absolute right-0 top-8 z-30 w-44 bg-white rounded-xl shadow-xl border border-border-subtle py-1 text-xs font-medium animate-fadeIn">
+              <button onclick="reagendarCita('Carlos Mendoza')" class="w-full px-3 py-2 text-left text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px] text-secondary">edit_calendar</span>
+                Reagendar Horario
+              </button>
+              <button onclick="cancelarCita('Carlos Mendoza', 'PAC-1082')" class="w-full px-3 py-2 text-left text-status-canceled-text hover:bg-rose-50 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px]">cancel</span>
+                Cancelar Cita (HU-08)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones con el Pulgar -->
+        <div class="pt-1 flex items-center gap-2">
+          <button onclick="llamarBox('Carlos Mendoza', 'Box 304')" class="flex-1 h-9 rounded-lg bg-primary text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm active:scale-98 transition-all">
+            <span class="material-symbols-outlined text-[16px]">notifications_active</span>
+            Llamar a Box 304
+          </button>
+          <button onclick="tomarSignos('Carlos Mendoza')" class="h-9 px-3 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold flex items-center justify-center gap-1 hover:bg-slate-200 active:scale-98 transition-all">
+            <span class="material-symbols-outlined text-[16px] text-primary">vital_signs</span>
+            Triaje
+          </button>
+        </div>
+      </article>
+
+      <!-- Cita 2: Sofía Méndez (Agendada) -->
+      <article class="cita-card bg-white rounded-xl p-3.5 border border-border-subtle shadow-sm flex flex-col gap-2.5 transition-all" data-status="agendada" data-patient="Sofía Méndez PAC-1142">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-status-scheduled-text"></span>
+            <span class="font-headline font-tabular text-[16px] font-bold text-primary">11:15 AM</span>
+            <span class="text-[11px] text-slate-500 font-medium">En 35 min</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-status-scheduled-bg text-status-scheduled-text">
+            Agendada
+          </span>
+        </div>
+
+        <div class="flex items-start justify-between gap-2">
+          <div class="flex items-start gap-2.5 min-w-0">
+            <div class="w-10 h-10 rounded-full bg-slate-100 text-primary font-bold text-xs flex items-center justify-center flex-shrink-0 border border-slate-200">
+              SM
+            </div>
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-1.5">
+                <h3 class="font-headline text-[15px] font-bold text-on-surface truncate">Sofía Méndez</h3>
+                <span class="text-[10px] font-semibold text-slate-500 bg-slate-100 px-1 rounded">PAC-1142</span>
+              </div>
+              <p class="text-xs text-slate-600 truncate mt-0.5">Dra. Gina Lorenzini • <span class="font-medium text-primary">Pediatría (Box 105)</span></p>
+              <div class="flex items-center gap-2 mt-1 text-[11px] text-slate-500">
+                <span class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[13px] text-slate-400">call</span>
+                  +56 9 4432 0019
+                </span>
+                <span>•</span>
+                <span class="text-slate-500">Particular</span>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <button onclick="toggleMenu('menu-sofia')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 active:scale-95" aria-label="Opciones de cita">
+              <span class="material-symbols-outlined text-[20px]">more_vert</span>
+            </button>
+            <div id="menu-sofia" class="hidden absolute right-0 top-8 z-30 w-44 bg-white rounded-xl shadow-xl border border-border-subtle py-1 text-xs font-medium animate-fadeIn">
+              <button onclick="reagendarCita('Sofía Méndez')" class="w-full px-3 py-2 text-left text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px] text-secondary">edit_calendar</span>
+                Reagendar Horario
+              </button>
+              <button onclick="cancelarCita('Sofía Méndez', 'PAC-1142')" class="w-full px-3 py-2 text-left text-status-canceled-text hover:bg-rose-50 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px]">cancel</span>
+                Cancelar Cita (HU-08)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-1 flex items-center gap-2">
+          <button onclick="registrarLlegada('Sofía Méndez', this)" class="flex-1 h-9 rounded-lg bg-emerald-700 text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm active:scale-98 transition-all">
+            <span class="material-symbols-outlined text-[16px]">how_to_reg</span>
+            Registrar Llegada
+          </button>
+          <button onclick="verFicha('PAC-1142')" class="h-9 px-3 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold flex items-center justify-center gap-1 hover:bg-slate-200 active:scale-98 transition-all">
+            <span class="material-symbols-outlined text-[16px] text-secondary">id_card</span>
+            Ficha
+          </button>
+        </div>
+      </article>
+
+      <!-- Cita 3: Jorge Ramírez (En Espera) -->
+      <article class="cita-card bg-white rounded-xl p-3.5 border border-border-subtle shadow-sm flex flex-col gap-2.5 transition-all" data-status="espera" data-patient="Jorge Ramírez PAC-1088">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-status-waiting-text animate-pulse"></span>
+            <span class="font-headline font-tabular text-[16px] font-bold text-primary">11:30 AM</span>
+            <span class="text-[11px] text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded font-medium">Hace 5 min</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-status-waiting-bg text-status-waiting-text">
+            En Espera
+          </span>
+        </div>
+
+        <div class="flex items-start justify-between gap-2">
+          <div class="flex items-start gap-2.5 min-w-0">
+            <div class="w-10 h-10 rounded-full bg-slate-100 text-primary font-bold text-xs flex items-center justify-center flex-shrink-0 border border-slate-200">
+              JR
+            </div>
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-1.5">
+                <h3 class="font-headline text-[15px] font-bold text-on-surface truncate">Jorge Ramírez</h3>
+                <span class="text-[10px] font-semibold text-slate-500 bg-slate-100 px-1 rounded">PAC-1088</span>
+              </div>
+              <p class="text-xs text-slate-600 truncate mt-0.5">Dr. Ricardo Lagos • <span class="font-medium text-primary">Medicina General (Box 201)</span></p>
+              <div class="flex items-center gap-2 mt-1 text-[11px] text-slate-500">
+                <span class="flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[13px] text-slate-400">call</span>
+                  +56 9 7714 9081
+                </span>
+                <span>•</span>
+                <span class="text-slate-500">Banmédica</span>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <button onclick="toggleMenu('menu-jorge')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 active:scale-95" aria-label="Opciones de cita">
+              <span class="material-symbols-outlined text-[20px]">more_vert</span>
+            </button>
+            <div id="menu-jorge" class="hidden absolute right-0 top-8 z-30 w-44 bg-white rounded-xl shadow-xl border border-border-subtle py-1 text-xs font-medium animate-fadeIn">
+              <button onclick="reagendarCita('Jorge Ramírez')" class="w-full px-3 py-2 text-left text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px] text-secondary">edit_calendar</span>
+                Reagendar Horario
+              </button>
+              <button onclick="cancelarCita('Jorge Ramírez', 'PAC-1088')" class="w-full px-3 py-2 text-left text-status-canceled-text hover:bg-rose-50 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px]">cancel</span>
+                Cancelar Cita (HU-08)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-1 flex items-center gap-2">
+          <button onclick="llamarBox('Jorge Ramírez', 'Box 201')" class="flex-1 h-9 rounded-lg bg-primary text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm active:scale-98 transition-all">
+            <span class="material-symbols-outlined text-[16px]">notifications_active</span>
+            Llamar a Box 201
+          </button>
+          <button onclick="tomarSignos('Jorge Ramírez')" class="h-9 px-3 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold flex items-center justify-center gap-1 hover:bg-slate-200 active:scale-98 transition-all">
+            <span class="material-symbols-outlined text-[16px] text-primary">vital_signs</span>
+            Triaje
+          </button>
+        </div>
+      </article>
+
+      <!-- Cita 4: Valentina Ríos (Atendida) -->
+      <article class="cita-card bg-white/80 rounded-xl p-3.5 border border-border-subtle shadow-sm flex flex-col gap-2.5 transition-all opacity-90" data-status="atendida" data-patient="Valentina Ríos PAC-0994">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-status-attended-text"></span>
+            <span class="font-headline font-tabular text-[16px] font-bold text-slate-600">09:45 AM</span>
+            <span class="text-[11px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded font-medium">Finalizada 10:15</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-status-attended-bg text-status-attended-text flex items-center gap-1">
+            <span class="material-symbols-outlined text-[13px]">check</span>
+            Atendida
+          </span>
+        </div>
+
+        <div class="flex items-start justify-between gap-2">
+          <div class="flex items-start gap-2.5 min-w-0">
+            <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center flex-shrink-0 border border-slate-200">
+              VR
+            </div>
+            <div class="flex flex-col min-w-0">
+              <div class="flex items-center gap-1.5">
+                <h3 class="font-headline text-[15px] font-bold text-slate-700 truncate">Valentina Ríos</h3>
+                <span class="text-[10px] font-semibold text-slate-500 bg-slate-100 px-1 rounded">PAC-0994</span>
+              </div>
+              <p class="text-xs text-slate-500 truncate mt-0.5">Dra. Sofía Ramírez • <span class="text-slate-600">Ecocardiograma</span></p>
+              <div class="flex items-center gap-2 mt-1 text-[11px] text-slate-400">
+                <span>Isapre Colmena</span>
+                <span>•</span>
+                <span class="text-emerald-700 font-medium">Ficha cerrada (HU-09)</span>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <button onclick="toggleMenu('menu-valentina')" class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 active:scale-95" aria-label="Opciones de cita">
+              <span class="material-symbols-outlined text-[20px]">more_vert</span>
+            </button>
+            <div id="menu-valentina" class="hidden absolute right-0 top-8 z-30 w-44 bg-white rounded-xl shadow-xl border border-border-subtle py-1 text-xs font-medium animate-fadeIn">
+              <button onclick="verHistorial('Valentina Ríos', 'PAC-0994')" class="w-full px-3 py-2 text-left text-slate-700 hover:bg-slate-50 flex items-center gap-2">
+                <span class="material-symbols-outlined text-[16px] text-primary">clinical_notes</span>
+                Ver Historial (HU-10)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-1 flex items-center gap-2">
+          <button onclick="verComprobante('Valentina Ríos')" class="flex-1 h-9 rounded-lg bg-slate-100 text-slate-700 text-xs font-semibold flex items-center justify-center gap-1.5 hover:bg-slate-200 active:scale-98 transition-all">
+            <span class="material-symbols-outlined text-[16px] text-slate-500">receipt_long</span>
+            Comprobante de Atención
+          </button>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <!-- 2. Barra Flotante de Acción Rápida (FAB Agendar Cita HU-07) -->
+  <aside class="fixed bottom-20 right-4 z-40">
+    <button onclick="abrirModalAgendar()" class="h-13 px-4 py-3 rounded-full bg-primary hover:bg-primary-container text-white shadow-[0_6px_20px_rgba(0,67,87,0.35)] flex items-center gap-2 font-headline font-bold text-xs uppercase tracking-wider active:scale-95 transition-all" aria-label="Agendar Nueva Cita">
+      <span class="material-symbols-outlined text-[20px]">add</span>
+      <span>Agendar Cita</span>
+      <span class="px-1.5 py-0.5 rounded text-[9px] bg-white/20 text-white font-normal">HU-07</span>
+    </button>
+  </aside>
+
+  <!-- 3. Barra de Navegación Inferior Móvil (Bottom Navigation Bar) -->
+  <nav class="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-border-subtle pb-safe shadow-[0_-2px_10px_rgba(11,28,48,0.04)]">
+    <div class="flex items-center justify-around h-16 px-1 max-w-[430px] mx-auto">
+      <!-- Inicio / Citas (Activo) -->
+      <a href="#" aria-current="page" class="flex flex-col items-center justify-center w-16 py-1 text-primary">
+        <span class="material-symbols-outlined text-[24px]">calendar_month</span>
+        <span class="text-[11px] font-bold font-headline mt-0.5">Citas</span>
+      </a>
+
+      <!-- Pacientes -->
+      <a href="#" onclick="toastMsg('Navegando a Gestión de Pacientes (HU-01, HU-02)')" class="flex flex-col items-center justify-center w-16 py-1 text-slate-400 hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-[24px]">personal_injury</span>
+        <span class="text-[11px] font-medium font-headline mt-0.5">Pacientes</span>
+      </a>
+
+      <!-- Médicos -->
+      <a href="#" onclick="toastMsg('Navegando a Registro y Catálogo de Médicos (HU-04, HU-05)')" class="flex flex-col items-center justify-center w-16 py-1 text-slate-400 hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-[24px]">stethoscope</span>
+        <span class="text-[11px] font-medium font-headline mt-0.5">Médicos</span>
+      </a>
+
+      <!-- Historial -->
+      <a href="#" onclick="toastMsg('Navegando a Historial Clínico (HU-09, HU-10)')" class="flex flex-col items-center justify-center w-16 py-1 text-slate-400 hover:text-primary transition-colors">
+        <span class="material-symbols-outlined text-[24px]">clinical_notes</span>
+        <span class="text-[11px] font-medium font-headline mt-0.5">Historial</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Modal Rápido: Agendar Cita (HU-07) -->
+  <div id="modal-agendar" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs hidden items-end sm:items-center justify-center p-0 sm:p-4">
+    <div class="w-full max-w-lg bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl p-4 flex flex-col gap-3.5 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between pb-2 border-b border-border-subtle">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-[20px]">calendar_add_on</span>
+          </div>
+          <div>
+            <h3 class="font-headline text-[16px] font-bold text-on-surface">Agendar Cita (HU-07)</h3>
+            <p class="text-[11px] text-slate-500">Asignación de turno y control anti-colisión</p>
+          </div>
+        </div>
+        <button onclick="cerrarModalAgendar()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:text-slate-700">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <form onsubmit="confirmarAgendamiento(event)" class="flex flex-col gap-3">
+        <!-- Identificar Paciente -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Paciente *</label>
+          <div class="relative">
+            <input type="text" required placeholder="Buscar por Nombre o RUT (ej: Carlos Mendoza)" class="w-full h-10 px-3 pr-8 rounded-lg bg-slate-50 border border-border-subtle text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-secondary"/>
+            <span class="material-symbols-outlined absolute right-2.5 top-2.5 text-slate-400 text-[18px]">search</span>
+          </div>
+        </div>
+
+        <!-- Médico Asignado -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Médico y Especialidad *</label>
+          <select required class="w-full h-10 px-3 rounded-lg bg-slate-50 border border-border-subtle text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-secondary">
+            <option value="1">Dra. Sofía Ramírez • Cardiología (Box 304)</option>
+            <option value="2">Dr. Ricardo Lagos • Medicina General (Box 201)</option>
+            <option value="3">Dra. Gina Lorenzini • Pediatría (Box 105)</option>
+          </select>
+        </div>
+
+        <!-- Fecha y Horario (Bloque de 30 min) -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Fecha *</label>
+            <input type="date" required value="2024-10-24" class="w-full h-10 px-2.5 rounded-lg bg-slate-50 border border-border-subtle text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-secondary"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Horario Bloque *</label>
+            <select required class="w-full h-10 px-2.5 rounded-lg bg-slate-50 border border-border-subtle text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-secondary">
+              <option>12:00 PM (Disponible)</option>
+              <option>12:30 PM (Disponible)</option>
+              <option>15:00 PM (Disponible)</option>
+              <option disabled>10:30 AM (Ocupado RN-02)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Motivo Consulta -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Motivo de Consulta</label>
+          <input type="text" placeholder="Ej: Control médico o sintomatología" class="w-full h-10 px-3 rounded-lg bg-slate-50 border border-border-subtle text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-secondary"/>
+        </div>
+
+        <!-- Validación Anti-conflicto RN-02 info -->
+        <div class="p-2.5 rounded-lg bg-blue-50 border border-blue-100 flex items-start gap-2">
+          <span class="material-symbols-outlined text-secondary text-[18px] flex-shrink-0 mt-0.5">verified_user</span>
+          <p class="text-[11px] text-slate-600 leading-tight">Control de conflictos activo: Se valida disponibilidad de consultorio y médico en tiempo real.</p>
+        </div>
+
+        <!-- Botones Modal -->
+        <div class="flex items-center gap-2 pt-2">
+          <button type="button" onclick="cerrarModalAgendar()" class="flex-1 h-10 rounded-lg text-slate-600 text-xs font-semibold hover:bg-slate-100 active:scale-95">
+            Cancelar
+          </button>
+          <button type="submit" class="flex-1 h-10 rounded-lg bg-primary hover:bg-primary-container text-white text-xs font-bold uppercase tracking-wider shadow-sm active:scale-95 transition-all">
+            Confirmar Cita
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Feedback -->
+  <div id="toast" class="fixed top-18 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 text-xs font-medium transition-all duration-300 opacity-0 pointer-events-none">
+    <span id="toast-icon" class="material-symbols-outlined text-emerald-400 text-[18px]">check_circle</span>
+    <span id="toast-text">Acción realizada correctamente</span>
+  </div>
+
+  <!-- Script de Interacciones Operativas -->
+  <script>
+    function toggleSearch() {
+      const search = document.getElementById('search-bar');
+      search.classList.toggle('hidden');
+      if (!search.classList.contains('hidden')) {
+        document.getElementById('input-busqueda').focus();
+      }
+    }
+
+    function toggleMenu(menuId) {
+      const allMenus = document.querySelectorAll('[id^="menu-"]');
+      allMenus.forEach(m => {
+        if (m.id !== menuId) m.classList.add('hidden');
+      });
+      const target = document.getElementById(menuId);
+      if (target) target.classList.toggle('hidden');
+    }
+
+    // Cerrar menús al hacer tap fuera
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('[id^="menu-"]') && !e.target.closest('button[onclick^="toggleMenu"]')) {
+        document.querySelectorAll('[id^="menu-"]').forEach(m => m.classList.add('hidden'));
+      }
+    });
+
+    function cambiarTabFiltro(estado, btn) {
+      document.querySelectorAll('.filter-pill').forEach(p => {
+        p.className = 'filter-pill flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-medium bg-white text-slate-600 border border-border-subtle hover:bg-slate-50 transition-all';
+      });
+      btn.className = 'filter-pill flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold bg-primary text-white shadow-sm transition-all';
+      filtrarCitas(estado);
+    }
+
+    function filtrarCitas(estado) {
+      const cards = document.querySelectorAll('.cita-card');
+      cards.forEach(card => {
+        const cardStatus = card.getAttribute('data-status');
+        if (estado === 'todas' || cardStatus === estado) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function filtrarPorTexto(texto) {
+      const query = texto.toLowerCase();
+      const cards = document.querySelectorAll('.cita-card');
+      cards.forEach(card => {
+        const patient = card.getAttribute('data-patient').toLowerCase();
+        if (patient.includes(query)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function toastMsg(msg, icon = 'check_circle', isError = false) {
+      const toast = document.getElementById('toast');
+      const text = document.getElementById('toast-text');
+      const iconEl = document.getElementById('toast-icon');
+      text.textContent = msg;
+      iconEl.textContent = icon;
+      iconEl.className = `material-symbols-outlined ${isError ? 'text-rose-400' : 'text-emerald-400'} text-[18px]`;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2600);
+    }
+
+    function registrarLlegada(paciente, btn) {
+      btn.className = 'flex-1 h-9 rounded-lg bg-amber-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-sm active:scale-98 transition-all';
+      btn.innerHTML = '<span class="material-symbols-outlined text-[16px]">hourglass_top</span> En Sala de Espera';
+      const card = btn.closest('.cita-card');
+      if (card) {
+        card.setAttribute('data-status', 'espera');
+        const badge = card.querySelector('.bg-status-scheduled-bg');
+        if (badge) {
+          badge.className = 'px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-status-waiting-bg text-status-waiting-text';
+          badge.textContent = 'En Espera';
+        }
+      }
+      toastMsg(`Llegada confirmada: ${paciente} pasó a sala de espera`);
+    }
+
+    function cancelarCita(paciente, id) {
+      if (confirm(`¿Confirma la cancelación de la cita de ${paciente} (${id})? (HU-08)`)) {
+        toastMsg(`Cita de ${paciente} cancelada (HU-08)`, 'cancel', true);
+        document.querySelectorAll('[id^="menu-"]').forEach(m => m.classList.add('hidden'));
+      }
+    }
+
+    function llamarBox(paciente, box) {
+      toastMsg(`Notificando a ${paciente} para ingresar a ${box}`, 'volume_up');
+    }
+
+    function tomarSignos(paciente) {
+      toastMsg(`Abriendo módulo de triaje para ${paciente}`, 'monitor_heart');
+    }
+
+    function reagendarCita(paciente) {
+      abrirModalAgendar();
+      toastMsg(`Seleccione nuevo turno para ${paciente}`);
+    }
+
+    function verFicha(id) {
+      toastMsg(`Abriendo ficha clínica de ${id}`, 'badge');
+    }
+
+    function verHistorial(paciente, id) {
+      toastMsg(`Cargando historial clínico de ${paciente} (HU-10)`, 'clinical_notes');
+    }
+
+    function verComprobante(paciente) {
+      toastMsg(`Generando comprobante de atención para ${paciente}`, 'receipt_long');
+    }
+
+    function mostrarDisponibilidad() {
+      toastMsg('Boxes disponibles: Box 201 (Dr. Lagos) y Box 105 (Dra. Lorenzini)', 'info');
+    }
+
+    function abrirModalAgendar() {
+      const modal = document.getElementById('modal-agendar');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function cerrarModalAgendar() {
+      const modal = document.getElementById('modal-agendar');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function confirmarAgendamiento(e) {
+      e.preventDefault();
+      cerrarModalAgendar();
+      toastMsg('Cita agendada con éxito bajo protocolo HU-07', 'task_alt');
+    }
+  </script>
+</body>
+</html>

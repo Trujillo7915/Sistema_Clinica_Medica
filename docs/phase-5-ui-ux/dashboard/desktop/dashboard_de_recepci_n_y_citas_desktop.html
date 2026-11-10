@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-canvas-bg text-on-surface antialiased" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CliniGest - Panel de Control &amp; Agenda de Citas</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "secondary-fixed-dim": "#93ccff",
+            "on-tertiary-fixed": "#002114",
+            "on-secondary-fixed": "#001d31",
+            "on-tertiary-fixed-variant": "#105139",
+            "tertiary-fixed-dim": "#68dba9",
+            "status-waiting-bg": "#FEF3C7",
+            "status-attended-text": "#047857",
+            "primary": "#002c3a",
+            "surface-container": "#e6eeff",
+            "inverse-on-surface": "#ebf1ff",
+            "surface-container-lowest": "#ffffff",
+            "surface-bg": "#FFFFFF",
+            "on-secondary-fixed-variant": "#004b73",
+            "inverse-surface": "#213145",
+            "border-subtle": "#E2E8F0",
+            "status-attended-bg": "#D1FAE5",
+            "on-surface": "#0b1c30",
+            "status-canceled-bg": "#FEE2E2",
+            "surface-dim": "#cbdbf6",
+            "surface-container-low": "#eff4ff",
+            "on-primary-container": "#93d3ef",
+            "primary-fixed": "#bde9ff",
+            "surface-container-highest": "#d3e3ff",
+            "on-surface-variant": "#40484c",
+            "surface-container-high": "#dde9ff",
+            "secondary-container": "#81c4ff",
+            "on-primary-fixed-variant": "#004d64",
+            "on-tertiary-container": "#79b597",
+            "primary-fixed-dim": "#90cfec",
+            "status-canceled-text": "#DC2626",
+            "surface-tint": "#1e667f",
+            "secondary-fixed": "#cde5ff",
+            "tertiary": "#002e1e",
+            "inverse-primary": "#9bcee6",
+            "error-container": "#ffdad6",
+            "on-secondary-container": "#00517e",
+            "error": "#ba1a1a",
+            "surface-bright": "#f8f9ff",
+            "status-waiting-text": "#D97706",
+            "primary-container": "#0d5c75",
+            "outline-variant": "#bfc8cd",
+            "tertiary-fixed": "#85f8c4",
+            "on-background": "#0b1c30",
+            "status-scheduled-bg": "#E0F2FE",
+            "status-scheduled-text": "#0369A1",
+            "on-error-container": "#93000a",
+            "on-error": "#ffffff",
+            "on-primary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed": "#001f2a",
+            "tertiary-container": "#004730",
+            "on-secondary": "#ffffff",
+            "outline": "#70787d",
+            "surface": "#f8f9ff",
+            "secondary": "#016398",
+            "canvas-bg": "#F8FAFC",
+            "background": "#f8f9ff",
+            "surface-variant": "#d3e3ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xl": "2rem",
+            "margin-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-2xs": "0.125rem",
+            "margin": "2rem",
+            "space-2xl": "3rem",
+            "gutter": "1.5rem",
+            "space-md": "0.75rem",
+            "space-base": "1rem",
+            "gutter-mobile": "0.75rem",
+            "space-sm": "0.5rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "body-sm": ["Inter"],
+            "title-md": ["Inter"],
+            "tabular-data": ["Inter"],
+            "label-md": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "label-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-xl": ["Plus Jakarta Sans"],
+            "body-md": ["Inter"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "tabular-data": ["13px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }],
+            "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["26px", { "lineHeight": "34px", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+  </style>
+</head>
+<body class="h-full bg-canvas-bg text-on-surface font-body-md text-body-md overflow-x-hidden">
+<!-- ==================== SIDE NAVBAR (Shared Component Anchor) ==================== -->
+<aside class="h-screen w-64 flex flex-col fixed left-0 top-0 bg-surface-bg border-r border-border-subtle z-40">
+<div class="h-full flex flex-col justify-between p-4 z-40">
+<!-- Top Brand Section -->
+<div class="flex flex-col gap-6">
+<div class="flex items-center gap-3 px-2 pt-2">
+<div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center text-on-primary shadow-sm">
+<span class="material-symbols-outlined text-primary-fixed" data-icon="health_and_safety">health_and_safety</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md tracking-tight text-primary leading-none">CliniGest</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">Recepción Clínica</span>
+</div>
+</div>
+<!-- Clinical Navigation Links -->
+<nav aria-label="Navegación principal" class="flex flex-col gap-1.5">
+<!-- 1. Dashboard/Inicio -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-body-md text-body-md rounded-lg hover:bg-surface-container-low hover:text-primary transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+<span>Dashboard/Inicio</span>
+</a>
+<!-- 2. Pacientes -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-body-md text-body-md rounded-lg hover:bg-surface-container-low hover:text-primary transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="personal_injury">personal_injury</span>
+<span>Pacientes</span>
+</a>
+<!-- 3. Médicos -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-body-md text-body-md rounded-lg hover:bg-surface-container-low hover:text-primary transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="stethoscope">stethoscope</span>
+<span>Médicos</span>
+</a>
+<!-- 4. Citas y Agenda (ACTIVE ITEM) -->
+<a class="flex items-center gap-3 px-4 py-3 bg-surface-container-low text-primary font-title-md text-title-md rounded-lg cursor-pointer" href="#">
+<span class="material-symbols-outlined text-[20px] text-primary" data-icon="calendar_month">calendar_month</span>
+<div class="flex items-center justify-between w-full">
+<span>Citas y Agenda</span>
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+</a>
+<!-- 5. Historia Clínica -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant font-body-md text-body-md rounded-lg hover:bg-surface-container-low hover:text-primary transition-colors duration-150 cursor-pointer" href="#">
+<span class="material-symbols-outlined text-[20px]" data-icon="clinical_notes">clinical_notes</span>
+<span>Historia Clínica</span>
+</a>
+</nav>
+</div>
+<!-- Footer User Profile (Marcela Vidal) -->
+<div class="border-t border-border-subtle pt-4 px-2">
+<div class="p-2.5 rounded-lg bg-surface-container-low/60 border border-border-subtle flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-full bg-primary-container text-on-primary flex items-center justify-center text-sm font-semibold">
+              MV
+            </div>
+<div class="flex flex-col">
+<span class="font-title-md text-body-md text-on-surface leading-tight">Marcela Vidal</span>
+<span class="font-label-sm text-label-sm text-status-attended-text flex items-center gap-1.5 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-status-attended-text animate-pulse"></span>
+                Recepción #03
+              </span>
+</div>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors p-1" title="Cerrar Sesión o Opciones">
+<span class="material-symbols-outlined text-[18px]" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</aside>
+<!-- ==================== TOP NAVBAR (Shared Component Anchor) ==================== -->
+<header class="h-16 w-[calc(100%-16rem)] fixed top-0 right-0 bg-surface-bg border-b border-border-subtle z-30">
+<div class="flex justify-between items-center h-full px-6 z-30">
+<!-- Left: Title, Context & Search Bar -->
+<div class="flex items-center gap-6">
+<div>
+<h1 class="font-headline-md text-title-md text-primary tracking-tight font-bold">Panel de Control - Agenda de Citas</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px]" data-icon="event">event</span>
+<span>Lunes, 26 de Octubre 2024</span>
+<span class="text-outline-variant">•</span>
+<span class="text-status-attended-text font-medium">Turno Matutino (08:00 - 14:00)</span>
+</p>
+</div>
+<!-- Global Search Bar with Shortcut -->
+<div class="relative w-80 ml-4 hidden lg:block">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[18px]" data-icon="search">search</span>
+</div>
+<input class="w-full pl-9 pr-12 py-1.5 text-body-sm font-body-sm bg-surface-container-low/50 border border-outline-variant rounded-lg focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-on-surface placeholder:text-outline" placeholder="Buscar paciente por RUT, DNI o folio... ⌘K" type="text"/>
+<div class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none">
+<kbd class="text-[10px] font-mono text-outline border border-outline-variant px-1.5 py-0.5 rounded bg-surface-bg">⌘K</kbd>
+</div>
+</div>
+</div>
+<!-- Right: Trailing Actions, Notifications, Primary Action -->
+<div class="flex items-center gap-3">
+<!-- Notification Bell with Ping -->
+<button class="relative p-2 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container-low transition-colors" title="Notificaciones Asistenciales">
+<span class="material-symbols-outlined text-[22px]" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-error ring-2 ring-surface-bg"></span>
+</button>
+<!-- Help Action -->
+<button class="p-2 text-on-surface-variant hover:text-primary rounded-lg hover:bg-surface-container-low transition-colors" title="Centro de Ayuda">
+<span class="material-symbols-outlined text-[22px]" data-icon="help">help</span>
+</button>
+<div class="h-6 w-[1px] bg-border-subtle mx-1"></div>
+<!-- Trailing Primary Action (HU-07) -->
+<button class="inline-flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-container text-on-primary font-title-md text-body-sm rounded-lg shadow-sm transition-all duration-150 active:scale-98">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+<span>Agendar Nueva Cita</span>
+<span class="font-label-sm text-[10px] bg-primary-container px-1.5 py-0.5 rounded text-primary-fixed">HU-07</span>
+</button>
+</div>
+</div>
+</header>
+<!-- ==================== MAIN CONTENT CANVAS ==================== -->
+<main class="ml-64 pt-16 p-8 min-h-screen bg-canvas-bg space-y-6">
+<!-- KPI ROW: 4 Clinical Metric Cards -->
+<section aria-label="Métricas del día" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+<!-- KPI 1: Citas Programadas Hoy -->
+<div class="bg-surface-bg border border-border-subtle rounded-xl p-5 shadow-[0_2px_4px_rgba(11,28,48,0.02)] flex flex-col justify-between hover:border-secondary transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Citas Programadas Hoy</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-low text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="calendar_month">calendar_month</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline-xl text-[28px] leading-none text-primary font-bold font-tabular-data">24</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1 font-medium bg-secondary-fixed/30 px-2 py-0.5 rounded-full">
+<span class="material-symbols-outlined text-[14px]" data-icon="trending_up">trending_up</span> 100% cupo
+          </span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 border-t border-border-subtle/80 pt-2 flex items-center justify-between">
+<span>8 asignadas por teleconsulta</span>
+<span class="text-outline font-medium">16 presenciales</span>
+</p>
+</div>
+<!-- KPI 2: En Espera / Recepción -->
+<div class="bg-surface-bg border border-border-subtle rounded-xl p-5 shadow-[0_2px_4px_rgba(11,28,48,0.02)] flex flex-col justify-between hover:border-status-waiting-text transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">En Espera / Recepción</span>
+<div class="w-8 h-8 rounded-lg bg-status-waiting-bg text-status-waiting-text flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="hourglass_top">hourglass_top</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline-xl text-[28px] leading-none text-status-waiting-text font-bold font-tabular-data">6</span>
+<span class="font-label-sm text-label-sm text-status-waiting-text bg-status-waiting-bg px-2.5 py-0.5 rounded-full font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-waiting-text animate-ping"></span>
+            En sala activa
+          </span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 border-t border-border-subtle/80 pt-2 flex items-center justify-between">
+<span>Tiempo prom. de espera</span>
+<span class="font-semibold text-on-surface">11 min</span>
+</p>
+</div>
+<!-- KPI 3: Atendidas -->
+<div class="bg-surface-bg border border-border-subtle rounded-xl p-5 shadow-[0_2px_4px_rgba(11,28,48,0.02)] flex flex-col justify-between hover:border-status-attended-text transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Atendidas</span>
+<div class="w-8 h-8 rounded-lg bg-status-attended-bg text-status-attended-text flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="check_circle">check_circle</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline-xl text-[28px] leading-none text-status-attended-text font-bold font-tabular-data">14</span>
+<span class="font-label-sm text-label-sm text-status-attended-text bg-status-attended-bg px-2.5 py-0.5 rounded-full font-medium">
+            58% del día
+          </span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 border-t border-border-subtle/80 pt-2 flex items-center justify-between">
+<span>Fichas completadas (HU-10)</span>
+<span class="font-semibold text-status-attended-text">14 cerradas</span>
+</p>
+</div>
+<!-- KPI 4: Canceladas / Libres -->
+<div class="bg-surface-bg border border-border-subtle rounded-xl p-5 shadow-[0_2px_4px_rgba(11,28,48,0.02)] flex flex-col justify-between hover:border-status-canceled-text transition-colors">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-on-surface-variant">Canceladas / Libres</span>
+<div class="w-8 h-8 rounded-lg bg-status-canceled-bg text-status-canceled-text flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" data-icon="event_busy">event_busy</span>
+</div>
+</div>
+<div class="mt-3 flex items-baseline justify-between">
+<span class="font-headline-xl text-[28px] leading-none text-status-canceled-text font-bold font-tabular-data">4</span>
+<span class="font-label-sm text-label-sm text-status-canceled-text bg-status-canceled-bg px-2.5 py-0.5 rounded-full font-medium">
+            HU-08 aplicable
+          </span>
+</div>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-2 border-t border-border-subtle/80 pt-2 flex items-center justify-between">
+<span>Cupos reasignables en ventanilla</span>
+<span class="font-semibold text-secondary">3 disponibles</span>
+</p>
+</div>
+</section>
+<!-- MAIN TWO-COLUMN WORKSPACE (70% / 30%) -->
+<div class="grid grid-cols-12 gap-6 items-start">
+<!-- ==================== LEFT COLUMN (70% ~ 8 cols) ==================== -->
+<section class="col-span-12 xl:col-span-8 space-y-4">
+<!-- Clinical Agenda Control Header Bar -->
+<div class="bg-surface-bg border border-border-subtle rounded-xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+<!-- State Filter Tabs (Pills) -->
+<div class="flex items-center gap-1.5 flex-wrap">
+<button class="px-3 py-1.5 rounded-full text-xs font-semibold bg-primary text-on-primary transition-all">
+              Todas <span class="ml-1 opacity-80">(24)</span>
+</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-medium text-status-waiting-text bg-status-waiting-bg hover:opacity-90 transition-all flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-waiting-text"></span>
+              En Espera <span class="ml-1 font-semibold">(6)</span>
+</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-medium text-status-scheduled-text bg-status-scheduled-bg hover:opacity-90 transition-all">
+              Agendadas <span class="ml-1 font-semibold">(4)</span>
+</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-medium text-status-attended-text bg-status-attended-bg hover:opacity-90 transition-all">
+              Atendidas <span class="ml-1 font-semibold">(14)</span>
+</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-medium text-status-canceled-text bg-status-canceled-bg hover:opacity-90 transition-all">
+              Canceladas <span class="ml-1 font-semibold">(2)</span>
+</button>
+</div>
+<!-- Secondary Filters & Quick Date Navigation -->
+<div class="flex items-center gap-3">
+<!-- Doctor filter dropdown -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-low border border-border-subtle text-on-surface font-body-sm text-body-sm rounded-lg pl-3 pr-8 py-1.5 cursor-pointer focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+<option value="all">Todos los especialistas</option>
+<option value="ramirez">Cardiología - Dra. Ramírez</option>
+<option value="lagos">Med. General - Dr. Lagos</option>
+<option value="lorenzini">Pediatría - Dra. Lorenzini</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-outline">
+<span class="material-symbols-outlined text-[18px]" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- Date stepper -->
+<div class="inline-flex items-center border border-border-subtle rounded-lg bg-surface-bg p-0.5">
+<button class="p-1 hover:bg-surface-container-low text-on-surface-variant rounded" title="Día Anterior">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_left">chevron_left</span>
+</button>
+<span class="px-2 font-label-md text-xs font-semibold text-primary">Hoy</span>
+<button class="p-1 hover:bg-surface-container-low text-on-surface-variant rounded" title="Día Siguiente">
+<span class="material-symbols-outlined text-[18px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- High-Density Clinical Appointments Table -->
+<div class="bg-surface-bg border border-border-subtle rounded-xl shadow-sm overflow-hidden">
+<div class="px-5 py-4 border-b border-border-subtle flex items-center justify-between bg-surface-container-low/30">
+<div>
+<h2 class="font-title-md text-title-md text-primary">Agenda del Turno en Curso</h2>
+<p class="font-body-sm text-xs text-on-surface-variant">Listado operativo sincronizado en tiempo real con recepción central</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-xs text-outline">Mostrando 6 de 24 pacientes</span>
+<button class="p-1 text-on-surface-variant hover:text-primary rounded" title="Refrescar Lista">
+<span class="material-symbols-outlined text-[18px]" data-icon="refresh">refresh</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-border-subtle bg-surface-container-low/60 text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
+<th class="py-3 px-4 w-24">Hora</th>
+<th class="py-3 px-4">Paciente</th>
+<th class="py-3 px-4">Médico &amp; Box</th>
+<th class="py-3 px-4 w-32">Estado</th>
+<th class="py-3 px-4 text-right">Acciones Rápidas</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle text-body-sm font-body-sm">
+<!-- Row 1: Carlos Mendoza (En Espera) -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group">
+<td class="py-3 px-4 font-tabular-data text-primary font-bold text-sm align-middle">
+<div class="flex flex-col">
+<span class="text-sm">10:30</span>
+<span class="text-[10px] text-status-waiting-text font-medium">Hace 12 min</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container text-secondary flex items-center justify-center font-bold text-xs">
+                        CM
+                      </div>
+<div>
+<div class="font-semibold text-on-surface flex items-center gap-1.5">
+                          Carlos Mendoza
+                          <span class="font-label-sm text-[10px] bg-surface-container px-1 rounded text-primary font-mono">PAC-1082</span>
+</div>
+<div class="text-[11px] text-outline flex items-center gap-2">
+<span>+56 9 8812 4301</span>
+<span>•</span>
+<span class="text-on-surface-variant">Fonasa B</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="font-medium text-on-surface">Dra. Sofía Ramírez</div>
+<div class="text-[11px] text-outline flex items-center gap-1.5">
+<span>Cardiología</span>
+<span>•</span>
+<span class="font-semibold text-primary">Box 304</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-status-waiting-bg text-status-waiting-text">
+<span class="w-1.5 h-1.5 rounded-full bg-status-waiting-text"></span>
+                      EN ESPERA
+                    </span>
+</td>
+<td class="py-3 px-4 align-middle text-right">
+<div class="inline-flex items-center gap-1.5 justify-end">
+<button class="px-2.5 py-1 text-xs font-medium rounded bg-primary text-on-primary hover:bg-primary-container transition-colors" title="Iniciar Consulta médica">
+                        Llamar a Box
+                      </button>
+<button class="p-1 rounded text-outline hover:text-error hover:bg-error-container/30 transition-colors" title="Cancelar Turno (HU-08)">
+<span class="material-symbols-outlined text-[18px]" data-icon="cancel">cancel</span>
+</button>
+<button class="p-1 rounded text-outline hover:text-primary hover:bg-surface-container transition-colors" title="Ver Historial Clínico">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Mariana Torres (En Espera) -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group">
+<td class="py-3 px-4 font-tabular-data text-primary font-bold text-sm align-middle">
+<div class="flex flex-col">
+<span class="text-sm">11:00</span>
+<span class="text-[10px] text-status-waiting-text font-medium">Hace 5 min</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container text-secondary flex items-center justify-center font-bold text-xs">
+                        MT
+                      </div>
+<div>
+<div class="font-semibold text-on-surface flex items-center gap-1.5">
+                          Mariana Torres
+                          <span class="font-label-sm text-[10px] bg-surface-container px-1 rounded text-primary font-mono">PAC-0944</span>
+</div>
+<div class="text-[11px] text-outline flex items-center gap-2">
+<span>+56 9 7723 1189</span>
+<span>•</span>
+<span class="text-on-surface-variant">Isapre Colmena</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="font-medium text-on-surface">Dra. Sofía Ramírez</div>
+<div class="text-[11px] text-outline flex items-center gap-1.5">
+<span>Ecocardiograma</span>
+<span>•</span>
+<span class="font-semibold text-primary">Box 304</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-status-waiting-bg text-status-waiting-text">
+<span class="w-1.5 h-1.5 rounded-full bg-status-waiting-text"></span>
+                      EN ESPERA
+                    </span>
+</td>
+<td class="py-3 px-4 align-middle text-right">
+<div class="inline-flex items-center gap-1.5 justify-end">
+<button class="px-2.5 py-1 text-xs font-medium rounded border border-border-subtle bg-surface-bg text-on-surface hover:bg-surface-container-low transition-colors" title="Triaje en espera">
+                        Toma Signos
+                      </button>
+<button class="p-1 rounded text-outline hover:text-error hover:bg-error-container/30 transition-colors" title="Cancelar Turno (HU-08)">
+<span class="material-symbols-outlined text-[18px]" data-icon="cancel">cancel</span>
+</button>
+<button class="p-1 rounded text-outline hover:text-primary hover:bg-surface-container transition-colors" title="Ver Historial Clínico">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Fernando Valdés (Agendada) -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group">
+<td class="py-3 px-4 font-tabular-data text-on-surface-variant font-medium text-sm align-middle">
+<div class="flex flex-col">
+<span class="text-sm font-semibold">11:45</span>
+<span class="text-[10px] text-outline">En 45 min</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center font-bold text-xs">
+                        FV
+                      </div>
+<div>
+<div class="font-semibold text-on-surface flex items-center gap-1.5">
+                          Fernando Valdés
+                          <span class="font-label-sm text-[10px] bg-surface-container px-1 rounded text-primary font-mono">PAC-1103</span>
+</div>
+<div class="text-[11px] text-outline flex items-center gap-2">
+<span>+56 9 6124 9902</span>
+<span>•</span>
+<span class="text-on-surface-variant">Banmédica</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="font-medium text-on-surface">Dr. Ricardo Lagos</div>
+<div class="text-[11px] text-outline flex items-center gap-1.5">
+<span>Lectura Holter</span>
+<span>•</span>
+<span class="font-semibold text-primary">Box 201</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-status-scheduled-bg text-status-scheduled-text">
+<span class="w-1.5 h-1.5 rounded-full bg-status-scheduled-text"></span>
+                      AGENDADA
+                    </span>
+</td>
+<td class="py-3 px-4 align-middle text-right">
+<div class="inline-flex items-center gap-1.5 justify-end">
+<button class="px-2.5 py-1 text-xs font-semibold rounded bg-secondary-fixed/50 text-secondary hover:bg-secondary hover:text-white transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="how_to_reg">how_to_reg</span>
+                        Recepción
+                      </button>
+<button class="p-1 rounded text-outline hover:text-error hover:bg-error-container/30 transition-colors" title="Cancelar Turno (HU-08)">
+<span class="material-symbols-outlined text-[18px]" data-icon="cancel">cancel</span>
+</button>
+<button class="p-1 rounded text-outline hover:text-primary hover:bg-surface-container transition-colors" title="Ver Historial">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Sofía Méndez (Agendada) -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group">
+<td class="py-3 px-4 font-tabular-data text-on-surface-variant font-medium text-sm align-middle">
+<div class="flex flex-col">
+<span class="text-sm font-semibold">12:15</span>
+<span class="text-[10px] text-outline">En 1h 15m</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-low text-on-surface-variant flex items-center justify-center font-bold text-xs">
+                        SM
+                      </div>
+<div>
+<div class="font-semibold text-on-surface flex items-center gap-1.5">
+                          Sofía Méndez
+                          <span class="font-label-sm text-[10px] bg-surface-container px-1 rounded text-primary font-mono">PAC-1142</span>
+</div>
+<div class="text-[11px] text-outline flex items-center gap-2">
+<span>+56 9 4432 0019</span>
+<span>•</span>
+<span class="text-on-surface-variant">Particular</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="font-medium text-on-surface">Dra. Gina Lorenzini</div>
+<div class="text-[11px] text-outline flex items-center gap-1.5">
+<span>Control Pediátrico</span>
+<span>•</span>
+<span class="font-semibold text-primary">Box 105</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-status-scheduled-bg text-status-scheduled-text">
+<span class="w-1.5 h-1.5 rounded-full bg-status-scheduled-text"></span>
+                      AGENDADA
+                    </span>
+</td>
+<td class="py-3 px-4 align-middle text-right">
+<div class="inline-flex items-center gap-1.5 justify-end">
+<button class="px-2.5 py-1 text-xs font-semibold rounded bg-secondary-fixed/50 text-secondary hover:bg-secondary hover:text-white transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="how_to_reg">how_to_reg</span>
+                        Recepción
+                      </button>
+<button class="p-1 rounded text-outline hover:text-error hover:bg-error-container/30 transition-colors" title="Cancelar Turno (HU-08)">
+<span class="material-symbols-outlined text-[18px]" data-icon="cancel">cancel</span>
+</button>
+<button class="p-1 rounded text-outline hover:text-primary hover:bg-surface-container transition-colors" title="Ver Historial">
+<span class="material-symbols-outlined text-[18px]" data-icon="description">description</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Lucía Gómez Silva (Atendida) -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group bg-surface-bg/60">
+<td class="py-3 px-4 font-tabular-data text-outline text-sm align-middle">
+<div class="flex flex-col">
+<span class="text-sm">09:15</span>
+<span class="text-[10px] text-status-attended-text">Completada</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-status-attended-bg text-status-attended-text flex items-center justify-center font-bold text-xs">
+                        LG
+                      </div>
+<div>
+<div class="font-semibold text-on-surface flex items-center gap-1.5">
+                          Lucía Gómez Silva
+                          <span class="font-label-sm text-[10px] bg-surface-container px-1 rounded text-primary font-mono">PAC-0872</span>
+</div>
+<div class="text-[11px] text-outline flex items-center gap-2">
+<span>+56 9 3321 8804</span>
+<span>•</span>
+<span class="text-on-surface-variant">CruzBlanca</span>
+</div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="font-medium text-on-surface">Dra. Sofía Ramírez</div>
+<div class="text-[11px] text-outline flex items-center gap-1.5">
+<span>Antihipertensivo</span>
+<span>•</span>
+<span class="text-on-surface-variant">Box 304</span>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-status-attended-bg text-status-attended-text">
+<span class="material-symbols-outlined text-[14px]" data-icon="check">check</span>
+                      ATENDIDA
+                    </span>
+</td>
+<td class="py-3 px-4 align-middle text-right">
+<div class="inline-flex items-center gap-1.5 justify-end">
+<span class="text-[11px] text-outline italic mr-1">Ficha firmada</span>
+<button class="p-1 rounded text-primary hover:bg-surface-container transition-colors" title="Descargar Comprobante / Receta">
+<span class="material-symbols-outlined text-[18px]" data-icon="receipt_long">receipt_long</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 6: Patricio Alarcón (Cancelada HU-08) -->
+<tr class="hover:bg-surface-container-low/40 transition-colors group opacity-75">
+<td class="py-3 px-4 font-tabular-data text-outline line-through text-sm align-middle">
+                    10:00
+                  </td>
+<td class="py-3 px-4 align-middle">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-status-canceled-bg text-status-canceled-text flex items-center justify-center font-bold text-xs">
+                        PA
+                      </div>
+<div>
+<div class="font-semibold text-on-surface line-through flex items-center gap-1.5">
+                          Patricio Alarcón
+                          <span class="font-label-sm text-[10px] bg-surface-container px-1 rounded text-primary font-mono">PAC-0651</span>
+</div>
+<div class="text-[11px] text-status-canceled-text">
+                          Cancelado por paciente (Aviso &gt; 2h)
+                        </div>
+</div>
+</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<div class="font-medium text-on-surface">Dr. Ricardo Lagos</div>
+<div class="text-[11px] text-status-attended-text font-medium">Cupo Liberado (HU-08)</div>
+</td>
+<td class="py-3 px-4 align-middle">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-status-canceled-bg text-status-canceled-text">
+<span class="w-1.5 h-1.5 rounded-full bg-status-canceled-text"></span>
+                      CANCELADA
+                    </span>
+</td>
+<td class="py-3 px-4 align-middle text-right">
+<button class="px-2.5 py-1 text-xs font-medium rounded border border-secondary text-secondary hover:bg-secondary-fixed/30 transition-colors" title="Reasignar a lista de espera">
+                      Reasignar Cupo
+                    </button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination & Sync Status -->
+<div class="px-5 py-3 border-t border-border-subtle bg-surface-container-low/20 flex items-center justify-between">
+<div class="flex items-center gap-2 text-xs text-on-surface-variant font-label-md">
+<span class="w-2 h-2 rounded-full bg-status-attended-text"></span>
+<span>Sincronización en tiempo real • Protocolo NOM-004-SSA3 / Ley 20.584</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="px-2.5 py-1 text-xs rounded border border-border-subtle bg-surface-bg text-outline hover:text-on-surface" disabled="">Anterior</button>
+<button class="px-2.5 py-1 text-xs rounded bg-primary text-on-primary font-semibold">1</button>
+<button class="px-2.5 py-1 text-xs rounded border border-border-subtle bg-surface-bg text-on-surface hover:bg-surface-container-low">2</button>
+<button class="px-2.5 py-1 text-xs rounded border border-border-subtle bg-surface-bg text-on-surface hover:bg-surface-container-low">Siguiente</button>
+</div>
+</div>
+</div>
+</section>
+<!-- ==================== RIGHT COLUMN (30% ~ 4 cols) ==================== -->
+<section class="col-span-12 xl:col-span-4 space-y-5">
+<!-- Business Rule (RN-02 / HU-07) Prevention Banner -->
+<div class="p-4 rounded-xl bg-surface-container-low border border-primary-fixed-dim/40 flex items-start gap-3 shadow-sm">
+<div class="text-secondary mt-0.5">
+<span class="material-symbols-outlined text-[20px]" data-icon="shield">shield</span>
+</div>
+<div>
+<h3 class="font-title-md text-xs text-primary font-bold tracking-tight">Prevención de Conflictos Horarios (RN-02)</h3>
+<p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5 leading-snug">
+              Bloqueo algorítmico activo: No se admiten dobles reservas ni solapamientos en un mismo médico o consultorio físico durante turnos concurrentes.
+            </p>
+</div>
+</div>
+<!-- Real-Time Doctor Box Availability Panel -->
+<div class="bg-surface-bg border border-border-subtle rounded-xl p-5 shadow-sm space-y-4">
+<div class="flex items-center justify-between border-b border-border-subtle pb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]" data-icon="meeting_room">meeting_room</span>
+<h3 class="font-title-md text-title-md text-primary">Disponibilidad en Boxes</h3>
+</div>
+<span class="font-label-sm text-[11px] bg-surface-container-low text-secondary px-2 py-0.5 rounded-full font-semibold">
+              3 Médicos Activos
+            </span>
+</div>
+<!-- Doctor Radar Item 1 -->
+<div class="p-3 rounded-lg border border-border-subtle bg-surface-bg hover:border-secondary transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                  SR
+                </div>
+<div>
+<h4 class="font-title-md text-body-md text-on-surface">Dra. Sofía Ramírez</h4>
+<p class="text-[11px] text-outline">Cardiología • <strong class="text-primary font-semibold">Box 304</strong></p>
+</div>
+</div>
+<span class="font-label-sm text-[11px] px-2 py-0.5 rounded-full bg-status-waiting-bg text-status-waiting-text font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-waiting-text"></span>
+                En Consulta
+              </span>
+</div>
+<div class="mt-3 space-y-1.5">
+<div class="flex justify-between text-[11px] text-on-surface-variant font-label-md">
+<span>Ocupación de Turno</span>
+<span class="font-semibold text-primary">85% (5/6 citas)</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 85%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] pt-1 text-outline">
+<span>Próximo cupo libre:</span>
+<span class="font-medium text-on-surface">12:30 PM</span>
+</div>
+</div>
+</div>
+<!-- Doctor Radar Item 2 -->
+<div class="p-3 rounded-lg border border-border-subtle bg-surface-bg hover:border-secondary transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-tertiary-fixed/30 text-status-attended-text flex items-center justify-center font-bold text-xs">
+                  RL
+                </div>
+<div>
+<h4 class="font-title-md text-body-md text-on-surface">Dr. Ricardo Lagos</h4>
+<p class="text-[11px] text-outline">Medicina General • <strong class="text-primary font-semibold">Box 201</strong></p>
+</div>
+</div>
+<span class="font-label-sm text-[11px] px-2 py-0.5 rounded-full bg-status-attended-bg text-status-attended-text font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-attended-text"></span>
+                Box Libre
+              </span>
+</div>
+<div class="mt-3 space-y-1.5">
+<div class="flex justify-between text-[11px] text-on-surface-variant font-label-md">
+<span>Ocupación de Turno</span>
+<span class="font-semibold text-primary">50% (3/6 citas)</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-status-attended-text rounded-full" style="width: 50%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] pt-1 text-outline">
+<span class="text-status-attended-text font-medium">Disponible ahora:</span>
+<button class="font-semibold text-secondary hover:underline">Asignar Urgencia</button>
+</div>
+</div>
+</div>
+<!-- Doctor Radar Item 3 -->
+<div class="p-3 rounded-lg border border-border-subtle bg-surface-bg hover:border-secondary transition-colors">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-full bg-surface-container text-primary flex items-center justify-center font-bold text-xs">
+                  GL
+                </div>
+<div>
+<h4 class="font-title-md text-body-md text-on-surface">Dra. Gina Lorenzini</h4>
+<p class="text-[11px] text-outline">Pediatría • <strong class="text-primary font-semibold">Box 105</strong></p>
+</div>
+</div>
+<span class="font-label-sm text-[11px] px-2 py-0.5 rounded-full bg-surface-container text-primary font-semibold">
+                Hasta 11:15
+              </span>
+</div>
+<div class="mt-3 space-y-1.5">
+<div class="flex justify-between text-[11px] text-on-surface-variant font-label-md">
+<span>Ocupación de Turno</span>
+<span class="font-semibold text-primary">66% (4/6 citas)</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 66%"></div>
+</div>
+<div class="flex items-center justify-between text-[11px] pt-1 text-outline">
+<span>Próximo cupo libre:</span>
+<span class="font-medium text-on-surface">11:15 AM (15 min)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Compact Time Slot Collision Prevention Matrix -->
+<div class="bg-surface-bg border border-border-subtle rounded-xl p-5 shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="font-title-md text-body-md text-primary font-bold">Matriz de Franjas (30 min)</h3>
+<span class="text-xs text-outline font-label-sm">Turno Mañana</span>
+</div>
+<div class="grid grid-cols-4 gap-2 pt-1">
+<!-- Slot 1 -->
+<div class="p-2 border border-border-subtle rounded-lg bg-surface-container-low/40 text-center">
+<span class="block text-xs font-semibold text-on-surface">09:00</span>
+<span class="text-[10px] text-status-attended-text font-medium">Cerrado</span>
+</div>
+<!-- Slot 2 -->
+<div class="p-2 border border-border-subtle rounded-lg bg-surface-container-low/40 text-center">
+<span class="block text-xs font-semibold text-on-surface">09:30</span>
+<span class="text-[10px] text-status-attended-text font-medium">Cerrado</span>
+</div>
+<!-- Slot 3 -->
+<div class="p-2 border border-border-subtle rounded-lg bg-surface-container-low/40 text-center">
+<span class="block text-xs font-semibold text-on-surface">10:00</span>
+<span class="text-[10px] text-status-canceled-text font-medium">1 Libre</span>
+</div>
+<!-- Slot 4 -->
+<div class="p-2 border border-secondary bg-surface-container-low text-center ring-1 ring-secondary">
+<span class="block text-xs font-bold text-secondary">10:30</span>
+<span class="text-[10px] text-status-waiting-text font-bold">Actual</span>
+</div>
+<!-- Slot 5 -->
+<div class="p-2 border border-border-subtle rounded-lg bg-surface-bg text-center">
+<span class="block text-xs font-semibold text-on-surface">11:00</span>
+<span class="text-[10px] text-status-waiting-text font-medium">Lleno</span>
+</div>
+<!-- Slot 6 -->
+<div class="p-2 border border-status-attended-text/50 bg-status-attended-bg/40 rounded-lg text-center cursor-pointer hover:bg-status-attended-bg transition-colors">
+<span class="block text-xs font-bold text-status-attended-text">11:30</span>
+<span class="text-[10px] text-status-attended-text font-bold">2 Libres</span>
+</div>
+<!-- Slot 7 -->
+<div class="p-2 border border-border-subtle rounded-lg bg-surface-bg text-center">
+<span class="block text-xs font-semibold text-on-surface">12:00</span>
+<span class="text-[10px] text-outline font-medium">1 Ocupado</span>
+</div>
+<!-- Slot 8 -->
+<div class="p-2 border border-status-attended-text/50 bg-status-attended-bg/40 rounded-lg text-center cursor-pointer hover:bg-status-attended-bg transition-colors">
+<span class="block text-xs font-bold text-status-attended-text">12:30</span>
+<span class="text-[10px] text-status-attended-text font-bold">3 Libres</span>
+</div>
+</div>
+<div class="text-[11px] text-outline flex items-center justify-between pt-1">
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded bg-status-attended-bg border border-status-attended-text"></span> Libre para agendar
+            </span>
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded bg-surface-container-low border border-secondary"></span> En curso
+            </span>
+</div>
+</div>
+<!-- Quick Receptionist Shortcuts -->
+<div class="bg-surface-bg border border-border-subtle rounded-xl p-4 shadow-sm">
+<span class="font-label-md text-xs text-on-surface-variant font-semibold uppercase tracking-wider block mb-2">Accesos Rápidos Asistenciales</span>
+<div class="grid grid-cols-2 gap-2">
+<button class="flex items-center gap-2 p-2 rounded-lg border border-border-subtle bg-surface-container-low/30 hover:bg-surface-container-low transition-colors text-left">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="person_add">person_add</span>
+<span class="text-xs font-medium text-primary">Alta Rápida (HU-01)</span>
+</button>
+<button class="flex items-center gap-2 p-2 rounded-lg border border-border-subtle bg-surface-container-low/30 hover:bg-surface-container-low transition-colors text-left">
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="print">print</span>
+<span class="text-xs font-medium text-primary">Planilla del Día</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>
