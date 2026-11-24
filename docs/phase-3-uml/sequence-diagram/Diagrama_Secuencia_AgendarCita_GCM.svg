@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 920" width="100%" height="100%" style="background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Sombra suave para cajas -->
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.10" flood-color="#0f172a" />
+    </filter>
+
+    <!-- Flecha Solida Sincrona (Llamada) -->
+    <marker id="arrow-sync" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0 1, 9 5, 0 9" fill="#1e293b" />
+    </marker>
+
+    <!-- Flecha Abierta (Retorno) -->
+    <marker id="arrow-return" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polyline points="0 1, 9 5, 0 9" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" />
+    </marker>
+
+    <!-- Flecha Abierta Error (Retorno Excepcion) -->
+    <marker id="arrow-error" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polyline points="0 1, 9 5, 0 9" fill="none" stroke="#dc2626" stroke-width="1.8" stroke-linecap="round" />
+    </marker>
+  </defs>
+
+  <!-- ================= ENCABEZADO ================= -->
+  <rect x="30" y="20" width="1200" height="70" rx="8" fill="#1e293b" filter="url(#shadow)" />
+  <text x="50" y="48" fill="#ffffff" font-size="18" font-weight="700" letter-spacing="0.5">SISTEMA DE GESTION DE CLINICA MEDICA (SGCM) — DIAGRAMA DE SECUENCIA</text>
+  <text x="50" y="72" fill="#94a3b8" font-size="13">Caso de Uso: CU-07 Agendar Cita Medica | Trazabilidad con HU-07, RF-07 y Reglas de Negocio RN-02 y RN-08</text>
+
+  <!-- ================= PARTICIPANTES (ENCABEZADOS) ================= -->
+  <!-- 1. Recepcionista (Actor) -->
+  <g transform="translate(60, 105)">
+    <circle cx="50" cy="18" r="12" fill="#ffffff" stroke="#1e293b" stroke-width="1.8" />
+    <line x1="50" y1="30" x2="50" y2="52" stroke="#1e293b" stroke-width="1.8" />
+    <line x1="32" y1="38" x2="68" y2="38" stroke="#1e293b" stroke-width="1.8" />
+    <line x1="50" y1="52" x2="35" y2="70" stroke="#1e293b" stroke-width="1.8" />
+    <line x1="50" y1="52" x2="65" y2="70" stroke="#1e293b" stroke-width="1.8" />
+    <text x="50" y="88" text-anchor="middle" font-size="12" font-weight="700" fill="#1e293b">Recepcionista</text>
+  </g>
+
+  <!-- 2. InterfazCitas (Boundary) -->
+  <g transform="translate(240, 120)" filter="url(#shadow)">
+    <rect width="150" height="48" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.8" />
+    <text x="75" y="22" text-anchor="middle" font-size="11" font-style="italic" fill="#2563eb">&#171;boundary&#187;</text>
+    <text x="75" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1e293b">:InterfazCitas</text>
+  </g>
+
+  <!-- 3. CitaController (Control) -->
+  <g transform="translate(450, 120)" filter="url(#shadow)">
+    <rect width="150" height="48" rx="6" fill="#ffffff" stroke="#0891b2" stroke-width="1.8" />
+    <text x="75" y="22" text-anchor="middle" font-size="11" font-style="italic" fill="#0891b2">&#171;control&#187;</text>
+    <text x="75" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1e293b">:CitaController</text>
+  </g>
+
+  <!-- 4. CitaService (Service / Business Logic) -->
+  <g transform="translate(660, 120)" filter="url(#shadow)">
+    <rect width="150" height="48" rx="6" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8" />
+    <text x="75" y="22" text-anchor="middle" font-size="11" font-style="italic" fill="#7c3aed">&#171;service&#187;</text>
+    <text x="75" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1e293b">:CitaService</text>
+  </g>
+
+  <!-- 5. MedicoRepository (Repository) -->
+  <g transform="translate(870, 120)" filter="url(#shadow)">
+    <rect width="160" height="48" rx="6" fill="#ffffff" stroke="#0d9488" stroke-width="1.8" />
+    <text x="80" y="22" text-anchor="middle" font-size="11" font-style="italic" fill="#0d9488">&#171;repository&#187;</text>
+    <text x="80" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1e293b">:MedicoRepository</text>
+  </g>
+
+  <!-- 6. CitaRepository (Repository) -->
+  <g transform="translate(1070, 120)" filter="url(#shadow)">
+    <rect width="150" height="48" rx="6" fill="#ffffff" stroke="#0d9488" stroke-width="1.8" />
+    <text x="75" y="22" text-anchor="middle" font-size="11" font-style="italic" fill="#0d9488">&#171;repository&#187;</text>
+    <text x="75" y="38" text-anchor="middle" font-size="12.5" font-weight="700" fill="#1e293b">:CitaRepository</text>
+  </g>
+
+  <!-- ================= LINEAS DE VIDA (LIFELINES) ================= -->
+  <line x1="110" y1="200" x2="110" y2="830" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4" />
+  <line x1="315" y1="170" x2="315" y2="830" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4" />
+  <line x1="525" y1="170" x2="525" y2="830" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4" />
+  <line x1="735" y1="170" x2="735" y2="830" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4" />
+  <line x1="950" y1="170" x2="950" y2="830" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4" />
+  <line x1="1145" y1="170" x2="1145" y2="830" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6,4" />
+
+  <!-- ================= BARRAS DE ACTIVACION (EXECUTION SPECS) ================= -->
+  <!-- InterfazCitas -->
+  <rect x="309" y="215" width="12" height="575" fill="#eff6ff" stroke="#2563eb" stroke-width="1.2" />
+  <!-- CitaController -->
+  <rect x="519" y="245" width="12" height="515" fill="#ecfeff" stroke="#0891b2" stroke-width="1.2" />
+  <!-- CitaService -->
+  <rect x="729" y="275" width="12" height="455" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.2" />
+  <!-- MedicoRepository -->
+  <rect x="944" y="305" width="12" height="40" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.2" />
+  <!-- CitaRepository (Check disponibilidad) -->
+  <rect x="1139" y="365" width="12" height="40" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.2" />
+  <!-- CitaRepository (Guardar Cita) -->
+  <rect x="1139" y="505" width="12" height="40" fill="#f0fdfa" stroke="#0d9488" stroke-width="1.2" />
+
+  <!-- ================= MENSAJES INICIALES ================= -->
+  <!-- 1. Recepcionista a InterfazCitas -->
+  <line x1="110" y1="220" x2="309" y2="220" stroke="#1e293b" stroke-width="1.6" marker-end="url(#arrow-sync)" />
+  <text x="125" y="213" font-size="11.5" font-weight="600" fill="#1e293b">1: ingresarDatosCita(idPaciente, idMedico, fechaHora)</text>
+
+  <!-- 2. InterfazCitas a CitaController -->
+  <line x1="321" y1="250" x2="519" y2="250" stroke="#1e293b" stroke-width="1.6" marker-end="url(#arrow-sync)" />
+  <text x="335" y="243" font-size="11.5" font-weight="600" fill="#1e293b">2: POST /api/citas {pacienteId, medicoId, fechaHora}</text>
+
+  <!-- 3. CitaController a CitaService -->
+  <line x1="531" y1="280" x2="729" y2="280" stroke="#1e293b" stroke-width="1.6" marker-end="url(#arrow-sync)" />
+  <text x="545" y="273" font-size="11.5" font-weight="600" fill="#1e293b">3: agendarCita(CitaRequestDTO)</text>
+
+  <!-- 4. CitaService a MedicoRepository -->
+  <line x1="741" y1="310" x2="944" y2="310" stroke="#1e293b" stroke-width="1.6" marker-end="url(#arrow-sync)" />
+  <text x="752" y="303" font-size="11.5" font-weight="600" fill="#1e293b">4: findById(idMedico)</text>
+
+  <!-- 5. Retorno MedicoRepository a CitaService -->
+  <line x1="944" y1="340" x2="741" y2="340" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-return)" />
+  <text x="755" y="333" font-size="11" fill="#2563eb">5: Medico (valida activo == true [RN-08])</text>
+
+  <!-- 6. CitaService a CitaRepository (Validar colision) -->
+  <line x1="741" y1="370" x2="1139" y2="370" stroke="#1e293b" stroke-width="1.6" marker-end="url(#arrow-sync)" />
+  <text x="752" y="363" font-size="11.5" font-weight="600" fill="#1e293b">6: existsByMedicoAndFechaHora(idMedico, fechaHora) [RN-02]</text>
+
+  <!-- 7. Retorno CitaRepository a CitaService -->
+  <line x1="1139" y1="400" x2="741" y2="400" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-return)" />
+  <text x="880" y="393" font-size="11" fill="#2563eb">7: boolean (existeConflicto)</text>
+
+  <!-- ================= FRAGMENTO COMBINADO (ALT) ================= -->
+  <!-- Marco contenedor ALT -->
+  <rect x="230" y="425" width="970" height="375" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" fill-opacity="0.3" />
+  
+  <!-- Etiqueta ALT -->
+  <path d="M 230 425 L 300 425 L 310 440 L 310 450 L 230 450 Z" fill="#64748b" />
+  <text x="245" y="442" font-size="12" font-weight="700" fill="#ffffff">alt</text>
+
+  <!-- Condicion 1: Camino Feliz -->
+  <text x="320" y="444" font-size="12" font-weight="700" fill="#15803d">[existeConflicto == false] — Disponibilidad confirmada (Exito)</text>
+
+  <!-- Mensajes Rama Exitosa -->
+  <!-- 8. Creacion de entidad Cita (Self call en Service) -->
+  <path d="M 741 465 L 775 465 L 775 485 L 741 485" fill="none" stroke="#1e293b" stroke-width="1.5" marker-end="url(#arrow-sync)" />
+  <text x="782" y="478" font-size="11" font-weight="600" fill="#1e293b">8: new Cita(paciente, medico, fechaHora, AGENDADA)</text>
+
+  <!-- 9. Guardar cita en CitaRepository -->
+  <line x1="741" y1="510" x2="1139" y2="510" stroke="#1e293b" stroke-width="1.6" marker-end="url(#arrow-sync)" />
+  <text x="752" y="503" font-size="11.5" font-weight="600" fill="#1e293b">9: save(nuevaCita)</text>
+
+  <!-- 10. Retorno Cita guardada -->
+  <line x1="1139" y1="540" x2="741" y2="540" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-return)" />
+  <text x="890" y="533" font-size="11" fill="#2563eb">10: Cita (id: 101, estado: AGENDADA)</text>
+
+  <!-- 11. CitaService a CitaController -->
+  <line x1="729" y1="565" x2="531" y2="565" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-return)" />
+  <text x="548" y="558" font-size="11" fill="#2563eb">11: CitaResponseDTO</text>
+
+  <!-- 12. CitaController a InterfazCitas -->
+  <line x1="519" y1="590" x2="321" y2="590" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-return)" />
+  <text x="335" y="583" font-size="11" fill="#2563eb">12: 201 Created + JSON {id: 101, estado: "AGENDADA"}</text>
+
+  <!-- 13. InterfazCitas a Recepcionista -->
+  <line x1="309" y1="615" x2="110" y2="615" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-return)" />
+  <text x="125" y="608" font-size="11" font-weight="600" fill="#15803d">13: mostrarMensajeExito("Cita agendada correctamente con ID #101")</text>
+
+  <!-- Linea divisoria ALT [else] -->
+  <line x1="230" y1="640" x2="1200" y2="640" stroke="#dc2626" stroke-width="1.4" stroke-dasharray="6,4" />
+
+  <!-- Condicion 2: Conflicto de Agenda -->
+  <text x="320" y="658" font-size="12" font-weight="700" fill="#b91c1c">[else: existeConflicto == true] — Conflicto de Agenda (Violacion RN-02)</text>
+
+  <!-- 14. Excepcion lanzada por CitaService -->
+  <line x1="729" y1="690" x2="531" y2="690" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-error)" />
+  <text x="542" y="683" font-size="11" font-weight="600" fill="#dc2626">14: throw ConflictoHorarioException("El medico ya tiene una cita en ese horario")</text>
+
+  <!-- 15. CitaController responde 409 Conflict -->
+  <line x1="519" y1="725" x2="321" y2="725" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-error)" />
+  <text x="332" y="718" font-size="11" font-weight="600" fill="#dc2626">15: 409 Conflict + JSON {mensaje: "Conflicto horario para el medico"}</text>
+
+  <!-- 16. Notificacion de error a Recepcionista -->
+  <line x1="309" y1="760" x2="110" y2="760" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow-error)" />
+  <text x="125" y="753" font-size="11" font-weight="600" fill="#b91c1c">16: mostrarAlertaError("No es posible agendar: medico ocupado en esa fecha y hora")</text>
+
+  <!-- ================= PIE DE PARTICIPANTES ================= -->
+  <g transform="translate(240, 840)">
+    <rect width="150" height="35" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2" />
+    <text x="75" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">:InterfazCitas</text>
+  </g>
+  <g transform="translate(450, 840)">
+    <rect width="150" height="35" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2" />
+    <text x="75" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">:CitaController</text>
+  </g>
+  <g transform="translate(660, 840)">
+    <rect width="150" height="35" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2" />
+    <text x="75" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">:CitaService</text>
+  </g>
+  <g transform="translate(870, 840)">
+    <rect width="160" height="35" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2" />
+    <text x="80" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">:MedicoRepository</text>
+  </g>
+  <g transform="translate(1070, 840)">
+    <rect width="150" height="35" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2" />
+    <text x="75" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">:CitaRepository</text>
+  </g>
+
+</svg>

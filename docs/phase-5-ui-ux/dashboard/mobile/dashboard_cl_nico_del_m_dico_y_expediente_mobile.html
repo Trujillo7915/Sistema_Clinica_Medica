@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <title>HU-10: Dashboard Clínico del Médico y Expediente (Mobile)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: '#004357',
+            'primary-container': '#0d5c75',
+            'on-primary': '#ffffff',
+            'primary-fixed': '#bde9ff',
+            secondary: '#006398',
+            'secondary-container': '#5bb8fe',
+            tertiary: '#004730',
+            'tertiary-container': '#006142',
+            'tertiary-fixed': '#85f8c4',
+            surface: '#f8f9ff',
+            'surface-bg': '#ffffff',
+            'canvas-bg': '#f8fafc',
+            'border-subtle': '#e2e8f0',
+            'on-surface': '#0b1c30',
+            'on-surface-variant': '#40484c',
+            'surface-container': '#e5eeff',
+            'surface-container-low': '#eff4ff',
+            'surface-container-lowest': '#ffffff',
+            'status-waiting-bg': '#FEF3C7',
+            'status-waiting-text': '#D97706',
+            'status-scheduled-bg': '#E0F2FE',
+            'status-scheduled-text': '#0369A1',
+            'status-attended-bg': '#D1FAE5',
+            'status-attended-text': '#047857',
+            'status-canceled-bg': '#FEE2E2',
+            'status-canceled-text': '#DC2626'
+          },
+          fontFamily: {
+            headline: ['"Plus Jakarta Sans"', 'sans-serif'],
+            body: ['Inter', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        background-color: #f8fafc;
+        font-family: 'Inter', sans-serif;
+        color: #0b1c30;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .tnum {
+        font-feature-settings: "tnum";
+      }
+      .pb-safe {
+        padding-bottom: env(safe-area-inset-bottom, 16px);
+      }
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] antialiased text-[#0B1C30] flex flex-col min-h-screen">
+
+  <!-- 1. Header Móvil Médico CliniGest -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#E2E8F0] shadow-xs px-3.5 py-2.5 flex items-center justify-between">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <div class="w-8 h-8 rounded-lg bg-[#004357] flex items-center justify-center text-white flex-shrink-0 shadow-xs">
+        <span class="material-symbols-outlined text-[20px]">medical_services</span>
+      </div>
+      <div class="flex flex-col min-w-0">
+        <div class="flex items-center gap-1.5">
+          <span class="font-['Plus_Jakarta_Sans'] font-bold text-[15px] tracking-tight leading-none text-[#004357]">CliniGest</span>
+          <span class="bg-[#EFF4FF] text-[#004357] text-[10px] font-semibold px-1.5 py-0.5 rounded border border-[#BDE9FF] leading-none uppercase">Estación Médica</span>
+        </div>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span class="w-2 h-2 rounded-full bg-[#059669] inline-block ring-2 ring-white"></span>
+          <span class="text-[11px] text-[#40484C] font-medium truncate">Dr. Roberto Silva • Box 304</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acciones Rápidas Header -->
+    <div class="flex items-center gap-1">
+      <button type="button" aria-label="Búsqueda rápida de pacientes" class="w-8 h-8 rounded-lg flex items-center justify-center text-[#40484C] hover:bg-[#EFF4FF] hover:text-[#004357] transition-colors">
+        <span class="material-symbols-outlined text-[20px]">search</span>
+      </button>
+      <div class="relative">
+        <button type="button" aria-label="Notificaciones de enfermería y triaje" class="w-8 h-8 rounded-lg flex items-center justify-center text-[#40484C] hover:bg-[#EFF4FF] hover:text-[#004357] transition-colors">
+          <span class="material-symbols-outlined text-[20px]">notifications</span>
+        </button>
+        <span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#D97706] ring-2 ring-white"></span>
+      </div>
+      <div class="relative ml-0.5">
+        <div class="w-8 h-8 rounded-full bg-[#004357] text-white text-[12px] font-bold flex items-center justify-center ring-2 ring-[#004357]/20 shadow-xs">
+          RS
+        </div>
+        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#059669] ring-1.5 ring-white"></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 2. Selector Horizontal de Turno / Fila vs Expediente -->
+  <section class="bg-white border-b border-[#E2E8F0] px-3.5 pt-2">
+    <!-- Pestañas de Vista Rápida -->
+    <div class="flex gap-2 border-b border-[#E2E8F0]">
+      <button type="button" onclick="switchMainTab('expediente')" id="tab-btn-expediente" class="flex items-center gap-1.5 pb-2 px-1 border-b-2 border-[#004357] text-[#004357] font-semibold text-[13px] transition-all">
+        <span class="material-symbols-outlined text-[17px]">folder_shared</span>
+        <span>Expediente Activo (P-101)</span>
+      </button>
+      <button type="button" onclick="switchMainTab('fila')" id="tab-btn-fila" class="flex items-center gap-1.5 pb-2 px-1 border-b-2 border-transparent text-[#64748B] font-medium text-[13px] hover:text-[#004357] transition-all">
+        <span class="material-symbols-outlined text-[17px]">group</span>
+        <span>Fila de Turno (3)</span>
+        <span class="bg-[#FEF3C7] text-[#D97706] text-[10px] font-bold px-1.5 py-0.2 rounded-full">1 Activo</span>
+      </button>
+    </div>
+
+    <!-- Mini Banner contextual de Turno -->
+    <div class="py-2 flex items-center justify-between text-[11px] text-[#64748B]">
+      <span class="flex items-center gap-1 font-medium">
+        <span class="material-symbols-outlined text-[14px] text-[#006398]">calendar_today</span>
+        Hoy, 24 Octubre 2024 • Turno Box 304
+      </span>
+      <span class="bg-[#EFF4FF] text-[#004357] px-2 py-0.5 rounded font-semibold text-[10px]">3 / 8 cupos</span>
+    </div>
+  </section>
+
+  <!-- Contenedor Principal (Scrollable) -->
+  <main class="flex-1 pb-28 px-3.5 pt-3 space-y-3">
+
+    <!-- 3. Tarjeta de Paciente en Atención Actual (Carlos Andrés Mendoza) -->
+    <section class="bg-white rounded-xl border border-[#E2E8F0] shadow-xs p-3.5 relative overflow-hidden">
+      <!-- Decorativo sutil de estado clínico -->
+      <div class="absolute top-0 left-0 right-0 h-1 bg-[#004357]"></div>
+
+      <div class="flex items-start justify-between gap-2 mb-2.5">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-11 h-11 rounded-xl bg-[#004357] text-white flex items-center justify-center font-['Plus_Jakarta_Sans'] font-bold text-base shadow-xs flex-shrink-0">
+            CM
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <h1 class="font-['Plus_Jakarta_Sans'] font-bold text-[16px] text-[#0B1C30] leading-tight truncate">Carlos Andrés Mendoza</h1>
+              <span class="bg-[#EFF4FF] text-[#004357] text-[10px] font-bold px-1.5 py-0.5 rounded border border-[#BDE9FF] leading-none">ID: P-101</span>
+            </div>
+            <p class="text-[12px] text-[#64748B] mt-0.5">34 años (14/08/1990) • Control Cardiológico</p>
+          </div>
+        </div>
+        <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-[#D1FAE5] text-[#047857] text-[10px] font-bold uppercase tracking-wide border border-[#A7F3D0] flex-shrink-0">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#047857] animate-pulse"></span>
+          En Atención
+        </span>
+      </div>
+
+      <!-- Métricas Rápidas de Triaje del Día -->
+      <div class="bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] p-2.5 mb-2.5">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[11px] font-semibold text-[#004357] flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">vital_signs</span>
+            Triaje de Hoy (10:15 AM - Box 02)
+          </span>
+          <span class="text-[10px] text-[#64748B] bg-white px-1.5 py-0.2 rounded border border-[#E2E8F0]">Enfermería</span>
+        </div>
+        <div class="grid grid-cols-4 gap-1.5 text-center">
+          <div class="bg-white p-1.5 rounded border border-[#E2E8F0]">
+            <span class="text-[10px] text-[#64748B] block">P. Arterial</span>
+            <span class="text-[13px] font-bold text-[#0B1C30] tnum">122/80</span>
+            <span class="text-[9px] text-[#64748B] block">mmHg</span>
+          </div>
+          <div class="bg-white p-1.5 rounded border border-[#E2E8F0]">
+            <span class="text-[10px] text-[#64748B] block">F. Cardíaca</span>
+            <span class="text-[13px] font-bold text-[#0B1C30] tnum">68</span>
+            <span class="text-[9px] text-[#64748B] block">lpm</span>
+          </div>
+          <div class="bg-white p-1.5 rounded border border-[#E2E8F0]">
+            <span class="text-[10px] text-[#64748B] block">Sat. O₂</span>
+            <span class="text-[13px] font-bold text-[#047857] tnum">99%</span>
+            <span class="text-[9px] text-[#64748B] block">Ambiente</span>
+          </div>
+          <div class="bg-white p-1.5 rounded border border-[#E2E8F0]">
+            <span class="text-[10px] text-[#64748B] block">Temp.</span>
+            <span class="text-[13px] font-bold text-[#0B1C30] tnum">36.5°</span>
+            <span class="text-[9px] text-[#64748B] block">Axilar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Badges Informativos: Sangre & Alergias -->
+      <div class="flex items-center gap-2 flex-wrap text-[11px]">
+        <div class="flex items-center gap-1 px-2 py-0.5 rounded bg-[#EFF4FF] border border-[#CBD5E1] text-[#0B1C30]">
+          <span class="text-[#64748B]">Grupo:</span>
+          <span class="font-bold text-[#DC2626]">O+</span>
+        </div>
+        <div class="flex items-center gap-1 px-2 py-0.5 rounded bg-[#D1FAE5] border border-[#A7F3D0] text-[#047857] font-medium">
+          <span class="material-symbols-outlined text-[14px]">verified</span>
+          <span>Alergias: Ninguna conocida</span>
+        </div>
+        <div class="text-[11px] text-[#64748B] ml-auto flex items-center gap-0.5">
+          <span class="material-symbols-outlined text-[13px]">call</span>
+          <span class="tnum">3104567890</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Pestañas de Contenido del Expediente Clínico -->
+    <div class="flex items-center bg-[#E5EEFF] p-1 rounded-xl gap-1">
+      <button type="button" onclick="switchSubTab('historial')" id="subtab-historial" class="flex-1 py-1.5 text-center rounded-lg bg-white text-[#004357] font-bold text-[12px] shadow-xs transition-all">
+        Evoluciones (HU-10)
+      </button>
+      <button type="button" onclick="switchSubTab('medicacion')" id="subtab-medicacion" class="flex-1 py-1.5 text-center rounded-lg text-[#40484C] font-medium text-[12px] hover:text-[#004357] transition-all">
+        Medicación (1)
+      </button>
+      <button type="button" onclick="switchSubTab('antecedentes')" id="subtab-antecedentes" class="flex-1 py-1.5 text-center rounded-lg text-[#40484C] font-medium text-[12px] hover:text-[#004357] transition-all">
+        Antecedentes
+      </button>
+    </div>
+
+    <!-- SECCIÓN: Historial Cronológico HU-10 (Línea de Tiempo) -->
+    <div id="content-historial" class="space-y-3">
+      <!-- Encabezado de la Sección -->
+      <div class="flex items-center justify-between px-0.5">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[18px] text-[#004357]">history</span>
+          <h2 class="font-['Plus_Jakarta_Sans'] font-bold text-[14px] text-[#0B1C30]">Historial Cronológico (HU-10)</h2>
+        </div>
+        <span class="text-[11px] text-[#64748B] flex items-center gap-0.5">
+          Descendente
+          <span class="material-symbols-outlined text-[14px]">arrow_downward</span>
+        </span>
+      </div>
+
+      <!-- Timeline Vertical Móvil -->
+      <div class="relative pl-6 space-y-3.5 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#CBD5E1]">
+
+        <!-- Ítem 1: Última Atención Especializada (10/04/2026) -->
+        <div class="relative">
+          <!-- Nodo de timeline -->
+          <div class="absolute -left-6 top-1 w-5 h-5 rounded-full bg-white border-2 border-[#059669] flex items-center justify-center ring-2 ring-[#D1FAE5]">
+            <span class="w-2 h-2 rounded-full bg-[#059669]"></span>
+          </div>
+
+          <div class="bg-white rounded-xl border border-[#E2E8F0] shadow-xs p-3.5 transition-all">
+            <!-- Cabecera de evolución -->
+            <div class="flex items-start justify-between gap-1 mb-2">
+              <div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-[11px] font-bold text-[#004357] bg-[#EFF4FF] px-2 py-0.5 rounded border border-[#BDE9FF] tnum">10/04/2026</span>
+                  <span class="text-[12px] font-bold text-[#0B1C30]">Cardiología Especializada</span>
+                </div>
+                <p class="text-[11px] text-[#64748B] mt-0.5">Atendido por: <strong class="text-[#0B1C30]">Dr. Roberto Silva</strong></p>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-[#D1FAE5] text-[#047857] text-[10px] font-bold uppercase tracking-wider">
+                Concluida
+              </span>
+            </div>
+
+            <!-- Diagnóstico Box -->
+            <div class="bg-[#F8FAFC] border-l-2 border-[#004357] p-2.5 rounded-r-lg mb-2">
+              <span class="text-[10px] font-bold tracking-wider text-[#64748B] uppercase block">Diagnóstico:</span>
+              <p class="text-[12px] font-medium text-[#0B1C30] mt-0.5 leading-snug">
+                Ecocardiograma transtorácico con fracción de eyección del 62%. Ritmo sinusal normal.
+              </p>
+            </div>
+
+            <!-- Tratamiento Box -->
+            <div class="bg-[#F0FDF4] border-l-2 border-[#059669] p-2.5 rounded-r-lg">
+              <span class="text-[10px] font-bold tracking-wider text-[#047857] uppercase flex items-center gap-1">
+                <span class="material-symbols-outlined text-[13px]">healing</span>
+                Tratamiento y Recomendaciones:
+              </span>
+              <p class="text-[12px] text-[#0B1C30] mt-0.5 leading-snug">
+                Se ratifica buen pronóstico cardíaco. Próximo control de rutina en 6 meses.
+              </p>
+            </div>
+
+            <!-- Acciones complementarias -->
+            <div class="mt-2.5 pt-2 border-t border-[#F1F5F9] flex items-center justify-between text-[11px]">
+              <span class="text-[#64748B] flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px] text-[#006398]">task_alt</span>
+                Firma Digital Certificada
+              </span>
+              <button type="button" class="text-[#006398] font-semibold flex items-center gap-0.5 hover:underline">
+                <span>Ver Ficha Completa</span>
+                <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ítem 2: Atención Previa (20/03/2026) -->
+        <div class="relative">
+          <!-- Nodo de timeline -->
+          <div class="absolute -left-6 top-1 w-5 h-5 rounded-full bg-white border-2 border-[#0284C7] flex items-center justify-center">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#0284C7]"></span>
+          </div>
+
+          <div class="bg-white rounded-xl border border-[#E2E8F0] shadow-xs p-3.5 transition-all">
+            <!-- Cabecera de evolución -->
+            <div class="flex items-start justify-between gap-1 mb-2">
+              <div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="text-[11px] font-bold text-[#40484C] bg-[#F1F5F9] px-2 py-0.5 rounded border border-[#E2E8F0] tnum">20/03/2026</span>
+                  <span class="text-[12px] font-bold text-[#0B1C30]">Medicina General</span>
+                </div>
+                <p class="text-[11px] text-[#64748B] mt-0.5">Atendido por: <strong class="text-[#0B1C30]">Dra. Laura Torres</strong> (Cita #101)</p>
+              </div>
+              <span class="px-1.5 py-0.5 rounded bg-[#F1F5F9] text-[#40484C] text-[10px] font-medium">
+                Atención Externa
+              </span>
+            </div>
+
+            <!-- Diagnóstico Box -->
+            <div class="bg-[#F8FAFC] border-l-2 border-[#0284C7] p-2.5 rounded-r-lg mb-2">
+              <span class="text-[10px] font-bold tracking-wider text-[#64748B] uppercase block">Diagnóstico:</span>
+              <p class="text-[12px] font-medium text-[#0B1C30] mt-0.5 leading-snug">
+                Hipertensión arterial esencial grado 1 bajo control. Sin afección orgánica aguda.
+              </p>
+            </div>
+
+            <!-- Tratamiento Box -->
+            <div class="bg-[#EFF4FF] border-l-2 border-[#006398] p-2.5 rounded-r-lg">
+              <span class="text-[10px] font-bold tracking-wider text-[#006398] uppercase flex items-center gap-1">
+                <span class="material-symbols-outlined text-[13px]">medication</span>
+                Tratamiento Farmacológico:
+              </span>
+              <p class="text-[12px] text-[#0B1C30] mt-0.5 leading-snug">
+                Inicio de Losartán Potásico 50mg cada 12 horas. Derivación para ecocardiograma de control.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECCIÓN: Medicación Vigente (Pestaña Secundaria) -->
+    <div id="content-medicacion" class="space-y-3 hidden">
+      <div class="bg-white rounded-xl border border-[#E2E8F0] shadow-xs p-3.5">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-[18px] text-[#059669]">medication</span>
+            <h3 class="font-['Plus_Jakarta_Sans'] font-bold text-[14px] text-[#0B1C30]">Farmacoterapia Activa</h3>
+          </div>
+          <span class="bg-[#D1FAE5] text-[#047857] text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">1 Activo</span>
+        </div>
+
+        <div class="border border-[#BDE9FF] bg-[#EFF4FF] rounded-xl p-3 space-y-2">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-[13px] font-bold text-[#004357]">Losartán Potásico 50mg</span>
+              <p class="text-[11px] text-[#40484C]">Comprimido recubierto oral</p>
+            </div>
+            <span class="bg-[#004357] text-white text-[10px] font-bold px-2 py-0.5 rounded">VIGENTE</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-[11px] bg-white p-2 rounded-lg border border-[#CBD5E1]">
+            <div>
+              <span class="text-[#64748B] block">Posología:</span>
+              <strong class="text-[#0B1C30]">1 tableta c/12 hrs</strong>
+            </div>
+            <div>
+              <span class="text-[#64748B] block">Prescrito en:</span>
+              <strong class="text-[#0B1C30] tnum">20/03/2026</strong>
+            </div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-[#047857]">
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-[14px]">check_circle</span>
+              Tolerancia óptima según triaje
+            </span>
+            <button type="button" class="text-[#004357] font-semibold hover:underline">Ajustar dosis</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN: Antecedentes (Pestaña Opcional) -->
+    <div id="content-antecedentes" class="space-y-3 hidden">
+      <div class="bg-white rounded-xl border border-[#E2E8F0] shadow-xs p-3.5 space-y-2.5">
+        <h3 class="font-['Plus_Jakarta_Sans'] font-bold text-[14px] text-[#0B1C30]">Ficha de Antecedentes y Riegos</h3>
+        <div class="space-y-2 text-[12px]">
+          <div class="p-2 rounded bg-[#F8FAFC] border border-[#E2E8F0]">
+            <span class="font-bold text-[#004357] block">Antecedentes Familiares:</span>
+            <p class="text-[#40484C] mt-0.5">Padre con cardiopatía isquémica a los 60 años. Madre hipertensa.</p>
+          </div>
+          <div class="p-2 rounded bg-[#F8FAFC] border border-[#E2E8F0]">
+            <span class="font-bold text-[#004357] block">Hábitos Psicobiológicos:</span>
+            <p class="text-[#40484C] mt-0.5">No fumador. Sedentarismo moderado. Dieta normosódica recomendada.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN ALTERNA: Fila de Pacientes del Turno (Visualizable al cambiar pestaña principal) -->
+    <div id="content-fila" class="space-y-2.5 hidden">
+      <div class="flex items-center justify-between px-0.5">
+        <h3 class="font-['Plus_Jakarta_Sans'] font-bold text-[14px] text-[#0B1C30]">Fila del Turno Matutino</h3>
+        <button type="button" class="text-[11px] text-[#004357] font-bold bg-[#EFF4FF] px-2.5 py-1 rounded-lg border border-[#BDE9FF] flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">campaign</span>
+          Llamar Siguiente
+        </button>
+      </div>
+
+      <!-- Paciente 1 (Activo) -->
+      <div class="bg-white rounded-xl border-2 border-[#004357] p-3 shadow-xs flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-9 h-9 rounded-lg bg-[#004357] text-white flex items-center justify-center font-bold text-[13px]">CM</div>
+          <div class="min-w-0">
+            <span class="font-bold text-[13px] text-[#0B1C30] block truncate">Carlos Andrés Mendoza</span>
+            <span class="text-[11px] text-[#64748B]">10:30 AM • En Atención Box 304</span>
+          </div>
+        </div>
+        <span class="bg-[#D1FAE5] text-[#047857] text-[10px] font-bold px-2 py-0.5 rounded-full">ACTIVO</span>
+      </div>
+
+      <!-- Paciente 2 -->
+      <div class="bg-white rounded-xl border border-[#E2E8F0] p-3 shadow-xs flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-9 h-9 rounded-lg bg-[#EFF4FF] text-[#004357] flex items-center justify-center font-bold text-[13px]">JR</div>
+          <div class="min-w-0">
+            <span class="font-bold text-[13px] text-[#0B1C30] block truncate">Jorge Eduardo Ramírez</span>
+            <span class="text-[11px] text-[#D97706] font-medium">11:30 AM • En Espera (Llegó hace 12 min)</span>
+          </div>
+        </div>
+        <button type="button" class="text-[11px] text-[#006398] font-bold px-2 py-1 bg-[#EFF4FF] rounded border border-[#CBD5E1]">Llamar</button>
+      </div>
+
+      <!-- Paciente 3 -->
+      <div class="bg-white rounded-xl border border-[#E2E8F0] p-3 shadow-xs flex items-center justify-between">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-9 h-9 rounded-lg bg-[#F1F5F9] text-[#64748B] flex items-center justify-center font-bold text-[13px]">VR</div>
+          <div class="min-w-0">
+            <span class="font-bold text-[13px] text-[#0B1C30] block truncate">Valentina Ríos Castro</span>
+            <span class="text-[11px] text-[#64748B]">12:30 PM • Agendada (WhatsApp)</span>
+          </div>
+        </div>
+        <span class="bg-[#EFF4FF] text-[#006398] text-[10px] font-semibold px-2 py-0.5 rounded">Agendada</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 4. Barra de Acción Inferior Destacada (Thumb Zone Ergonomía Táctil) -->
+  <aside class="fixed bottom-16 left-0 right-0 z-30 p-3 bg-gradient-to-t from-[#F8FAFC] via-[#F8FAFC]/95 to-transparent pointer-events-none">
+    <div class="max-w-[390px] mx-auto pointer-events-auto flex items-center gap-2">
+      <!-- Botón Primario Ancho: Iniciar Atención / HU-09 -->
+      <button type="button" onclick="alert('Abriendo HU-09: Registrar Diagnóstico y Tratamiento para Carlos Mendoza')" class="flex-1 h-12 bg-[#004357] hover:bg-[#094457] active:scale-[0.98] text-white rounded-xl shadow-lg flex items-center justify-center gap-2 font-['Plus_Jakarta_Sans'] font-bold text-[13px] tracking-wide transition-all border border-[#0d5c75]">
+        <span class="material-symbols-outlined text-[20px]">stethoscope</span>
+        <span>Iniciar Atención / Nueva Evolución (HU-09)</span>
+      </button>
+
+      <!-- Botón Secundario de Certificado / Imprimir -->
+      <button type="button" aria-label="Certificado médico" class="w-12 h-12 bg-white text-[#004357] rounded-xl border border-[#CBD5E1] shadow-md flex items-center justify-center hover:bg-[#EFF4FF] active:scale-95 transition-all flex-shrink-0">
+        <span class="material-symbols-outlined text-[22px]">history_edu</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- 7. Barra de Navegación Inferior Móvil Fija -->
+  <nav class="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#E2E8F0] shadow-[0_-2px_10px_rgba(15,23,42,0.05)] pb-safe">
+    <div class="max-w-[390px] mx-auto h-14 flex items-center justify-around px-2">
+      <a href="#" class="flex flex-col items-center justify-center min-w-[56px] text-[#004357] font-bold">
+        <span class="material-symbols-outlined text-[22px]">medical_services</span>
+        <span class="text-[10px] mt-0.5">Consultorio</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center min-w-[56px] text-[#64748B] hover:text-[#004357] transition-colors">
+        <span class="material-symbols-outlined text-[22px]">group</span>
+        <span class="text-[10px] mt-0.5">Pacientes</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center min-w-[56px] text-[#64748B] hover:text-[#004357] transition-colors">
+        <span class="material-symbols-outlined text-[22px]">clinical_notes</span>
+        <span class="text-[10px] mt-0.5">Expedientes</span>
+      </a>
+      <a href="#" class="flex flex-col items-center justify-center min-w-[56px] text-[#64748B] hover:text-[#004357] transition-colors">
+        <span class="material-symbols-outlined text-[22px]">prescriptions</span>
+        <span class="text-[10px] mt-0.5">Recetas</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    function switchMainTab(tab) {
+      const btnExp = document.getElementById('tab-btn-expediente');
+      const btnFila = document.getElementById('tab-btn-fila');
+      const contentHistorial = document.getElementById('content-historial');
+      const contentMedicacion = document.getElementById('content-medicacion');
+      const contentAntecedentes = document.getElementById('content-antecedentes');
+      const contentFila = document.getElementById('content-fila');
+
+      if (tab === 'expediente') {
+        btnExp.className = 'flex items-center gap-1.5 pb-2 px-1 border-b-2 border-[#004357] text-[#004357] font-semibold text-[13px] transition-all';
+        btnFila.className = 'flex items-center gap-1.5 pb-2 px-1 border-b-2 border-transparent text-[#64748B] font-medium text-[13px] hover:text-[#004357] transition-all';
+        contentFila.classList.add('hidden');
+        contentHistorial.classList.remove('hidden');
+      } else {
+        btnFila.className = 'flex items-center gap-1.5 pb-2 px-1 border-b-2 border-[#004357] text-[#004357] font-semibold text-[13px] transition-all';
+        btnExp.className = 'flex items-center gap-1.5 pb-2 px-1 border-b-2 border-transparent text-[#64748B] font-medium text-[13px] hover:text-[#004357] transition-all';
+        contentHistorial.classList.add('hidden');
+        contentMedicacion.classList.add('hidden');
+        contentAntecedentes.classList.add('hidden');
+        contentFila.classList.remove('hidden');
+      }
+    }
+
+    function switchSubTab(subtab) {
+      const subHist = document.getElementById('subtab-historial');
+      const subMed = document.getElementById('subtab-medicacion');
+      const subAnt = document.getElementById('subtab-antecedentes');
+
+      const cHist = document.getElementById('content-historial');
+      const cMed = document.getElementById('content-medicacion');
+      const cAnt = document.getElementById('content-antecedentes');
+
+      [subHist, subMed, subAnt].forEach(b => {
+        b.className = 'flex-1 py-1.5 text-center rounded-lg text-[#40484C] font-medium text-[12px] hover:text-[#004357] transition-all';
+      });
+      [cHist, cMed, cAnt].forEach(c => c.classList.add('hidden'));
+
+      if (subtab === 'historial') {
+        subHist.className = 'flex-1 py-1.5 text-center rounded-lg bg-white text-[#004357] font-bold text-[12px] shadow-xs transition-all';
+        cHist.classList.remove('hidden');
+      } else if (subtab === 'medicacion') {
+        subMed.className = 'flex-1 py-1.5 text-center rounded-lg bg-white text-[#004357] font-bold text-[12px] shadow-xs transition-all';
+        cMed.classList.remove('hidden');
+      } else if (subtab === 'antecedentes') {
+        subAnt.className = 'flex-1 py-1.5 text-center rounded-lg bg-white text-[#004357] font-bold text-[12px] shadow-xs transition-all';
+        cAnt.classList.remove('hidden');
+      }
+    }
+  </script>
+</body>
+</html>

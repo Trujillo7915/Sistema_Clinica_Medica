@@ -1,0 +1,73 @@
+# =============================================================================
+# .gitignore - Sistema de Gestión de Clínica Médica (SGCM)
+# =============================================================================
+
+# Entorno y Secretos
+.env
+.env.local
+.env.*.local
+*.env
+!*.example
+
+# Dependencias Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Java / Spring Boot / Maven / Gradle
+target/
+*.class
+*.jar
+*.war
+*.ear
+.gradle/
+build/
+bin/
+
+# Python / FastAPI / Django
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Bases de datos y volcados locales
+*.sqlite
+*.sqlite3
+*.db
+*.sql.bak
+dump.rdb
+
+# Logs y depuración
+logs/
+*.log
+npm-debug.log*
+
+# IDEs y Editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+
+# Archivos de Sistema Operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Build y distribución de frontend
+dist/
+out/
+.next/
+.nuxt/
