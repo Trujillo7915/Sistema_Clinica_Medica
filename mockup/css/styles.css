@@ -1,5 +1,5 @@
 /* ============================================================================
-   CLINIGEST SGCM - CLINICAL CLARITY DESIGN SYSTEM STYLES
+   CLINIGEST SGCM - CLINICAL CLARITY DESIGN SYSTEM (PRODUCCIÓN & PROTOTIPO)
    ============================================================================ */
 
 :root {
@@ -40,47 +40,98 @@
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes slideInRight {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+/* Viewport Modes (Fluid Production, Desktop 1440x900, Mobile 390x844) */
+.viewport-fluid-wrapper {
+  padding: 0 !important;
+  background: #F8FAFC !important;
 }
 
-.animate-slide-in-right {
-  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.viewport-framed-wrapper {
+  padding: 1.25rem !important;
+  background: #020617 !important;
 }
 
-/* Device Simulator Wrapper */
+.device-fluid-frame {
+  width: 100% !important;
+  height: calc(100vh - 44px) !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
 .device-desktop-frame {
   width: 1440px !important;
   height: 900px !important;
-  max-width: 1440px !important;
-  max-height: 900px !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 44, 58, 0.25);
-  border-radius: 12px;
+  max-width: 100% !important;
+  max-height: calc(100vh - 76px) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 28, 37, 0.5);
+  border-radius: 14px;
   overflow: hidden;
-  border: 1px solid #CBD5E1;
+  border: 1px solid #334155;
 }
 
 .device-mobile-frame {
   width: 390px !important;
   height: 844px !important;
   max-width: 390px !important;
-  max-height: 844px !important;
-  box-shadow: 0 25px 50px -12px rgba(0, 44, 58, 0.35);
-  border-radius: 36px;
+  max-height: calc(100vh - 76px) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 28, 37, 0.65);
+  border-radius: 38px;
   overflow: hidden;
-  border: 8px solid #001C25;
+  border: 9px solid #001C25;
+}
+
+/* Responsive Overrides inside Mobile Simulator (390px) */
+.device-mobile-frame #app-sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease-in-out;
+}
+.device-mobile-frame.mobile-drawer-open #app-sidebar {
+  transform: translateX(0);
+}
+.device-mobile-frame #btn-mobile-menu {
+  display: inline-flex !important;
+}
+.device-mobile-frame #mobile-bottom-nav {
+  display: grid !important;
+}
+.device-mobile-frame #desktop-omnibar-box,
+.device-mobile-frame #desktop-clock-box,
+.device-mobile-frame #desktop-online-badge {
+  display: none !important;
+}
+.device-mobile-frame #main-scroll-canvas {
+  padding: 1rem !important;
+  padding-bottom: 5rem !important;
+}
+.device-mobile-frame .grid-cols-2,
+.device-mobile-frame .grid-cols-3,
+.device-mobile-frame .grid-cols-6,
+.device-mobile-frame .md\:grid-cols-2,
+.device-mobile-frame .md\:grid-cols-3,
+.device-mobile-frame .md\:grid-cols-4,
+.device-mobile-frame .md\:grid-cols-12 {
+  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+}
+.device-mobile-frame .md\:col-span-8,
+.device-mobile-frame .md\:col-span-4,
+.device-mobile-frame .col-span-2 {
+  grid-column: span 1 / span 1 !important;
 }
 
 /* Toast animations */
 .toast-enter {
-  animation: fadeIn 0.3s ease-out forwards;
+  animation: fadeIn 0.28s ease-out forwards;
 }
 .toast-leave {
   opacity: 0;
   transform: translateY(-10px);
-  transition: all 0.25s ease-in;
+  transition: all 0.22s ease-in;
 }

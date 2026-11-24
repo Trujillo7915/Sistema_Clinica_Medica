@@ -1,60 +1,33 @@
-# 🏥 CliniGest SGCM - Mockup Interactivo de Alta Fidelidad
+# 🏥 CliniGest SGCM — Aplicación Interactiva de Alta Fidelidad (Fase 5 Pre-Release)
 
-> **Fase:** Fase 5 – UI/UX & Prototipado Clínico  
+> **Fase:** Fase 5 – UI/UX & Prototipado Funcional con Acabado de Producto Final  
 > **Design System:** *Clinical Clarity* (`#002C3A`, `#016398`, `#0D5C75`, `#F8FAFC`)  
-> **Tecnologías:** HTML5 Semántico + Tailwind CSS CDN + JavaScript ES6 (LocalStorage Persistence)  
-> **Estado:** 100% Interactivo y Listo para Pruebas / Evaluación  
+> **Trazabilidad 100% Completa:** `HU-01` a `HU-10` | `RF-01` a `RF-10` | `RN-01` a `RN-08` | Esquema PostgreSQL 3FN (Fase 4)  
+> **Tecnologías:** HTML5 Semántico + Tailwind CSS + JavaScript ES6 (`ClinicStore` con persistencia en `localStorage`)  
 
 ---
 
-## 🚀 1. Cómo Probar Localmente (Sin Instalar Nada)
+## ✨ 1. Mejoras y Congruencia Total con el Proyecto Final
 
-### Opción A (Doble Clic Directo)
-Simplemente haz doble clic sobre el archivo [`mockup/index.html`](./index.html) para abrirlo directamente en Google Chrome, Edge, Firefox o Safari.
-
-### Opción B (Servidor Local con Python)
-Desde la terminal en la raíz del proyecto, ejecuta:
-```bash
-python -m http.server 3000
-```
-Y abre en tu navegador: [http://localhost:3000/mockup/](http://localhost:3000/mockup/)
-
----
-
-## 🌐 2. Cómo Subir a una Prueba Gratuita (Vercel o Netlify)
-
-El proyecto ya cuenta con las configuraciones [`vercel.json`](../vercel.json) y [`netlify.toml`](../netlify.toml) optimizadas.
-
-### Despliegue en Vercel (1 Clic con GitHub):
-1. Ingresa a [vercel.com](https://vercel.com) e inicia sesión con tu cuenta de GitHub.
-2. Haz clic en **"Add New..."** &rarr; **"Project"**.
-3. Selecciona el repositorio `Trujillo7915/Sistema_Clinica_Medica`.
-4. En **Root Directory**, puedes dejarlo en blanco o seleccionar `./mockup`.
-5. Haz clic en **"Deploy"**. En 30 segundos tendrás una URL pública gratuita (ej. `clinigest-sgcm.vercel.app`) lista para compartir y evaluar.
-
-### Despliegue en Netlify (Arrastrar y Soltar):
-1. Ingresa a [app.netlify.com/drop](https://app.netlify.com/drop).
-2. Arrastra la carpeta `mockup` desde tu explorador de archivos directamente a la ventana del navegador.
-3. ¡Listo! Netlify te generará una URL instantánea y gratuita sin necesidad de comandos.
+1. **Interfaz de Producto Final en Producción (`Modo App Completa` por defecto):**
+   - Menú lateral organizado por dominios hospitalarios reales (*Centro de Mando*, *Gestión de Pacientes*, *Agenda y Turnos*, *Historia Clínica EHR*, *Cuerpo Médico & Admin*) con indicadores RBAC y contador en vivo de sala de espera.
+   - Simulador integrado en la barra superior para alternar entre **🌐 App Completa (100% Fluido)**, **🖥️ Estación 1440×900** y **📱 Móvil 390px** (con Drawer deslizable y Bottom Navigation Bar).
+2. **Pantalla de Login Institucional y Control RBAC Real:**
+   - Overlay de autenticación institucional (`🔐 Pantalla Login` o botón de cierre de sesión en el Sidebar) con acceso rápido de 1 clic para **Dr. Roberto Gómez (Médico)**, **Alexandra Garzón (Recepción)** y **Fabián Trujillo (Administrador)**.
+3. **Cobertura del 100% de las Historias de Usuario (`HU-01` a `HU-10`) y Reglas (`RN-01` a `RN-08`):**
+   - **Portal de Inicio 100% Reactivo:** Todos los KPIs (`Citas Activas`, `En Sala de Espera`, `Consultas en Expediente`, `Facultativos Activos`) y la cola prioritaria se calculan en tiempo real desde `ClinicStore`.
+   - **`HU-01`, `HU-02`, `HU-03` (Pacientes):** Cálculo automático de edad al elegir fecha de nacimiento, dirección obligatoria (`RF-01.1`), validación estricta **`RN-04`** (teléfono exclusivamente numérico $\ge 7$ dígitos) y **`RN-01`** (documento único e inmutable).
+   - **`HU-04`, `HU-05`, `HU-06` (Médicos):** Campo obligatorio de **Edad Laboral (`18 a 99 años`, `RN-05`)**, filtro por especialidad y **Control de Baja de Facultativo (`HU-06`)** con validación **`RN-08`** (bloquea la baja si el médico tiene citas `AGENDADA` activas y permite la baja si tiene `0` citas pendientes).
+   - **`HU-07`, `HU-08` y Matriz de Disponibilidad (`RN-02` / `RN-03`):** Selector dinámico de especialista y fecha que calcula en vivo los bloques libres/ocupados de 30 minutos. Al hacer clic en un bloque libre de la matriz, pre-carga automáticamente el médico, la fecha y la hora en `HU-07`. Al cancelar una cita en `HU-08` con motivo obligatorio (`RN-03`), el bloque queda libre de inmediato.
+   - **`HU-09` y `HU-10` (Historia Clínica y Orden Médica):** Selector de cita activa, buscador rápido del catálogo **CIE-10**, transición automática de la cita a **`ATENDIDA` (`RN-06`)**, selector de paciente en el expediente y modal de **🖨️ Vista e Impresión de Orden / Fórmula Médica**.
 
 ---
 
-## 🎯 3. Flujos Clínicos y Funcionalidades Interactivas
+## 🚀 2. Cómo Ejecutar Localmente
 
-El mockup incluye simulación funcional completa de las 10 Historias de Usuario:
-
-1. **Simulador de Dispositivos (Barra Superior):**
-   - **🖥️ Desktop (1440px):** Marco de pantalla para estaciones de recepción y boxes médicos.
-   - **📱 Móvil (390px):** Marco de smartphone (iPhone 14/15) para personal en ronda médica.
-   - **🌐 100% Fluido:** Adaptación responsiva al tamaño completo de la ventana.
-2. **Selector de Rol RBAC:**
-   - Alterna instantáneamente entre **Médico Especialista (Box 03)**, **Recepción y Admisiones** y **Administrador**.
-3. **Persistencia en LocalStorage:**
-   - Al registrar un nuevo paciente (HU-01), aparece de inmediato en el directorio (HU-02).
-   - Al agendar una cita (HU-07), se valida la regla **RN-02** (prevención de traslapes en bloques de 30 minutos).
-   - Al cancelar una cita (HU-08), se activa el **Modal RN-03** exigiendo el motivo obligatorio antes de liberar el cupo.
-   - Al atender una consulta médica (HU-09), se registran signos vitales y prescripción, guardándose en el expediente clínico (HU-10).
-4. **Búsqueda Global Omnibar (`Ctrl + K`):**
-   - Búsqueda predictiva en tiempo real con debouncing clasificando coincidencias por pacientes, médicos y citas.
-5. **Catálogo de Toasts Semánticos:**
-   - Botones para disparar y probar las notificaciones de Éxito, Advertencia, Error y Sincronización.
+1. Haz doble clic directamente sobre [`mockup/index.html`](./index.html) para abrirlo en cualquier navegador moderno, o bien:
+2. Levanta un servidor local desde la raíz del repositorio:
+   ```bash
+   python -m http.server 3000
+   ```
+   Y abre: `http://localhost:3000/mockup/`
